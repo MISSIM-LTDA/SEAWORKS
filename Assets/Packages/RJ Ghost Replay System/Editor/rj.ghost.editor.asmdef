@@ -1,0 +1,16 @@
+{
+    "name": "rj.ghost.editor",
+    "rootNamespace": "",
+    "references": [
+        "GUID:6857cdc1fb96b8945b71704053a94e56"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": true,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}

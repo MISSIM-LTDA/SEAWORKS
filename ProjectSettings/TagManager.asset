@@ -1,0 +1,73 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!78 &1
+TagManager:
+  serializedVersion: 2
+  tags:
+  - JumpInWater
+  - JumpOutOfWater
+  - Terrain
+  - Water
+  - Player2
+  - fdDomeDroneTilting
+  - ROV1
+  - gaiola
+  - Left1
+  - thrusterprop1
+  - pontatether
+  - Jaw7
+  - Slider Console
+  - MainG
+  - Jaw7finger
+  - XLX
+  - CAM1
+  - CAM2
+  - CAM3
+  - CAM4
+  - CAM5
+  - CAM6
+  - ROVComponents
+  - EFL_socket
+  - EFL_Parent
+  - HFL_socket
+  - HFL_Parent
+  - RightClaw
+  - LeftClaw
+  - cubo
+  layers:
+  - Default
+  - TransparentFX
+  - Ignore Raycast
+  - 
+  - Water
+  - UI
+  - 
+  - 
+  - testee
+  - teste22
+  - Colliders
+  - beam
+  - Suimono_Water
+  - Suimono_Depth
+  - Suimono_Screen
+  - SONAR
+  - luz
+  - minimap
+  - light2
+  - god
+  - obilayer
+  - LeftUpperClawColliders
+  - RightUpperClawColliders
+  - BarColliders
+  - BottomClawColliders
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  - 
+  m_SortingLayers:
+  - name: Default
+    uniqueID: 0
+    locked: 0

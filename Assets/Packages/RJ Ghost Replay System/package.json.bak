@@ -1,0 +1,26 @@
+{
+	"name":"rj.ghostpack",
+	"version":"0.0.1",
+	"displayName":"RJ ghost Tool",
+	"description":"This is a ghost rewind and path record tool",
+	"keywords":[
+		"ghost",
+		"rj",
+		"rewind",
+		"record"
+	],
+	
+	"samples":[
+	{
+            "displayName": "Sample1",
+            "description": "This is the sample 1",
+            "path": "Samples~/Sample 1"
+        }
+	],
+		
+
+"author":{
+	"name":"Juchang",
+	"email":"samvincewhale@gmail.com"
+	}
+}

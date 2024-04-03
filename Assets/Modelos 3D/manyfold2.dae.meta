@@ -1,0 +1,585 @@
+fileFormatVersion: 2
+guid: 5aa971a79cf0aa747892ed769dfbe5cc
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: arm2
+    100002: arm2 1
+    100004: arm2 2
+    100006: arm2 3
+    100008: group_0
+    100010: group_1
+    100012: group_2
+    100014: group_3
+    100016: group_3 1
+    100018: group_3 2
+    100020: group_3 3
+    100022: ID101
+    100024: ID107
+    100026: ID113
+    100028: ID137
+    100030: ID137 1
+    100032: ID143
+    100034: ID143 1
+    100036: ID149
+    100038: ID149 1
+    100040: ID155
+    100042: ID155 1
+    100044: ID163
+    100046: ID163 1
+    100048: ID169
+    100050: ID169 1
+    100052: ID17
+    100054: ID175
+    100056: ID175 1
+    100058: ID189
+    100060: ID189 1
+    100062: ID189 2
+    100064: ID189 3
+    100066: ID195
+    100068: ID195 1
+    100070: ID195 2
+    100072: ID195 3
+    100074: ID209
+    100076: ID215
+    100078: ID221
+    100080: ID227
+    100082: ID23
+    100084: ID233
+    100086: ID254
+    100088: ID254 1
+    100090: ID260
+    100092: ID260 1
+    100094: ID266
+    100096: ID266 1
+    100098: ID272
+    100100: ID272 1
+    100102: ID278
+    100104: ID278 1
+    100106: ID284
+    100108: ID284 1
+    100110: ID29
+    100112: ID290
+    100114: ID290 1
+    100116: ID307
+    100118: ID313
+    100120: ID319
+    100122: ID325
+    100124: ID331
+    100126: ID337
+    100128: ID343
+    100130: ID35
+    100132: ID41
+    100134: ID47
+    100136: ID53
+    100138: ID59
+    100140: ID65
+    100142: ID71
+    100144: ID77
+    100146: ID83
+    100148: ID89
+    100150: instance_0
+    100152: instance_1
+    100154: instance_10
+    100156: instance_2
+    100158: instance_3
+    100160: instance_4
+    100162: instance_5
+    100164: instance_6
+    100166: instance_7
+    100168: instance_8
+    100170: instance_9
+    100172: Manifold2
+    100174: Manifold_Arm1
+    100176: Manifold_Arm1 1
+    100178: Manifold_Arm1 2
+    100180: Manifold_Arm1 3
+    100182: //RootNode
+    100184: Pigging_loop
+    100186: skp_camera_Last_Saved_SketchUp_View
+    100188: Subsea_manifold
+    400000: arm2
+    400002: arm2 1
+    400004: arm2 2
+    400006: arm2 3
+    400008: group_0
+    400010: group_1
+    400012: group_2
+    400014: group_3
+    400016: group_3 1
+    400018: group_3 2
+    400020: group_3 3
+    400022: ID101
+    400024: ID107
+    400026: ID113
+    400028: ID137
+    400030: ID137 1
+    400032: ID143
+    400034: ID143 1
+    400036: ID149
+    400038: ID149 1
+    400040: ID155
+    400042: ID155 1
+    400044: ID163
+    400046: ID163 1
+    400048: ID169
+    400050: ID169 1
+    400052: ID17
+    400054: ID175
+    400056: ID175 1
+    400058: ID189
+    400060: ID189 1
+    400062: ID189 2
+    400064: ID189 3
+    400066: ID195
+    400068: ID195 1
+    400070: ID195 2
+    400072: ID195 3
+    400074: ID209
+    400076: ID215
+    400078: ID221
+    400080: ID227
+    400082: ID23
+    400084: ID233
+    400086: ID254
+    400088: ID254 1
+    400090: ID260
+    400092: ID260 1
+    400094: ID266
+    400096: ID266 1
+    400098: ID272
+    400100: ID272 1
+    400102: ID278
+    400104: ID278 1
+    400106: ID284
+    400108: ID284 1
+    400110: ID29
+    400112: ID290
+    400114: ID290 1
+    400116: ID307
+    400118: ID313
+    400120: ID319
+    400122: ID325
+    400124: ID331
+    400126: ID337
+    400128: ID343
+    400130: ID35
+    400132: ID41
+    400134: ID47
+    400136: ID53
+    400138: ID59
+    400140: ID65
+    400142: ID71
+    400144: ID77
+    400146: ID83
+    400148: ID89
+    400150: instance_0
+    400152: instance_1
+    400154: instance_10
+    400156: instance_2
+    400158: instance_3
+    400160: instance_4
+    400162: instance_5
+    400164: instance_6
+    400166: instance_7
+    400168: instance_8
+    400170: instance_9
+    400172: Manifold2
+    400174: Manifold_Arm1
+    400176: Manifold_Arm1 1
+    400178: Manifold_Arm1 2
+    400180: Manifold_Arm1 3
+    400182: //RootNode
+    400184: Pigging_loop
+    400186: skp_camera_Last_Saved_SketchUp_View
+    400188: Subsea_manifold
+    2000000: skp_camera_Last_Saved_SketchUp_View
+    2300000: arm2
+    2300002: arm2 1
+    2300004: arm2 2
+    2300006: arm2 3
+    2300008: group_0
+    2300010: group_1
+    2300012: group_2
+    2300014: group_3
+    2300016: group_3 1
+    2300018: group_3 2
+    2300020: group_3 3
+    2300022: ID101
+    2300024: ID107
+    2300026: ID113
+    2300028: ID137
+    2300030: ID137 1
+    2300032: ID143
+    2300034: ID143 1
+    2300036: ID149
+    2300038: ID149 1
+    2300040: ID155
+    2300042: ID155 1
+    2300044: ID163
+    2300046: ID163 1
+    2300048: ID169
+    2300050: ID169 1
+    2300052: ID17
+    2300054: ID175
+    2300056: ID175 1
+    2300058: ID189
+    2300060: ID189 1
+    2300062: ID189 2
+    2300064: ID189 3
+    2300066: ID195
+    2300068: ID195 1
+    2300070: ID195 2
+    2300072: ID195 3
+    2300074: ID209
+    2300076: ID215
+    2300078: ID221
+    2300080: ID227
+    2300082: ID23
+    2300084: ID233
+    2300086: ID254
+    2300088: ID254 1
+    2300090: ID260
+    2300092: ID260 1
+    2300094: ID266
+    2300096: ID266 1
+    2300098: ID272
+    2300100: ID272 1
+    2300102: ID278
+    2300104: ID278 1
+    2300106: ID284
+    2300108: ID284 1
+    2300110: ID29
+    2300112: ID290
+    2300114: ID290 1
+    2300116: ID307
+    2300118: ID313
+    2300120: ID319
+    2300122: ID325
+    2300124: ID331
+    2300126: ID337
+    2300128: ID343
+    2300130: ID35
+    2300132: ID41
+    2300134: ID47
+    2300136: ID53
+    2300138: ID59
+    2300140: ID65
+    2300142: ID71
+    2300144: ID77
+    2300146: ID83
+    2300148: ID89
+    2300150: Manifold_Arm1
+    2300152: Manifold_Arm1 1
+    2300154: Manifold_Arm1 2
+    2300156: Manifold_Arm1 3
+    2300158: Pigging_loop
+    3300000: arm2
+    3300002: arm2 1
+    3300004: arm2 2
+    3300006: arm2 3
+    3300008: group_0
+    3300010: group_1
+    3300012: group_2
+    3300014: group_3
+    3300016: group_3 1
+    3300018: group_3 2
+    3300020: group_3 3
+    3300022: ID101
+    3300024: ID107
+    3300026: ID113
+    3300028: ID137
+    3300030: ID137 1
+    3300032: ID143
+    3300034: ID143 1
+    3300036: ID149
+    3300038: ID149 1
+    3300040: ID155
+    3300042: ID155 1
+    3300044: ID163
+    3300046: ID163 1
+    3300048: ID169
+    3300050: ID169 1
+    3300052: ID17
+    3300054: ID175
+    3300056: ID175 1
+    3300058: ID189
+    3300060: ID189 1
+    3300062: ID189 2
+    3300064: ID189 3
+    3300066: ID195
+    3300068: ID195 1
+    3300070: ID195 2
+    3300072: ID195 3
+    3300074: ID209
+    3300076: ID215
+    3300078: ID221
+    3300080: ID227
+    3300082: ID23
+    3300084: ID233
+    3300086: ID254
+    3300088: ID254 1
+    3300090: ID260
+    3300092: ID260 1
+    3300094: ID266
+    3300096: ID266 1
+    3300098: ID272
+    3300100: ID272 1
+    3300102: ID278
+    3300104: ID278 1
+    3300106: ID284
+    3300108: ID284 1
+    3300110: ID29
+    3300112: ID290
+    3300114: ID290 1
+    3300116: ID307
+    3300118: ID313
+    3300120: ID319
+    3300122: ID325
+    3300124: ID331
+    3300126: ID337
+    3300128: ID343
+    3300130: ID35
+    3300132: ID41
+    3300134: ID47
+    3300136: ID53
+    3300138: ID59
+    3300140: ID65
+    3300142: ID71
+    3300144: ID77
+    3300146: ID83
+    3300148: ID89
+    3300150: Manifold_Arm1
+    3300152: Manifold_Arm1 1
+    3300154: Manifold_Arm1 2
+    3300156: Manifold_Arm1 3
+    3300158: Pigging_loop
+    4300000: group_0
+    4300002: ID101
+    4300004: ID107
+    4300006: ID113
+    4300008: group_1
+    4300010: ID17
+    4300012: ID23
+    4300014: ID29
+    4300016: ID35
+    4300018: ID41
+    4300020: ID47
+    4300022: ID53
+    4300024: ID59
+    4300026: ID65
+    4300028: ID71
+    4300030: ID77
+    4300032: ID83
+    4300034: ID89
+    4300036: group_2
+    4300038: ID307
+    4300040: ID313
+    4300042: ID319
+    4300044: ID325
+    4300046: ID331
+    4300048: ID337
+    4300050: ID343
+    4300052: Manifold_Arm1
+    4300054: ID137
+    4300056: ID143
+    4300058: ID149
+    4300060: ID155
+    4300062: ID163
+    4300064: ID169
+    4300066: ID175
+    4300068: group_3
+    4300070: arm2
+    4300072: ID189
+    4300074: ID195
+    4300076: Pigging_loop
+    4300078: ID209
+    4300080: ID215
+    4300082: ID221
+    4300084: ID227
+    4300086: ID233
+    4300088: Manifold_Arm1
+    4300090: ID254
+    4300092: ID260
+    4300094: ID266
+    4300096: ID272
+    4300098: ID278
+    4300100: ID284
+    4300102: ID290
+    4300104: group_3
+    6400000: arm2
+    6400002: arm2 1
+    6400004: arm2 2
+    6400006: arm2 3
+    6400008: group_0
+    6400010: group_1
+    6400012: group_2
+    6400014: group_3
+    6400016: group_3 1
+    6400018: group_3 2
+    6400020: group_3 3
+    6400022: ID101
+    6400024: ID107
+    6400026: ID113
+    6400028: ID137
+    6400030: ID137 1
+    6400032: ID143
+    6400034: ID143 1
+    6400036: ID149
+    6400038: ID149 1
+    6400040: ID155
+    6400042: ID155 1
+    6400044: ID163
+    6400046: ID163 1
+    6400048: ID169
+    6400050: ID169 1
+    6400052: ID17
+    6400054: ID175
+    6400056: ID175 1
+    6400058: ID189
+    6400060: ID189 1
+    6400062: ID189 2
+    6400064: ID189 3
+    6400066: ID195
+    6400068: ID195 1
+    6400070: ID195 2
+    6400072: ID195 3
+    6400074: ID209
+    6400076: ID215
+    6400078: ID221
+    6400080: ID227
+    6400082: ID23
+    6400084: ID233
+    6400086: ID254
+    6400088: ID254 1
+    6400090: ID260
+    6400092: ID260 1
+    6400094: ID266
+    6400096: ID266 1
+    6400098: ID272
+    6400100: ID272 1
+    6400102: ID278
+    6400104: ID278 1
+    6400106: ID284
+    6400108: ID284 1
+    6400110: ID29
+    6400112: ID290
+    6400114: ID290 1
+    6400116: ID307
+    6400118: ID313
+    6400120: ID319
+    6400122: ID325
+    6400124: ID331
+    6400126: ID337
+    6400128: ID343
+    6400130: ID35
+    6400132: ID41
+    6400134: ID47
+    6400136: ID53
+    6400138: ID59
+    6400140: ID65
+    6400142: ID71
+    6400144: ID77
+    6400146: ID83
+    6400148: ID89
+    6400150: Manifold_Arm1
+    6400152: Manifold_Arm1 1
+    6400154: Manifold_Arm1 2
+    6400156: Manifold_Arm1 3
+    6400158: Pigging_loop
+    9500000: //RootNode
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _0046_Gold
+    second: {fileID: 2100000, guid: 9e1eb653f01691645bf67cef770e11cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: _0137_Black
+    second: {fileID: 2100000, guid: 222c91dd6693a1847957225116a2be5c, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: __0010_Snow_1
+    second: {fileID: 2100000, guid: fe2d57c87836a9f4e8ea04e97d85828a, type: 2}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 0
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 0.1
+    meshCompression: 0
+    addColliders: 1
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 1
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 2
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
