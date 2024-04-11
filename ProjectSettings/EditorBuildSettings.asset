@@ -5,7 +5,7 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 1
-    path: Assets/ANM One Subsea Buzios/Cenas/Scene 4 XT HFL.unity
-    guid: 98827e5bc1493e1488a17bb688887602
+  - enabled: 0
+    path: 
+    guid: 00000000000000000000000000000000
   m_configObjects: {}

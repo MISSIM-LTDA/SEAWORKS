@@ -22,7 +22,7 @@ namespace Obi
 
         public int activeParticleCount
         {
-            get { return activeParticles.Length; }
+            get { return abstraction.activeParticles.count; }
         }
 
         public BurstInertialFrame inertialFrame
@@ -42,7 +42,8 @@ namespace Obi
 
         private const int maxBatches = 17;
 
-        private ConstraintBatcher constraintBatcher;
+        private ConstraintBatcher<ContactProvider> collisionConstraintBatcher;
+        private ConstraintBatcher<FluidInteractionProvider> fluidConstraintBatcher;
 
         // Per-type constraints array:
         private IBurstConstraintsImpl[] constraints;
@@ -67,10 +68,10 @@ namespace Obi
         public NativeArray<BurstContact> colliderContacts;
 
         // misc data:
-        public NativeList<int> activeParticles;
+        public NativeArray<int> activeParticles;
         private NativeList<int> deformableTriangles;
 
-        public NativeList<int> simplices;
+        public NativeArray<int> simplices;
         public SimplexCounts simplexCounts;
 
         private BurstInertialFrame m_InertialFrame; // local to world inertial frame.
@@ -126,25 +127,27 @@ namespace Obi
         public NativeArray<int4> cellCoords;
         public NativeArray<BurstAabb> simplexBounds;
 
+        private ConstraintSorter<BurstContact> contactSorter;
+
         public BurstSolverImpl(ObiSolver solver)
         {
             this.m_Solver = solver;
 
             jobHandlePool = new JobHandlePool<BurstJobHandle>(4);
+            contactSorter = new ConstraintSorter<BurstContact>();
 
             // Initialize collision world:
             GetOrCreateColliderWorld();
             colliderGrid.IncreaseReferenceCount();
 
-            activeParticles = new NativeList<int>(64, Allocator.Persistent);
             deformableTriangles = new NativeList<int>(64, Allocator.Persistent);
-            simplices = new NativeList<int>(64, Allocator.Persistent);
 
             // Initialize contact generation acceleration structure:
             particleGrid = new ParticleGrid();
 
             // Initialize constraint batcher:
-            constraintBatcher = new ConstraintBatcher(maxBatches);
+            collisionConstraintBatcher = new ConstraintBatcher<ContactProvider>(maxBatches);
+            fluidConstraintBatcher = new ConstraintBatcher<FluidInteractionProvider>(maxBatches);
 
             // Initialize constraint arrays:
             constraints = new IBurstConstraintsImpl[Oni.ConstraintTypeCount];
@@ -185,14 +188,11 @@ namespace Obi
             if (colliderGrid != null)
                 colliderGrid.DecreaseReferenceCount();
 
-            constraintBatcher.Dispose();
+            collisionConstraintBatcher.Dispose();
+            fluidConstraintBatcher.Dispose();
 
-            if (activeParticles.IsCreated)
-                activeParticles.Dispose();
             if (deformableTriangles.IsCreated)
                 deformableTriangles.Dispose();
-            if (simplices.IsCreated)
-                simplices.Dispose();
             if (simplexBounds.IsCreated)
                 simplexBounds.Dispose();
 
@@ -309,9 +309,9 @@ namespace Obi
             return 0;
         }
 
-        public void SetSimplices(int[] simplices, SimplexCounts counts)
+        public void SetSimplices(ObiNativeIntList simplices, SimplexCounts counts)
         {
-            this.simplices.CopyFrom(simplices);
+            this.simplices = simplices.AsNativeArray<int>();
             this.simplexCounts = counts;
 
             if (simplexBounds.IsCreated)
@@ -321,13 +321,9 @@ namespace Obi
             cellCoords = abstraction.cellCoords.AsNativeArray<int4>();
         }
 
-        public void SetActiveParticles(int[] indices, int num)
+        public void SetActiveParticles(ObiNativeIntList indices)
         {
-            int set = ClampArrayAccess(particleCount, num, 0);
-            activeParticles.ResizeUninitialized(set);
-            for (int i = 0; i < num; ++i)
-                activeParticles[i] = indices[i];
-            activeParticles.Sort();
+            activeParticles = indices.AsNativeArray<int>();
         }
 
         int ClampArrayAccess(int size, int num, int offset)
@@ -346,16 +342,13 @@ namespace Obi
                 inverseInertiaTensors = abstraction.invInertiaTensors.AsNativeArray<float4>(),
             };
 
-            return updateInertiaTensors.Schedule(activeParticles.Length, 128, inputDeps);
+            return updateInertiaTensors.Schedule(activeParticleCount, 128, inputDeps);
         }
 
         public void GetBounds(ref Vector3 min, ref Vector3 max)
         {
-            if (!activeParticles.IsCreated)
-                return;
-
             int chunkSize = 4;
-            NativeArray<BurstAabb> bounds = new NativeArray<BurstAabb>(activeParticles.Length, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
+            NativeArray<BurstAabb> bounds = new NativeArray<BurstAabb>(activeParticleCount, Allocator.Persistent, NativeArrayOptions.UninitializedMemory);
 
             var particleBoundsJob = new ParticleToBoundsJob()
             {
@@ -628,7 +621,7 @@ namespace Obi
                 var dequeueHandle = JobHandle.CombineDependencies(dequeueParticleContacts.Schedule(), dequeueFluidInteractions.Schedule(), dequeueColliderContacts.Schedule());
 
                 // Sort contacts for jitter-free gauss-seidel (sequential) solving:
-                dequeueHandle = ConstraintSorter.SortConstraints<BurstContact>(simplexCounts.simplexCount, rawParticleContacts, ref sortedParticleContacts, dequeueHandle);
+                dequeueHandle = contactSorter.SortConstraints(simplexCounts.simplexCount, rawParticleContacts, ref sortedParticleContacts, dequeueHandle);
 
                 ContactProvider contactProvider = new ContactProvider()
                 {
@@ -646,11 +639,11 @@ namespace Obi
 
                 // batch particle contacts:
                 var activeParticleBatchCount = new NativeArray<int>(1, Allocator.TempJob);
-                var particleBatchHandle = constraintBatcher.BatchConstraints(ref contactProvider, particleCount, ref particleBatchData, ref activeParticleBatchCount, dequeueHandle);
+                var particleBatchHandle = collisionConstraintBatcher.BatchConstraints(ref contactProvider, particleCount, ref particleBatchData, ref activeParticleBatchCount, dequeueHandle);
 
                 // batch fluid interactions:
                 var activeFluidBatchCount = new NativeArray<int>(1, Allocator.TempJob);
-                var fluidBatchHandle = constraintBatcher.BatchConstraints(ref fluidProvider, particleCount, ref fluidBatchData, ref activeFluidBatchCount, dequeueHandle);
+                var fluidBatchHandle = fluidConstraintBatcher.BatchConstraints(ref fluidProvider, particleCount, ref fluidBatchData, ref activeFluidBatchCount, dequeueHandle);
 
                 JobHandle.CombineDependencies(particleBatchHandle, fluidBatchHandle).Complete();
 

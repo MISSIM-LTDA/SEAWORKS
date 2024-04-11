@@ -53,6 +53,8 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 		private readonly static GUIContent _guiSphericalLayout = new GUIContent("Spherical Layout");
 		private readonly static GUIContent _guiAndroidUpdateMediaGallery = new GUIContent("Update Media Gallery");
 		private readonly static GUIContent _guiAndroidNoCaptureRotation = new GUIContent("No Capture Rotation");
+		private readonly static GUIContent _guiContentFramePTSMode = new GUIContent("Frame Presentation Timestamp", "Realtime captures only, affects how each captured frame's timestamp is generated");
+		private readonly static GUIContent _guiContentWriteOrientationMetadata = new GUIContent("Write Orientation Metadata", "Writes the camera's current orientation to the captured video track");
 
 		private static bool _isTrialVersion = false;
 		private SerializedProperty _propCaptureKey;
@@ -123,6 +125,7 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 			public SerializedProperty propEnableFragmentedWriting;
 			public SerializedProperty propMovieFragmentInterval;
 			public SerializedProperty propColourRange;
+			public SerializedProperty propFramePTSMode;
 		}
 
 		private class PropImageHints
@@ -144,6 +147,7 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 		private SerializedProperty _propWaitForEndOfFrame;
 		private SerializedProperty _propAndroidUpdateMediaGallery;
 		private SerializedProperty _propAndroidNoCaptureRotation;
+		private SerializedProperty _propWriteOrientationMetadata;
 
 		private SerializedProperty _propUseMotionBlur;
 		private SerializedProperty _propMotionBlurSamples;
@@ -680,7 +684,13 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 			{
 				EditorGUILayout.PropertyField(_propAndroidUpdateMediaGallery, _guiAndroidUpdateMediaGallery);
 				EditorGUILayout.PropertyField(_propAndroidNoCaptureRotation, _guiAndroidNoCaptureRotation);
+				EditorGUILayout.PropertyField(_propWriteOrientationMetadata, _guiContentWriteOrientationMetadata);
 			}
+			else if (_selectedPlatform == NativePlugin.Platform.iOS)
+			{
+				EditorGUILayout.PropertyField(_propWriteOrientationMetadata, _guiContentWriteOrientationMetadata);
+			}
+
 			EndPlatformSelection();
 		}
 
@@ -1035,6 +1045,8 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 					{
 						EditorGUILayout.PropertyField(props.propMovieFragmentInterval);
 					}
+
+					EditorGUILayout.PropertyField(props.propFramePTSMode, _guiContentFramePTSMode);
 				}
 			}
 			EndPlatformSelection();
@@ -1220,6 +1232,7 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 			_propWaitForEndOfFrame = serializedObject.AssertFindProperty("_useWaitForEndOfFrame");
 			_propAndroidUpdateMediaGallery = serializedObject.AssertFindProperty("_androidUpdateMediaGallery");
 			_propAndroidNoCaptureRotation = serializedObject.AssertFindProperty("_androidNoCaptureRotation");
+			_propWriteOrientationMetadata = serializedObject.AssertFindProperty("_writeOrientationMetadata");
 
 			_propUseMotionBlur = serializedObject.AssertFindProperty("_useMotionBlur");
 			_propMotionBlurSamples = serializedObject.AssertFindProperty("_motionBlurSamples");
@@ -1282,6 +1295,7 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 			result.propSphericalVideoLayout = serializedObject.AssertFindProperty(prefix + ".sphericalVideoLayout");
 			result.propEnableFragmentedWriting = serializedObject.AssertFindProperty(prefix + ".enableFragmentedWriting");
 			result.propMovieFragmentInterval = serializedObject.AssertFindProperty(prefix + ".movieFragmentInterval");
+			result.propFramePTSMode = serializedObject.AssertFindProperty(prefix + ".realtimeFramePresentationTimestampOptions");
 			return result;
 		}
 

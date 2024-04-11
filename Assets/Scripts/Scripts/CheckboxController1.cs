@@ -3,6 +3,8 @@ using UnityEngine.UI;
 
 public class CheckboxController1 : MonoBehaviour
 {
+    public Toggle m_Toggle;
+
     public Toggle[] checkboxes;
     private bool[] checkboxStates;
 
@@ -15,6 +17,8 @@ public class CheckboxController1 : MonoBehaviour
         {
             checkboxStates[i] = checkboxes[i].isOn;
         }
+
+        if(m_Toggle != null) { m_Toggle.isOn = true; }
     }
 
     private void Update()

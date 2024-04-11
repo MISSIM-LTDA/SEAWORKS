@@ -10,6 +10,8 @@ public class GrabObjct : MonoBehaviour
     public GameObject ExternalRig;
     public GameObject Trava2;
 
+    public GameObject basket;
+
     public Rigidbody EFLrig;
     public Rigidbody Maniprig;
     public Rigidbody TravaB2;
@@ -23,92 +25,53 @@ public class GrabObjct : MonoBehaviour
 
     public float Breakeforce1;
 
-    public bool CheckIn;
+    public bool checkIn;
+    public bool onBasket;
 
-    public bool free;
-
-    public bool Fixed;
-    public bool Hinge;
-    public bool Spring;
+    public bool locked;
 
     private ObiSolver obiSolver;
     void Start()
     {
         Manip = GameObject.FindGameObjectWithTag("Jaw7");
         Maniprig = Manip.GetComponent<Rigidbody>();
-        Lock1 = 2;
-        CheckIn = false;
+        checkIn = false;
+        onBasket = false;
+        locked = false;
         obiSolver = GameObject.FindObjectOfType<ObiSolver>();
     }
     void Update()
     {
-        if (Input.GetKey(Trava1) && CheckIn == true)
+        if (Input.GetKey(Trava1) && checkIn && !locked)
         {
-            if (Lock1 > 1)
-            {
-                if(Fixed)
-                {
-                    EFL.GetComponent<FixedJoint>().connectedBody = Manip.GetComponent<Rigidbody>();
-                }
+            EFL.GetComponent<Joint>().connectedBody = Manip.GetComponent<Rigidbody>();
 
-                if (Hinge)
-                {
-                    EFL.GetComponent<HingeJoint>().connectedBody = Manip.GetComponent<Rigidbody>();
-                }
-
-                if (Spring)
-                {
-                    EFL.GetComponent<SpringJoint>().connectedBody = Manip.GetComponent<Rigidbody>();
-                }
-
-                Lock1 = 0;
-            }
+            locked = true;
         }
 
-        if (Input.GetKey(Solta1) && Lock1 == 0)
+        else if (Input.GetKey(Solta1) && locked)
         {
-            if (Fixed)
-            {
-                EFL.GetComponent<FixedJoint>().connectedBody = null;
-            }
+            if (onBasket) { EFL.GetComponent<Joint>().connectedBody = basket.GetComponent<Rigidbody>(); }
 
-            if (Hinge)
-            {
-                EFL.GetComponent<HingeJoint>().connectedBody = null;
-            }
+            else { EFL.GetComponent<Joint>().connectedBody = null; }
 
-            if (Spring)
-            {
-                EFL.GetComponent<SpringJoint>().connectedBody = null;
-            }
-
-            Lock1 = 2;
-
+            locked = false;
         }
 
-        if (Input.GetKey(Solta2) && Lock1 == 0)
+        else if (Input.GetKey(Solta2) && locked)
         {
-            if (Fixed)
-            {
-                EFL.GetComponent<FixedJoint>().connectedBody = ExternalRig.GetComponent<Rigidbody>();
-            }
+            if (onBasket) { EFL.GetComponent<Joint>().connectedBody = basket.GetComponent<Rigidbody>(); }
 
-            if (Hinge)
-            {
-                EFL.GetComponent<HingeJoint>().connectedBody = ExternalRig.GetComponent<Rigidbody>();
-            }
+            else { EFL.GetComponent<Joint>().connectedBody = ExternalRig.GetComponent<Rigidbody>(); }
 
-            if (Spring)
-            {
-                EFL.GetComponent<SpringJoint>().connectedBody = ExternalRig.GetComponent<Rigidbody>();
-            }
-            Lock1 = 2;
+            locked = false;
         }
 
-        if (Input.GetKey(Solta3) && Lock1 == 0)
+        else if (Input.GetKey(Solta3) && locked)
         {
-            Destroy(EFL.GetComponent<FixedJoint>());
-            Lock1 = 2;
+            Destroy(EFL.GetComponent<Joint>());
+
+            locked = false;
         }
     }
 
@@ -117,10 +80,24 @@ public class GrabObjct : MonoBehaviour
     { 
         GameObject obj = collision.gameObject;
 
-        if(obj.tag == "Jaw7finger") {CheckIn = true;}
+        if(obj.tag == "Jaw7finger") {checkIn = true;}
+
+        if(obj.tag == "ROVComponents") 
+        {
+            basket = obj.transform.parent.gameObject;
+            onBasket = true; 
+        }
     }
     private void OnTriggerExit(Collider collision)
     {
-        CheckIn = false;
+        GameObject obj = collision.gameObject;
+
+        if (obj.tag == "Jaw7finger") { checkIn = false; }
+
+        if (obj.tag == "ROVComponents") 
+        {
+            basket = null;
+            onBasket = false; 
+        }
     }
 }

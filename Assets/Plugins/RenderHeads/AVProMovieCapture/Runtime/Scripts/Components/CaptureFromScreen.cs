@@ -178,6 +178,11 @@ namespace RenderHeads.Media.AVProMovieCapture
 #endif
 			GenerateFilename();
 
+			// Kick-off the final render capture coroutine
+			_finalRenderCapture = FinalRenderCapture();
+			_doFinalRenderCapture = false;
+			StartCoroutine(_finalRenderCapture);
+
 			return base.PrepareCapture();
 		}
 
@@ -194,7 +199,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				NativePlugin.SetColourBuffer(_handle, _targetNativePointer);
 			}
 #endif
-#if true
 			if ((_targetNativePointer == System.IntPtr.Zero) || 
 				(_resolveTexture && ((_resolveTexture.width != Screen.width) || (_resolveTexture.height != Screen.height))))
 			{
@@ -206,7 +210,7 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 				// Create command buffer
 				_commandBuffer = new CommandBuffer();
-				_commandBuffer.name = "AVPro Movie Capture copy";
+				_commandBuffer.name = "AVPMC CopyRenderTarget";
 				_commandBuffer.Blit(BuiltinRenderTextureType.CurrentActive, _resolveTexture);
 
 				RenderTexture sourceTexture = _resolveTexture;
@@ -220,7 +224,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 						{
 							// Add to command buffer
 							_commandBuffer.Blit(_resolveTexture, _sideBySideTexture, _sideBySideMaterial);
-
 							sourceTexture = _sideBySideTexture;
 						}
 					}
@@ -229,7 +232,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_targetNativePointer = sourceTexture.GetNativeTexturePtr();
 				NativePlugin.SetTexturePointer(_handle, _targetNativePointer);
 			}
-#endif
 
 			Graphics.ExecuteCommandBuffer(_commandBuffer);
 
@@ -271,6 +273,9 @@ namespace RenderHeads.Media.AVProMovieCapture
 				}
 			}
 
+			StopCoroutine(_finalRenderCapture);
+			_finalRenderCapture = null;
+
 			FreeRenderResources();
 
 			if (_mouseCursor != null)
@@ -281,80 +286,93 @@ namespace RenderHeads.Media.AVProMovieCapture
 			base.UnprepareCapture();
 		}
 
+		private IEnumerator _finalRenderCapture;
+		private bool _doFinalRenderCapture = false;
+
 		private IEnumerator FinalRenderCapture()
 		{
-			yield return _waitForEndOfFrame;
-
-			TickFrameTimer();
-
-			bool canGrab = true;
-
-			if (IsUsingMotionBlur())
+			while (true)
 			{
-				// If the motion blur is still accumulating, don't grab this frame
-				canGrab = _motionBlur.IsFrameAccumulated;
-			}
+				yield return _waitForEndOfFrame;
+				if (!_doFinalRenderCapture)
+					continue;
 
-			if (canGrab && CanOutputFrame())
-			{
-				// Grab final RenderTexture into texture and encode
-				EncodeUnityAudio();
+				TickFrameTimer();
 
-				if (_Transparency == Transparency.TopBottom || _Transparency == Transparency.LeftRight)
+				bool canGrab = true;
+
+				if (IsUsingMotionBlur())
 				{
-					// Side-by-side transparency requires blitting outside native
-					CopyRenderTargetToTexture();
+					// If the motion blur is still accumulating, don't grab this frame
+					canGrab = _motionBlur.IsFrameAccumulated;
 				}
+
+				if (canGrab && CanOutputFrame())
+				{
+					// Grab final RenderTexture into texture and encode
+					EncodeUnityAudio();
+
+					if (_Transparency == Transparency.TopBottom || _Transparency == Transparency.LeftRight)
+					{
+						// Side-by-side transparency requires blitting outside native
+						CopyRenderTargetToTexture();
+					}
 #if UNITY_STANDALONE_WIN || UNITY_EDITOR_WIN
-				else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Direct3D12)
-				{
-					CopyRenderTargetToTexture();
-				}
+					else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Direct3D12)
+					{
+						CopyRenderTargetToTexture();
+					}
 #elif !UNITY_EDITOR && UNITY_ANDROID
 	#if UNITY_2022_1_OR_NEWER
-				// Can no longer access the current render buffer in the plugin and passing the native render buffer
-				// pointer down leads to bad flickering so we'll take a copy
-				else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Vulkan)
-				{
-					CopyRenderTargetToTexture();
-		#if AVPMC_ANDROID_VULKAN_PRETRANSFORM
-					if (!_hasBeenWarnedAboutVulkanPreTransform)
+					// Can no longer access the current render buffer in the plugin and passing the native render buffer
+					// pointer down leads to bad flickering so we'll take a copy
+					else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Vulkan)
 					{
-						_hasBeenWarnedAboutVulkanPreTransform = true;
-						Debug.LogWarning("AVProMovieCapture: PlayerSettings.vulkanEnablePreTransform is enabled, some screen orientations (typically landscape) may not be captured correctly. Please see https://docs.unity3d.com/Manual/vulkan-swapchain-pre-rotation.html for more information");
-					}
+						CopyRenderTargetToTexture();
+		#if AVPMC_ANDROID_VULKAN_PRETRANSFORM
+						if (!_hasBeenWarnedAboutVulkanPreTransform)
+						{
+							_hasBeenWarnedAboutVulkanPreTransform = true;
+							Debug.LogWarning("AVProMovieCapture: PlayerSettings.vulkanEnablePreTransform is enabled, some screen orientations (typically landscape) may not be captured correctly. Please see https://docs.unity3d.com/Manual/vulkan-swapchain-pre-rotation.html for more information");
+						}
 		#endif
-				}
+					}
 	#else
-				// Android Vulkan requires the current render buffer to do screen captures
-				else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Vulkan)
-				{
-					System.IntPtr renderBuffer = Display.main.colorBuffer.GetNativeRenderBufferPtr();
-					NativePlugin.SetRenderBuffer(_handle, renderBuffer);
-				}
+					// Android Vulkan requires the current render buffer to do screen captures
+					else if (SystemInfo.graphicsDeviceType == GraphicsDeviceType.Vulkan)
+					{
+						System.IntPtr renderBuffer = Display.main.colorBuffer.GetNativeRenderBufferPtr();
+						NativePlugin.SetRenderBuffer(_handle, renderBuffer);
+					}
+	#endif
+#elif UNITY_STANDALONE_OSX || (!UNITY_EDITOR && UNITY_IOS)
+	#if UNITY_2022_1_OR_NEWER && (USING_URP || USING_HDRP)
+					// URP/HDRP requires taking a copy of the frame buffer
+					else
+					{
+						CopyRenderTargetToTexture();
+					}
 	#endif
 #endif
 
-				RenderThreadEvent(NativePlugin.PluginEvent.CaptureFrameBuffer);
+					RenderThreadEvent(NativePlugin.PluginEvent.CaptureFrameBuffer);
 
-				// RJT NOTE: Causes screen flickering under D3D12, even if we're not doing any rendering at native level
-				if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Direct3D12)
-				{
-					GL.InvalidateState();
+					// RJT NOTE: Causes screen flickering under D3D12, even if we're not doing any rendering at native level
+					if (SystemInfo.graphicsDeviceType != GraphicsDeviceType.Direct3D12)
+					{
+						GL.InvalidateState();
+					}
+
+					UpdateFPS();
 				}
 
-				UpdateFPS();
+				RenormTimer();
 			}
-
-			RenormTimer();
 		}
 
 		public override void UpdateFrame()
 		{
-			if (_capturing && !_paused)
-			{
-				StartCoroutine(FinalRenderCapture());
-			}
+			_doFinalRenderCapture = _capturing && !_paused;
 			base.UpdateFrame();
 		}
 	}

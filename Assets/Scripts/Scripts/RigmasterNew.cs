@@ -41,11 +41,11 @@ public class RigmasterNew : MonoBehaviour
     void Start()
     {
         //Fetch the Rigidbody from the GameObject with this script attached
-        m_Rigidbody = GetComponent<Rigidbody>();
+        m_Rigidbody = Arm1.GetComponent<Rigidbody>();
 
 
         //Fetch the Rigidbody from the GameObject with this script attached
-        m_Rigidbody2 = GetComponent<Rigidbody>();
+        //m_Rigidbody2 = GetComponent<Rigidbody>();
 
         //Set the angular velocity of the Rigidbody (rotating around the Y axis, 100 deg/sec)
         //m_EulerAngleVelocity = new Vector3(0, 100, 0);

@@ -7,6 +7,7 @@ public class PTControl2 : MonoBehaviour {
     float RotAngle;
     float RotAngle2;
     float RotAngle3 = 0;
+
     
 
     // Update is called once per frame
@@ -20,8 +21,6 @@ public class PTControl2 : MonoBehaviour {
         if (Input.GetKey(KeyCode.L))
         {
             // transform.rotation = Quaternion.AngleAxis(RotAngle, Vector3.right);
-
-            
             RotAngle = RotAngle + 1;
             RotAngle3 = RotAngle3 + 1;
 
@@ -37,7 +36,6 @@ public class PTControl2 : MonoBehaviour {
             {
                 RotAngle3 = 44;
             }
-
             
         }
 

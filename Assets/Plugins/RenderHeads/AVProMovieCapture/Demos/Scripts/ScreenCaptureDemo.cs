@@ -101,13 +101,16 @@ namespace RenderHeads.Media.AVProMovieCapture.Demos
 				// Todo: handle late selection of microphone
 				if (_capture.AudioCaptureSource == AudioCaptureSource.Microphone)
 				{
+					NativePlugin.MicrophoneRecordingOptions options = NativePlugin.MicrophoneRecordingOptions.None;
+
 					Debug.Log("Checking user has authorization to use the Microphone");
 					switch (CaptureBase.HasUserAuthorisationToCaptureAudio())
 					{
-						case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Unavailable:
+					case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Unavailable:
 							Debug.LogWarning("Audio capture is unavailable, no audio will be captured");
 							break;
-						case CaptureBase.AudioCaptureDeviceAuthorisationStatus.NotDetermined:
+
+					case CaptureBase.AudioCaptureDeviceAuthorisationStatus.NotDetermined:
 							Debug.Log("Audio capture status is not determined, requesting access");
 							yield return CaptureBase.RequestAudioCaptureDeviceUserAuthorisation();
 							switch (CaptureBase.HasUserAuthorisationToCaptureAudio())
@@ -126,14 +129,18 @@ namespace RenderHeads.Media.AVProMovieCapture.Demos
 
 								case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Authorised:
 									Debug.Log("Audio capture is authorised");
+									NativePlugin.SetMicrophoneRecordingHint(true, options);
 									break;
 							}
 							break;
-						case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Denied:
+
+					case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Denied:
 							Debug.LogWarning("Audio capture status denied, no audio will be captured");
 							break;
-						case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Authorised:
+
+					case CaptureBase.AudioCaptureDeviceAuthorisationStatus.Authorised:
 							Debug.Log("Audio capture is authorised");
+							NativePlugin.SetMicrophoneRecordingHint(true, options);
 							break;
 					}
 				}

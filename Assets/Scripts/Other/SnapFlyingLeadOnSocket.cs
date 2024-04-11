@@ -10,30 +10,32 @@ public class SnapFlyingLeadOnSocket : MonoBehaviour
 
     [SerializeField] bool drawSphere;
 
-    
-
     [SerializeField] float radius;
     Vector3 center;
     [SerializeField] Vector3 centerOffset;
-
-    [SerializeField] Vector3 SnapOffSet;   
+    [SerializeField] Vector3 positionOffset;
 
     bool efl;
     bool hfl;
-
-    bool destroy = true;
-
     private void Start()
     {
         flyingLead = gameObject;
 
         if (flyingLead.tag == "EFL_Parent") { efl = true; }
         else if (flyingLead.tag == "HFL_Parent") { hfl = true; }
+
+        center = transform.position + centerOffset;
+        socket = CheckCollision(center);
+
+        #if UNITY_EDITOR
+                if (socket != null) { DestroyImmediate(socket.gameObject); }
+        #endif
+
+        if (socket != null) { Destroy(socket.gameObject); }
     }
     void Update()
     {
-        if (!Application.isPlaying) 
-        {
+        #if UNITY_EDITOR
             flyingLead = gameObject;
 
             if (flyingLead.tag == "EFL_Parent") { efl = true; }
@@ -43,20 +45,12 @@ public class SnapFlyingLeadOnSocket : MonoBehaviour
             socket = CheckCollision(center);
 
             if (socket != null) { Snap(); }
-        }
-
-        else if(Application.isPlaying && destroy)
-        {
-            center = transform.position + centerOffset;
-            socket = CheckCollision(center);
-
-            if (socket != null) { Destroy(socket.gameObject); }
-        }
+        #endif
     }
 
     private void Snap() 
     {
-        transform.position = socket.position + SnapOffSet;
+        transform.position = socket.position + positionOffset;
     }
 
     private Transform CheckCollision(Vector3 center)

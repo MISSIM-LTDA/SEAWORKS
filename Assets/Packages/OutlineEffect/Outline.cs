@@ -41,8 +41,6 @@ using System.Collections.Generic;
         [HideInInspector]
         public Material[] originalMaterials;
 
-       
-
         private void Awake()
         {
             Renderer = GetComponent<Renderer>();

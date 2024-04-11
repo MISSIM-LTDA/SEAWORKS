@@ -310,6 +310,9 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 			_pixelFormat = NativePlugin.PixelFormat.RGBA32;
 			_isSourceTextureChanged = false;
+#if !UNITY_EDITOR && UNITY_ANDROID
+			_isTopDown = false;
+#endif
 
 			SelectRecordingResolution(/*_sourceTexture.*/width, /*_sourceTexture.*/height);
 

@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class RigMasterControl : MonoBehaviour {
 
+    public GameObject ObjectRotate;
     float RotAngle;
     float RotAngle2;
     float RotAngle3 = 0;
@@ -18,7 +19,7 @@ public class RigMasterControl : MonoBehaviour {
     void Update()
     {
 
-        RotAngle = transform.eulerAngles.y;
+        RotAngle = ObjectRotate.transform.eulerAngles.y;
         //RotAngle = transform.localEulerAngles.x;
 
 
@@ -34,7 +35,7 @@ public class RigMasterControl : MonoBehaviour {
 
             if (RotAngle3 < LimitMax)
             {
-                transform.Rotate(0, 0, Speed);
+                ObjectRotate.transform.Rotate(0, 0, Speed);
 
             }
 
@@ -56,7 +57,7 @@ public class RigMasterControl : MonoBehaviour {
 
             if (RotAngle3 > LimitMin)
             {
-                transform.Rotate(0, 0, -Speed);
+                ObjectRotate.transform.Rotate(0, 0, -Speed);
             }
 
             if (RotAngle3 < LimitMin)

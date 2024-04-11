@@ -818,7 +818,7 @@ namespace RenderHeads.Media.AVProMovieCapture
 			}
 		}
 
-		private void StopCapture()
+		public void StopCapture()
 		{
 			if (_movieCapture != null)
 			{

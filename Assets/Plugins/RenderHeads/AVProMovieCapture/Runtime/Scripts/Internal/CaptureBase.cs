@@ -27,6 +27,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine.Rendering;
 using System.Runtime.InteropServices;
+using UnityEngine.Events;
 #if UNITY_ANDROID && !UNITY_EDITOR
 using UnityEngine.Android;
 #endif
@@ -126,6 +127,8 @@ namespace RenderHeads.Media.AVProMovieCapture
 			transparency = Transparency.None;
 			androidVulkanPreTransform = AndroidVulkanPreTransform.None;
 			colourRange = ColourRange.Limited;
+			realtimeFramePresentationTimestampOptions = RealtimeFramePresentationTimestampOptions.Realtime;
+			orientationMetadata = OrientationMetadata.None;
 		}
 
 		internal void Validate()
@@ -200,6 +203,14 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 		[Tooltip("Use Limited range for maximum compatibility")]
 		public ColourRange colourRange;
+
+		/// <summary>
+		/// Controls how each frames timestamp is generated when capturing in realtime.
+		/// </summary>
+		[Tooltip("Options for controlling the presentation timestamp for each frame that is captured")]
+		public RealtimeFramePresentationTimestampOptions realtimeFramePresentationTimestampOptions;
+
+		public OrientationMetadata orientationMetadata;
 	}
 
 	[System.Serializable]
@@ -266,6 +277,30 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 		public VideoEncoderHints videoHints;
 		public ImageEncoderHints imageHints;
+	}
+
+	/// <summary>
+	/// Options for configuring the microphone recording session
+	/// </summary>
+	[Flags]
+	public enum MicrophoneRecordingOptions: int
+	{
+		/// <summary>
+		/// Uses the default options for configurung the capture session
+		/// </summary>
+		Defaults                 = 0,
+		/// <summary>
+		/// iOS - Allows playing audio from this application to be mixed with audio from other applications
+		/// </summary>
+		MixWithOthers            = 1 << 0,
+		/// <summary>
+		/// iOS - Audio will be routed to the speaker even if headphones or other accessories are in use
+		/// </summary>
+		DefaultToSpeaker         = 1 << 1,
+		/// <summary>
+		/// iOS - Enables support for bluetooth microphones
+		/// </summary>
+		AllowBluetoothMicrophone = 1 << 2,
 	}
 
 	/// <summary>
@@ -529,6 +564,7 @@ namespace RenderHeads.Media.AVProMovieCapture
 		[SerializeField] bool _allowManualFileExtension = false;
 		[SerializeField] string _filenameExtension = "mp4";
 		[SerializeField] string _namedPipePath = @"\\.\pipe\test_pipe";
+		[SerializeField] bool _writeOrientationMetadata = false;
 
 		public OutputPath OutputFolder
 		{
@@ -564,6 +600,12 @@ namespace RenderHeads.Media.AVProMovieCapture
 		{
 			get { return _namedPipePath; }
 			set { _namedPipePath = value; }
+		}
+
+		public bool WriteOrientationMetadata
+		{
+			get { return _writeOrientationMetadata; }
+			set { _writeOrientationMetadata = value; }
 		}
 
 		[SerializeField] int _imageSequenceStartFrame = 0;
@@ -691,6 +733,12 @@ namespace RenderHeads.Media.AVProMovieCapture
 			get { return _filePath; }
 		}
 
+		private UnityEvent _onCaptureStart = new UnityEvent();
+		public UnityEvent OnCaptureStart
+		{
+			get { return _onCaptureStart; }
+		}
+
 		// Register for notification of when the final file writing begins
 		public System.Action<FileWritingHandler> BeginFinalFileWritingAction
 		{
@@ -810,6 +858,12 @@ namespace RenderHeads.Media.AVProMovieCapture
 		{
 			get { return _stopSeconds; }
 			set { _stopSeconds = Mathf.Max(0f, value); }
+		}
+
+		public bool PauseCaptureOnAppPause
+		{
+			get { return _pauseCaptureOnAppPause; }
+			set { _pauseCaptureOnAppPause = value; }
 		}
 
 		public CaptureStats CaptureStats
@@ -2566,6 +2620,9 @@ namespace RenderHeads.Media.AVProMovieCapture
 					Debug.LogError("[AVProMovieCapture] Failed to start recorder");
 					return false;
 				}
+
+				OnCaptureStart.Invoke();
+
 				ResetFPS();
 				_captureStartTime = Time.realtimeSinceStartup;
 				_capturePrePauseTotalTime = 0f;
@@ -3527,6 +3584,40 @@ namespace RenderHeads.Media.AVProMovieCapture
 		}
 
 		// Audio capture support
+
+		/// <summary>
+		/// Hints to the system that we want to capture audio from the microphone.
+		/// <para>
+		/// <b>iOS</b><br/>
+		/// Call this with <c>enabled = true</c> before you begin recording to prevent any unwanted stalls or pops when
+		/// the recording begins due to changing the audio session. Call with <c>enabled = false</c> to restore the
+		/// audio session.<br/>
+		/// </para>
+		/// </summary>
+		/// <param name="enabled">Enables or disables audio recording from the microphone</param>
+		/// <param name="options">Options to apply when enabling or disabling audio recording</param>
+		public void SetMicrophoneRecordingHint(bool enabled, MicrophoneRecordingOptions options = MicrophoneRecordingOptions.Defaults)
+		{
+#if UNITY_EDITOR_OSX || (!UNITY_EDITOR && (UNITY_STANDALONE_OSX || UNITY_IOS || UNITY_ANDROID))
+			NativePlugin.MicrophoneRecordingOptions nativeOptions = NativePlugin.MicrophoneRecordingOptions.None;
+			if (options == MicrophoneRecordingOptions.Defaults)
+			{
+	#if AVPMC_MICROPHONE_RECORDING_HINT_MIX_WITH_OTHERS
+				nativeOptions |= NativePlugin.MicrophoneRecordingOptions.MixWithOthers;
+	#endif
+			}
+			else
+			{
+				if ((options & MicrophoneRecordingOptions.MixWithOthers) == MicrophoneRecordingOptions.MixWithOthers)
+					nativeOptions |= NativePlugin.MicrophoneRecordingOptions.MixWithOthers;
+				if ((options & MicrophoneRecordingOptions.DefaultToSpeaker) == MicrophoneRecordingOptions.DefaultToSpeaker)
+					nativeOptions |= NativePlugin.MicrophoneRecordingOptions.DefaultToSpeaker;
+				if ((options & MicrophoneRecordingOptions.AllowBluetoothMicrophone) == MicrophoneRecordingOptions.AllowBluetoothMicrophone)
+					nativeOptions |= NativePlugin.MicrophoneRecordingOptions.AllowBluetooth;
+			}
+			NativePlugin.SetMicrophoneRecordingHint(enabled, nativeOptions);
+#endif
+		}
 
 		/// <summary>
 		/// Authorisation for audio capture.

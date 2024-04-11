@@ -1,134 +1,276 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
 public class PTControlTotal : MonoBehaviour
 {
 
-    public float RotAngleP;
-    public float RotAngleP2;
-    public float RotAngleP3 = 0;
-
     public float limitP;
-
-    public float RotAngleT;
-    public float RotAngleT2;
-    public float RotAngleT3 = 0;
-
     public float limitT;
+
+    public float valueToLerpPan;
+    public float lerpDuration;
+    public float valueToLerpTilt;
+
+    public float startValue = 0f;
+    public float endValue;
 
     public GameObject Pan;
     public GameObject Tilt;
 
+    public float shakeDuration;
+    public float shakeAmount;
 
-    // Update is called once per frame
+    public bool endMovePan = false;
+    public bool endMoveTilt = false;
+
+
+    public bool canShakeP = false;
+    public bool canShakeT = false;
+
+    public float _shakeTimer;
+
+    public float timer;
+    //-------------------------------
+    public float originalrosPan;
+    public float originalrosTilt;
+    //---------------------------------
+
+
+    bool control;
+
+    bool lerpingPan;
+    bool lerping;
+    bool lerpingTilt;
+
+    //-----------------------------------------------------
+    public bool Moving = false;
+    //-----------------------------------------------------
+
+    private void Start()
+    {
+        originalrosPan = Pan.transform.localEulerAngles.z;
+        originalrosTilt = Tilt.transform.localEulerAngles.x;
+    }
+
     void Update()
     {
-
-        RotAngleP = Pan.transform.eulerAngles.x;
-        //RotAngle = transform.localEulerAngles.x;
-
-
         if (Input.GetAxis("T4S") <= -0.8)
         {
-            // transform.rotation = Quaternion.AngleAxis(RotAngle, Vector3.right);
+            StopCoroutine(Lerp(Moving));
+            canShakeP = false;
 
-
-            RotAngleP = RotAngleP + 1;
-            RotAngleP3 = RotAngleP3 + 1;
-
-
-
-            if (RotAngleP3 < limitP)
+            if (originalrosPan <= limitP)
             {
-                Pan.transform.Rotate(0, 0, 1);
+                timer += Time.deltaTime;
 
+                if (!lerpingPan) 
+                {
+                    StartCoroutine(Lerp(Moving));
+                    StartCoroutine(CheckMovimentStopPan());
+                }
+                originalrosPan += valueToLerpPan;
+                Pan.transform.Rotate(0, 0, valueToLerpPan);
             }
-
-            if (RotAngleP3 > limitP)
-            {
-                RotAngleP3 = (limitP -1);
-            }
-
-
         }
 
-        if (Input.GetAxis("T4S") >= 0.8)
+        else if (Input.GetAxis("T4S") >= 0.8)
         {
-            // transform.rotation = Quaternion.AngleAxis(RotAngle, Vector3.right);
+            StopCoroutine(Lerp(Moving));
+            
+            canShakeP = false;
 
-            RotAngleP = RotAngleP - 1;
-            RotAngleP3 = RotAngleP3 - 1;
-
-
-            if (RotAngleP3 > -limitP)
+            if (originalrosPan > -limitP)
             {
-                Pan.transform.Rotate(0, 0, -1);
+                timer += Time.deltaTime;
+             
+                if (!lerpingPan) 
+                {
+                    StartCoroutine(Lerp(Moving));
+                    StartCoroutine(CheckMovimentStopPan());
+                }
+                Pan.transform.Rotate(0, 0, -valueToLerpPan);
+                originalrosPan = originalrosPan - valueToLerpPan;
             }
-
-            if (RotAngleP3 < -limitP)
-            {
-
-                RotAngleP3 = (limitP - 1)*-1;
-            }
-
         }
-        //Debug.Log(RotAngle);
+
+        else
+        {
+            lerpingPan = false;
+            valueToLerpPan = 0;
+            
+        }
 
         // TILT----------
-        
-        
-        RotAngleT = Tilt.transform.eulerAngles.x;
-        //RotAngle = transform.localEulerAngles.x;
 
 
         if (Input.GetAxis("T4UD") >= 0.8)
         {
-            // transform.rotation = Quaternion.AngleAxis(RotAngle, Vector3.right);
+            StopCoroutine(Lerp(Moving));
 
+            canShakeT = false;
 
-            RotAngleT = RotAngleT + 1;
-            RotAngleT3 = RotAngleT3 + 1;
-
-
-
-            if (RotAngleT3 < limitT)
+            if (originalrosTilt < limitT)
             {
-                Tilt.transform.Rotate(1, 0, 0);
+                timer += Time.deltaTime;
+                if (!lerpingTilt)
+                {
+                    StartCoroutine(Lerp(Moving));
+                    StartCoroutine(CheckMovimentStopTilt());
+                }
 
+                Tilt.transform.Rotate(valueToLerpTilt, 0, 0);
+                originalrosTilt = originalrosTilt + valueToLerpTilt;
             }
-
-            if (RotAngleT3 > limitT)
-            {
-                RotAngleT3 = (limitT -1);
-            }
-
-
+            
         }
 
-        if (Input.GetAxis("T4UD") <= -0.8)
+        else if (Input.GetAxis("T4UD") <= -0.8)
         {
-            // transform.rotation = Quaternion.AngleAxis(RotAngle, Vector3.right);
+            StopCoroutine(Lerp(Moving));
 
-            RotAngleT = RotAngleT - 1;
-            RotAngleT3 = RotAngleT3 - 1;
-
-
-            if (RotAngleT3 > -limitT)
+            canShakeT = false;
+            if (originalrosTilt > -limitT)
             {
-                Tilt.transform.Rotate(-1, 0, 0);
+                timer += Time.deltaTime;
+                if (!lerpingTilt)
+                {
+                    StartCoroutine(Lerp(Moving));
+                    StartCoroutine(CheckMovimentStopTilt());
+                }
+                Tilt.transform.Rotate(-valueToLerpTilt, 0, 0);
+                originalrosTilt = originalrosTilt - valueToLerpTilt;
             }
+        }
 
-            if (RotAngleT3 < -limitT)
-            {
-
-                RotAngleT3 = (limitT - 1)*-1;
-            }
+        else
+        {
+            lerpingTilt = false;
+            valueToLerpTilt = 0;
 
         }
 
 
+        if (canShakeP)
+        {
+            StartCameraShakeEffectPan();
+        }
 
+        if (canShakeT)
+        {
+            StartCameraShakeEffectTilt();
+        }
+
+
+        if ((canShakeT == true) && (canShakeP == true))
+        {
+            canShakeT = false;
+            canShakeP = false;
+            endMovePan = false;
+            endMoveTilt = false;
+        }
 
     }
+
+    public void ShakeCameraTilt()
+    {
+        canShakeT = true;
+        _shakeTimer = shakeDuration;
+       // originalrosTilt = Tilt.transform.rotation;
+
+    }
+
+    public void ShakeCameraPan()
+    {
+        canShakeP = true;
+        _shakeTimer = shakeDuration;
+       // originalrosPan = Pan.transform.rotation;
+
+    }
+
+    public void StartCameraShakeEffectPan()
+    {
+        if (timer > 0.7){
+            if (_shakeTimer > 0)
+            {
+                endMovePan = false;
+
+                shakeAmount = shakeAmount * -1;
+
+                Pan.transform.Rotate(0.0f, 0.0f, shakeAmount, Space.World);
+                _shakeTimer -= Time.deltaTime;
+            } else
+            {
+                canShakeP = false;
+                endMovePan = false;
+                timer = 0;
+            }
+        }
+        
+    }
+
+    public void StartCameraShakeEffectTilt()
+    {
+        if (timer > 0.7)
+        {
+            if (_shakeTimer > 0)
+            {
+                endMoveTilt = false;
+                shakeAmount = shakeAmount * -1;
+
+                Tilt.transform.Rotate(shakeAmount, 0.0f, 0.0f, Space.World);
+                _shakeTimer -= Time.deltaTime;
+            }
+            else
+            {
+                canShakeT = false;
+                endMoveTilt = false;
+                timer = 0;
+            }
+        }
+    }
+
+
+    public IEnumerator CheckMovimentStopPan()
+    {
+        yield return new WaitUntil(() => Input.GetAxis("T4S") == 0);
+        control = false;
+        canShakeP = true;
+    }
+
+    public IEnumerator CheckMovimentStopTilt()
+    {
+        Debug.Log("3");
+        yield return new WaitUntil(() => Input.GetAxis("T4UD") == 0);
+        control = false;
+        canShakeT = true;
+    }
+
+
+    
+
+    IEnumerator Lerp(bool  foward)
+    {
+        control = true;
+        lerpingTilt = true;
+        lerpingPan = true;
+        lerping = true;
+        float timeElapsed = 0;
+        while (timeElapsed < lerpDuration && control)
+        {
+
+            if (foward)
+            {
+                valueToLerpTilt = Mathf.Lerp(startValue, endValue, timeElapsed / lerpDuration);
+                valueToLerpPan = Mathf.Lerp(startValue, endValue, timeElapsed / lerpDuration);
+            }
+            timeElapsed += Time.deltaTime;
+            yield return null;
+        }
+
+        lerping = false;
+
+        valueToLerpTilt = endValue;
+        valueToLerpPan = endValue;
+    }
+
 }

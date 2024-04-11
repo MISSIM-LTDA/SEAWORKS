@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using System.Collections;
-using System.Collections.Generic;
 
 //-----------------------------------------------------------------------------
 // Copyright 2012-2022 RenderHeads Ltd.  All rights reserved.
@@ -17,9 +15,15 @@ namespace RenderHeads.Media.AVProMovieCapture
 	[AddComponentMenu("AVPro Movie Capture/Audio/Capture Audio (From AudioClip)", 500)]
 	public class CaptureAudioFromAudioClip : MonoBehaviour
 	{
-		[SerializeField] CaptureBase _capture = null;
-		[SerializeField] AudioClip _audioClip = null;
+		[SerializeField]
+		CaptureBase _capture = null;
+		
+		[SerializeField]
+		AudioClip _audioClip = null;
+		
 		//[SerializeField] bool _loopAudio = false;
+		[SerializeField]
+		bool _restartAudioClipOnCaptureStart = false;
 
 		private int _videoOffsetInSamples = 0;
 		private int _committedFrames = 0;
@@ -28,20 +32,59 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 		private float[] _frameBuffer = null;
 
+		void Reset()
+		{
+			_videoOffsetInSamples = 0;
+			_committedFrames = 0;
+			_committedSamples = 0;
+			_lastCommittedSample = -1;
+		}
+
+		void OnCaptureStart()
+		{
+			if (_restartAudioClipOnCaptureStart)
+				Reset();
+		}
+
 		void OnEnable()
 		{
-			_lastCommittedSample = -1;
-			if (_audioClip && _capture)
+			if (_capture == null)
 			{
-				if (_audioClip.frequency != _capture.ManualAudioSampleRate)
+				Debug.LogWarning("CaptureAudioFromAudioClip - no capture component set, will try and get one from the attached game object...");
+				if (!gameObject.TryGetComponent<CaptureBase>(out _capture))
 				{
-					Debug.LogError(string.Format("[AVProMovieCapture] AudioClip audio frequency {0} doesn't match the encoding frequency {1}", _audioClip.frequency, _capture.ManualAudioSampleRate));
-				}
-				if (_audioClip.channels != _capture.ManualAudioChannelCount)
-				{
-					Debug.LogError(string.Format("[AVProMovieCapture] AudioClip audio channelCount {0} doesn't match the encoding channelCount {1}", _audioClip.channels, _capture.ManualAudioChannelCount));
+					Debug.LogError("CaptureAudioFromAudioClip - Failed to find capture component, disabling component");
+					enabled = false;
+					return;
 				}
 			}
+
+			if (_audioClip == null)
+			{
+				Debug.LogError("CaptureAudioFromAudioClip - audio clip has not been set, disabling component");
+				enabled = false;
+				return;
+			}
+
+			if (_audioClip.samples == 0)
+			{
+				Debug.LogError("CaptureAudioFromAudioClip - zero length audio clip, disabling component");
+				enabled = false;
+				return;
+			}
+
+			if (_audioClip.frequency != _capture.ManualAudioSampleRate)
+			{
+				_capture.ManualAudioSampleRate = _audioClip.frequency;
+			}
+
+			if (_audioClip.channels != _capture.ManualAudioChannelCount)
+			{
+				_capture.ManualAudioChannelCount = _audioClip.channels;
+			}
+
+			_capture.OnCaptureStart.AddListener(OnCaptureStart);
+			_lastCommittedSample = -1;
 		}
 
 		void Update()
@@ -60,49 +103,46 @@ namespace RenderHeads.Media.AVProMovieCapture
 		private float[] GetAudioSamplesForFrame()
 		{
 			float[] result = null;
-			if (_audioClip != null && _audioClip.samples > 0)
+			int sampleCommitSize = (int)(_capture.ManualAudioSampleRate / _capture.FrameRate);
+			float videoRenderTime = (float)_committedFrames / _capture.FrameRate;
+			float videoTimeInSamples = videoRenderTime * (float)_audioClip.frequency;
+
+			if (_lastCommittedSample < videoTimeInSamples && videoTimeInSamples >= 0)
 			{
-				int sampleCommitSize = (int)(_capture.ManualAudioSampleRate / _capture.FrameRate);
-				float videoRenderTime = (float)_committedFrames / _capture.FrameRate;
-				float videoTimeInSamples = videoRenderTime * (float)_audioClip.frequency;
+				int startSampleIndex = (_lastCommittedSample + 1) - _videoOffsetInSamples;
+				int endSampleIndex = startSampleIndex + sampleCommitSize - 1;
 
-				if (_lastCommittedSample < videoTimeInSamples && videoTimeInSamples >= 0)
+				int requiredSamples = _audioClip.channels * sampleCommitSize;
+				if (_lastCommittedSample < _audioClip.samples - 1)
 				{
-					int startSampleIndex = (_lastCommittedSample + 1) - _videoOffsetInSamples;
-					int endSampleIndex = startSampleIndex + sampleCommitSize - 1;
-
-					int requiredSamples = (_audioClip.channels * sampleCommitSize);
-					if (_lastCommittedSample < _audioClip.samples - 1)
+					if (endSampleIndex >= _audioClip.samples)
 					{
-						if (endSampleIndex >= _audioClip.samples)
-						{
-							// We've reached the end of the clip samples, so just grab what remains
-							requiredSamples = (_audioClip.channels * (_audioClip.samples - startSampleIndex));
-						}
-
-						// Allocate buffer if needed
-						if (_frameBuffer == null || _frameBuffer.Length != requiredSamples)
-						{
-							_frameBuffer = new float[requiredSamples];
-						}
-
-						_audioClip.GetData(_frameBuffer, startSampleIndex);
-
-						_committedSamples++;
-						_lastCommittedSample = (_committedSamples * sampleCommitSize) - 1;
+						// We've reached the end of the clip samples, so just grab what remains
+						requiredSamples = (_audioClip.channels * (_audioClip.samples - startSampleIndex));
 					}
-					else
+
+					// Allocate buffer if needed
+					if (_frameBuffer == null || _frameBuffer.Length != requiredSamples)
 					{
-						// We've reached the end of the audio clip, so just create empty audio data
-						requiredSamples = (_audioClip.channels * sampleCommitSize);
-						// Allocate buffer if needed
-						if (_frameBuffer == null || _frameBuffer.Length != requiredSamples)
-						{
-							_frameBuffer = new float[requiredSamples];
-						}
+						_frameBuffer = new float[requiredSamples];
 					}
-					result = _frameBuffer;
+
+					_audioClip.GetData(_frameBuffer, startSampleIndex);
+
+					_committedSamples += 1;
+					_lastCommittedSample = (_committedSamples * sampleCommitSize) - 1;
 				}
+				else
+				{
+					// We've reached the end of the audio clip, so just create empty audio data
+					requiredSamples = (_audioClip.channels * sampleCommitSize);
+					// Allocate buffer if needed
+					if (_frameBuffer == null || _frameBuffer.Length != requiredSamples)
+					{
+						_frameBuffer = new float[requiredSamples];
+					}
+				}
+				result = _frameBuffer;
 			}
 			return result;
 		}

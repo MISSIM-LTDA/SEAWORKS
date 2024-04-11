@@ -117,10 +117,9 @@ public class SubmergedEffect : MonoBehaviour
 		{
 			WaterParticles.GetComponent<ParticleSystem>().Play ();
 		}
-        ROV.GetComponent<Rigidbody>().useGravity = false;
-        ROV.GetComponent<FlyingDroneScript>().enabled = true;
-        ROV.transform.parent = null;
-
+		//ROV.GetComponent<Rigidbody>().useGravity = false;
+  //      ROV.GetComponent<FlyingDroneScript>().enabled = true;
+  //      ROV.transform.parent = null;
     }
     // Toggle flares on or off depending on whether we are underwater or not
 	void ToggleFlares (bool state) 

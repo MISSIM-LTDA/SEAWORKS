@@ -2223,11 +2223,15 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 
 				if (_cameraNode != null)
 				{
+#if UNITY_2022_2_OR_NEWER
+					if (_cameraNode.actualRenderingPath == RenderingPath.DeferredShading)
+#else
 					if (_cameraNode.actualRenderingPath == RenderingPath.DeferredLighting
-#if AVPRO_MOVIECAPTURE_DEFERREDSHADING
+	#if AVPRO_MOVIECAPTURE_DEFERREDSHADING
 					|| _cameraNode.actualRenderingPath == RenderingPath.DeferredShading
-#endif
+	#endif
 					)
+#endif
 					{
 						GUI.color = Color.yellow;
 						GUILayout.TextArea("Warning: Antialiasing by MSAA is not supported as camera is using deferred rendering path");

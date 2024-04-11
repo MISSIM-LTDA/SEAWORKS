@@ -2,15 +2,13 @@
 %TAG !u! tag:unity3d.com,2011:
 --- !u!21 &2100000
 Material:
-  serializedVersion: 8
+  serializedVersion: 6
   m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
   m_Name: Caustics
   m_Shader: {fileID: 4800000, guid: bcad061db36e53a42b1456ea2e549ecd, type: 3}
-  m_ValidKeywords: []
-  m_InvalidKeywords: []
+  m_ShaderKeywords: 
   m_LightmapFlags: 5
   m_EnableInstancingVariants: 0
   m_DoubleSidedGI: 0
@@ -41,10 +39,9 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _ShadowTex:
-        m_Texture: {fileID: 2800000, guid: bfd0c1687c177be42b880b81f8aeb076, type: 3}
+        m_Texture: {fileID: 2800000, guid: a96b483295b238440972900aa7693b8d, type: 3}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
-    m_Ints: []
     m_Floats: []
     m_Colors:
     - BumpMapScale: {r: 1, g: 1, b: 1, a: 1}
@@ -62,7 +59,6 @@ Material:
     - _Projector_2: {r: -0.107604526, g: -0.18029094, b: 1.0079052, a: 1.9464619}
     - _Projector_3: {r: -0.10451689, g: -0.17511761, b: 0.9789842, a: 2.0877385}
     - _TintColor: {r: 0.5, g: 0.5, b: 0.5, a: 0.5}
-  m_BuildTextureStacks: []
 --- !u!1002 &2100001
 EditorExtensionImpl:
   serializedVersion: 6

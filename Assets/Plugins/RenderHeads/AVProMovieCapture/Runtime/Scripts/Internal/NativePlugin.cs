@@ -15,11 +15,11 @@ namespace RenderHeads.Media.AVProMovieCapture
 {
 	public partial class NativePlugin
 	{
-		public const string ScriptVersion = "5.1.8";
+		public const string ScriptVersion = "5.2.0";
 #if UNITY_EDITOR_OSX || (!UNITY_EDITOR && (UNITY_STANDALONE_OSX || UNITY_IOS))
-		public const string ExpectedPluginVersion = "5.1.8";
+		public const string ExpectedPluginVersion = "5.2.0";
 #elif UNITY_ANDROID && !UNITY_EDITOR
-		public const string ExpectedPluginVersion = "5.1.8";
+		public const string ExpectedPluginVersion = "5.2.0";
 #else
 		public const string ExpectedPluginVersion = "5.1.6";
 #endif
@@ -116,6 +116,29 @@ namespace RenderHeads.Media.AVProMovieCapture
 	{
 		Limited,
 		Full
+	}
+
+	/// <summary>
+	/// Options for controlling the presentation timestamp for each frame when capturing in real time.
+	/// </summary>
+	public enum RealtimeFramePresentationTimestampOptions : int
+	{
+		/// <summary>Uses the current time.</summary>
+		Realtime,
+		/// <summary>Uses a fixed time step based on the requested frame rate.</summary>
+		/// <remarks>The captured file will be at the framerate requested and not the actual capture rate.</remarks>
+		Fixed,
+		/// <summary>Uses the nearest fixed time step (based on the requested frame rate) to the current time.</summary>
+		/// <remarks>Frames may be dropped to satisfy this timing requirement</remarks>
+		Nearest,
+	}
+
+	public enum OrientationMetadata : int
+	{
+		None,
+		Rotate90,
+		Rotate180,
+		Rotate270,
 	}
 
 	public partial class NativePlugin
@@ -358,9 +381,9 @@ namespace RenderHeads.Media.AVProMovieCapture
 		public enum MicrophoneRecordingOptions: int
 		{
 			None             = 0,
-			MixWithOthers    = 1,
-			DefaultToSpeaker = 2,
-			AllowBluetooth   = 4,
+			MixWithOthers    = 1 << 0,
+			DefaultToSpeaker = 1 << 1,
+			AllowBluetooth   = 1 << 2,
 		}
 
 		[DllImport(PluginName, EntryPoint="AVPMC_SetMicrophoneRecordingHint")]

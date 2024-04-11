@@ -42,18 +42,18 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 				
 				PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, out string[] definesArray);
 				List<string> defines = new List<string>(definesArray);
+
 				if (PlayerSettings.vulkanEnablePreTransform == true && !defines.Contains(AVPMC_ANDROID_VULKAN_PRETRANSFORM))
 				{
 					Debug.Log("Adding AVPMC_ANDROID_VULKAN_PRETRANSFORM");
 					defines.Add(AVPMC_ANDROID_VULKAN_PRETRANSFORM);
-					PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, defines.ToArray());
 				}
 				else if (PlayerSettings.vulkanEnablePreTransform == false && defines.Contains(AVPMC_ANDROID_VULKAN_PRETRANSFORM))
 				{
 					Debug.Log("Removing AVPMC_ANDROID_VULKAN_PRETRANSFORM");
 					defines.Remove(AVPMC_ANDROID_VULKAN_PRETRANSFORM);
-					PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, defines.ToArray());
 				}
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.Android, defines.ToArray());
 #endif
 			}
 			else
@@ -83,6 +83,24 @@ namespace RenderHeads.Media.AVProMovieCapture.Editor
 					message += "\n\nPlease go to Player Settings > Auto Graphics API and add Metal to the top of the list.";
 					ShowAbortDialog(message);
 				}
+
+				const string AVPMC_MICROPHONE_RECORDING_HINT_MIX_WITH_OTHERS = "AVPMC_MICROPHONE_RECORDING_HINT_MIX_WITH_OTHERS";
+#if UNITY_2021_2_OR_NEWER
+				PlayerSettings.GetScriptingDefineSymbols(NamedBuildTarget.iOS, out string[] definesArray);
+#else
+				string[] definesArray = PlayerSettings.GetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS).Split(';');
+#endif
+				List<string> defines = new List<string>(definesArray);
+				if (PlayerSettings.muteOtherAudioSources)
+					defines.Remove(AVPMC_MICROPHONE_RECORDING_HINT_MIX_WITH_OTHERS);
+				else
+					defines.Add(AVPMC_MICROPHONE_RECORDING_HINT_MIX_WITH_OTHERS);
+
+#if UNITY_2021_2_OR_NEWER
+				PlayerSettings.SetScriptingDefineSymbols(NamedBuildTarget.iOS, defines.ToArray());
+#else
+				PlayerSettings.SetScriptingDefineSymbolsForGroup(BuildTargetGroup.iOS, System.String.Join(";", defines));
+#endif
 			}
 		}
 

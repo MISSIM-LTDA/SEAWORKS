@@ -21,12 +21,9 @@ public class T4FORCE1 : MonoBehaviour
     public GameObject Yaw;
 
     public float m_Thrust = 2000f;
-    public float m_Torque;
-    
     public Rigidbody ROV;
 
     public ForceMode T4_ForceMode;
-    public ForceMode Rotate_ForceMode;
 
     //public KeyCode SetaUp;
     //public KeyCode SetaDown;
@@ -34,12 +31,9 @@ public class T4FORCE1 : MonoBehaviour
     //public KeyCode SetaLeft;
 
     public KeyCode UpDown;
-    public KeyCode Rotate;
 
     //public KeyCode SpeedChanger;
 
-    public bool Shoulder_movement;
-    public bool Lock_Shoulder_movement;
     public bool Draw_Target;
 
     private void Start()
@@ -60,35 +54,17 @@ public class T4FORCE1 : MonoBehaviour
     }
     void ApplyMovements()
     {
-        Vector3 TargetMovement;
+        Vector3 TargetMovement = Vector3.zero;
         Vector3 ShoulderTargetMovement = Vector3.zero;
 
         if (Input.GetAxis("T4UD") >= 0.8 && !Input.GetKey(UpDown))
         {
-            TargetMovement = new Vector3(0, 0, m_Thrust);
+            TargetMovement = new Vector3(0,0,m_Thrust);
         }
         else if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(UpDown))
         {
             TargetMovement = new Vector3(0, 0, -m_Thrust);
-            ShoulderTargetMovement = new Vector3(0, m_Thrust, 0) / 2;
-        }
-        else if (Input.GetAxis("T4S") >= 0.8 && Input.GetKey(Rotate))
-        {
-            T4.GetComponent<FixedJoint>().connectedBody = Base_rig;
-            T4.GetComponent<ConfigurableJoint>().connectedBody = Base_rig;
-            Vector3 Torque = new Vector3(0, 0, -m_Torque) * Time.fixedDeltaTime;
-            // Destroy(Base.GetComponent<FixedJoint>());
-            Base_rig.AddRelativeTorque(Torque, Rotate_ForceMode);
-            return;
-        }
-        else if (Input.GetAxis("T4S") <= -0.8 && Input.GetKey(Rotate))
-        {
-            T4.GetComponent<FixedJoint>().connectedBody = Base_rig;
-            T4.GetComponent<ConfigurableJoint>().connectedBody = Base_rig;
-            Vector3 Torque = new Vector3(0, 0, m_Torque) * Time.fixedDeltaTime;
-            //Destroy(Base.GetComponent<FixedJoint>());
-            Base_rig.AddRelativeTorque(Torque, Rotate_ForceMode);
-            return;
+            ShoulderTargetMovement = new Vector3(0, m_Thrust, 0);
         }
         else if (Input.GetAxis("T4S") >= 0.8)
         {
@@ -108,28 +84,20 @@ public class T4FORCE1 : MonoBehaviour
         }
         else
         {
-            if (T4.GetComponent<FixedJoint>() == null)
-            {
-                Jointify(T4, ROV);
-            }
-            else
-            {
-                T4.GetComponent<FixedJoint>().connectedBody = ROV;
-            }
+            Jointify(T4, ROV);
             Jointify(Shoulder, Base_rig);
             return;
         }
 
         Destroy(T4.GetComponent<FixedJoint>());
         Destroy(Yaw.GetComponent<FixedJoint>());
+        Destroy(Shoulder.GetComponent<FixedJoint>());
         Destroy(Forearm.GetComponent<FixedJoint>());
-        if (TargetMovement.y == 0  && !Lock_Shoulder_movement)
-            Destroy(Shoulder.GetComponent<FixedJoint>());
 
         Vector3 Force = TargetMovement * Time.fixedDeltaTime;
         T4_rig.AddRelativeForce(Force, T4_ForceMode);
 
-        if (Shoulder_movement)
+        if (ShoulderTargetMovement != Vector3.zero)
         {
             Force = ShoulderTargetMovement * Time.fixedDeltaTime;
             ShoulderTarget_rig.AddForce(Force, T4_ForceMode);

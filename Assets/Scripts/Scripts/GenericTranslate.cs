@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class GenericTranslate : MonoBehaviour {
 
+    public GameObject ObjectMove;
     float RotAngle;
     float RotAngle2;
     public float RotAngle3 = 0;
@@ -42,7 +43,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 < limitMax)
                 {
-                    transform.Translate(speed, 0, 0);
+                    ObjectMove.transform.Translate(speed, 0, 0);
                 }
 
                 if (RotAngle3 >= limitMax)
@@ -63,7 +64,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 > LimitMin)
                 {
-                    transform.Translate(-speed, 0, 0);
+                    ObjectMove.transform.Translate(-speed, 0, 0);
                 }
 
                 if (RotAngle3 < LimitMin)
@@ -87,7 +88,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 < limitMax)
                 {
-                    transform.Translate(0, speed, 0);
+                    ObjectMove.transform.Translate(0, speed, 0);
                 }
 
                 if (RotAngle3 >= limitMax)
@@ -108,7 +109,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 > LimitMin)
                 {
-                    transform.Translate(0, -speed, 0);
+                    ObjectMove.transform.Translate(0, -speed, 0);
                 }
 
                 if (RotAngle3 < LimitMin)
@@ -135,7 +136,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 < limitMax)
                 {
-                    transform.Translate(0, 0, speed);
+                    ObjectMove.transform.Translate(0, 0, speed);
                 }
 
                 if (RotAngle3 >= limitMax)
@@ -156,7 +157,7 @@ public class GenericTranslate : MonoBehaviour {
 
                 if (RotAngle3 > LimitMin)
                 {
-                    transform.Translate(0, 0, -speed);
+                    ObjectMove.transform.Translate(0, 0, -speed);
                 }
 
                 if (RotAngle3 < LimitMin)
