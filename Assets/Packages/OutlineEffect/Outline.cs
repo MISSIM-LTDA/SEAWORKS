@@ -81,6 +81,4 @@ using System.Collections.Generic;
     {
         eraseRenderer = true;
     }
-
-
 }

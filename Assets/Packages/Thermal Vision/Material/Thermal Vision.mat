@@ -35,7 +35,7 @@ Material:
     m_Ints: []
     m_Floats:
     - _Amplitude: 0.8
-    - _BlurAmount: 0.5
+    - _BlurAmount: 0.51
     - _DepthModulator: 0.559
     - _Gap: 0.1
     - _HotLight: 0.3
@@ -47,7 +47,7 @@ Material:
     m_Colors:
     - _Center: {r: 0.651751, g: 0.625969, b: 0, a: 0}
     - _Color: {r: 1, g: 1, b: 1, a: 1}
-    - _Dimensions: {r: 0.6, g: 0.6, b: 0, a: 0}
+    - _Dimensions: {r: 1, g: 1, b: 0, a: 0}
     - _RandomFractions: {r: 0.78637993, g: 0.74210846, b: 0, a: 0}
-    - _Rnd: {r: 0.9239093, g: 0.50849277, b: 0, a: 0}
+    - _Rnd: {r: 0.45278746, g: 0.80882394, b: 0, a: 0}
   m_BuildTextureStacks: []

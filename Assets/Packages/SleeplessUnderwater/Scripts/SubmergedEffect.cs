@@ -2,8 +2,6 @@
 public class SubmergedEffect : MonoBehaviour 
 {
 	public GameObject waterBody;
-    public GameObject ROV;
-    public GameObject GA;
     public GameObject waterBodyUnder;
     public Color underWaterColor;
 	public float underWaterVisiblity;
@@ -11,39 +9,27 @@ public class SubmergedEffect : MonoBehaviour
 	public Color aboveWaterColor;
 	public float aboveWaterVisiblity;
 	public GameObject WaterParticles;
-	private GameObject Player;
 	public Projector Caustics;
 	public bool checkedIfAboveWater;
 	public float waterHeight;
     private AudioSource m_AudioSource;
     private AudioSource m_JumpInWaterAudioSource;
     private AudioSource m_JumpOutOfWaterAudioSource;
-    
-
-
     void Start () 
 	{
 	    ParticleSystem.EmissionModule waterParticles_emission; // Locate and cache the underwater particles effect and enable it
         waterParticles_emission = WaterParticles.GetComponent<ParticleSystem>().emission;
         waterParticles_emission.enabled = true;
-        ROV = GameObject.FindGameObjectWithTag("ROV1");
-        GA = GameObject.FindGameObjectWithTag("gaiola");
 
-        //underWaterColor = new Color(32.0f/255.0F,116.0f/255.0F,166.0f/255.0F,255.0f/255.0F); // Set the color for underwater fog
-		Player = GameObject.FindGameObjectWithTag("Player"); // Cache the player
 		Caustics.enabled = false; // Initially turn off the caustics effect as we start above water
-		//checkedIfAboveWater = false;
-		//underWaterVisiblity = 0.05f; // Set the Underwater Visibility - can be adjusted publicly
-        // Cache the audiosources for underwater, splash in and splash out of water
+
 		m_AudioSource = waterBodyUnder.GetComponent<AudioSource>();
 		m_JumpInWaterAudioSource = GameObject.FindGameObjectWithTag("JumpInWater").GetComponent<AudioSource> ();
 		m_JumpOutOfWaterAudioSource = GameObject.FindGameObjectWithTag("JumpOutOfWater").GetComponent<AudioSource> ();
-		//Camera.main.nearClipPlane = 0.1f;
 		waterHeight = waterBody.transform.position.y; // This is critical! It is the height of the water plane to determine we are underwater or not
         
         AssignAboveWaterSettings (); // Initially set above water settings
 	}
-	// Update is called once per frame
 	void Update () 
 	{
         // the checkedifAboveWater stops it forcing it over and over every frame if we already know where we are
@@ -70,10 +56,6 @@ public class SubmergedEffect : MonoBehaviour
 		aboveWaterFogMode = RenderSettings.fog;
 		aboveWaterColor = RenderSettings.fogColor;
 		aboveWaterVisiblity = RenderSettings.fogDensity;
-        
-
-
-
     }
     // Apply Abovewater default settings - enabling the above water view and effects
     void ApplyAboveWaterSettings () 
@@ -82,7 +64,6 @@ public class SubmergedEffect : MonoBehaviour
         waterBodyUnder.SetActive(false);        
         StopUnderWaterSound();
 		PlayExitSplashSound();
-		Player.SendMessage("aboveWater");
 		if(WaterParticles.GetComponent<ParticleSystem>().isPlaying)
 		{
 			WaterParticles.GetComponent<ParticleSystem>().Stop ();
@@ -92,18 +73,10 @@ public class SubmergedEffect : MonoBehaviour
 		RenderSettings.fogColor = aboveWaterColor;
 		RenderSettings.fogDensity = aboveWaterVisiblity;
         Caustics.enabled = false;
-        ROV.GetComponent<Rigidbody>().useGravity = true;
-        ROV.GetComponent<FlyingDroneScript>().enabled = false;
-        ROV.transform.parent = GA.transform;
-
-
-
     }
-
     // Apply Underwater default settings - enabling the under water view and effects
     void ApplyUnderWaterSettings () 
 	{
-        
         waterBody.SetActive(false);
         waterBodyUnder.SetActive(false);        
         PlayEnterSplashSound();
@@ -112,15 +85,10 @@ public class SubmergedEffect : MonoBehaviour
 		RenderSettings.fogColor = underWaterColor;
 		RenderSettings.fogDensity = underWaterVisiblity;
         Caustics.enabled = true;
-		Player.SendMessage("underWater");
 		if(!WaterParticles.GetComponent<ParticleSystem>().isPlaying)
 		{
 			WaterParticles.GetComponent<ParticleSystem>().Play ();
 		}
-        ROV.GetComponent<Rigidbody>().useGravity = false;
-        ROV.GetComponent<FlyingDroneScript>().enabled = true;
-        ROV.transform.parent = null;
-
     }
     // Toggle flares on or off depending on whether we are underwater or not
 	void ToggleFlares (bool state) 
