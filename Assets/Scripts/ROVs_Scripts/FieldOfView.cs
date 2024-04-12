@@ -72,9 +72,7 @@ public class FieldOfView : MonoBehaviour {
 						viewPoints.Add (edge.pointB);
 					}
 				}
-
 			}
-
 
 			viewPoints.Add (newViewCast.point);
 			oldViewCast = newViewCast;

@@ -49,5 +49,5 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _Dimensions: {r: 1, g: 1, b: 0, a: 0}
     - _RandomFractions: {r: 0.78637993, g: 0.74210846, b: 0, a: 0}
-    - _Rnd: {r: 0.45278746, g: 0.80882394, b: 0, a: 0}
+    - _Rnd: {r: 0.21903574, g: 0.75101745, b: 0, a: 0}
   m_BuildTextureStacks: []

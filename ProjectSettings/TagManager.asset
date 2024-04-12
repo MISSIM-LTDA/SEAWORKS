@@ -21,11 +21,12 @@ TagManager:
   - RightClaw
   - LeftClaw
   - SonarCamera
+  - SmartTrackConsole
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
   - 
