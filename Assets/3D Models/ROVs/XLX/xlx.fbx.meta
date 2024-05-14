@@ -43478,7 +43478,7 @@ ModelImporter:
     second: 105143_ROV.2445
   externalObjects: {}
   materials:
-    materialImportMode: 2
+    materialImportMode: 1
     materialName: 0
     materialSearch: 0
     materialLocation: 0

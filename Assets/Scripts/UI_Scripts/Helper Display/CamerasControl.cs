@@ -4,12 +4,12 @@ using UnityEngine.UI;
 public class CamerasControl : MonoBehaviour
 {
     [SerializeField] private GameObject[] cameras;
-    private GameObject actualCamera;
+    public GameObject actualCamera;
 
     private Toggle[] camerasToggles;
     private Toggle[] auxCamerasToggles;
 
-    private GameObject auxCamera;
+    public GameObject auxCamera;
     private RenderTexture auxCameraRenderTexture;
     private void Start()
     {
