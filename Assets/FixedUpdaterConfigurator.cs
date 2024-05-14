@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ObiFixedUpdater))]
-public class FixedUpdaterConfigure : MonoBehaviour
+public class FixedUpdaterConfigurator : MonoBehaviour
 {
     public void FixScene() 
     {

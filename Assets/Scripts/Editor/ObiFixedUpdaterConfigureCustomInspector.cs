@@ -1,14 +1,14 @@
 using UnityEngine;
 using UnityEditor;
 
-[CustomEditor(typeof(FixedUpdaterConfigure))]
+[CustomEditor(typeof(FixedUpdaterConfigurator))]
 public class ObiFixedUpdaterConfigureCustomInspector : Editor
 {
     public override void OnInspectorGUI()
     {
         DrawDefaultInspector();
 
-        FixedUpdaterConfigure fixedUpdaterConfigure = (FixedUpdaterConfigure)target;
+        FixedUpdaterConfigurator fixedUpdaterConfigure = (FixedUpdaterConfigurator)target;
 
         if (GUILayout.Button("FixScene"))
         {
