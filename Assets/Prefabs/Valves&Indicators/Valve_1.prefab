@@ -129,7 +129,7 @@ GameObject:
   - component: {fileID: 1810482305696009970}
   m_Layer: 0
   m_Name: Indicador
-  m_TagString: Interectable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -183,7 +183,7 @@ GameObject:
   - component: {fileID: 1810482306203759268}
   m_Layer: 0
   m_Name: Indicador
-  m_TagString: Interectable
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -343,10 +343,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 54620ca76cd94784580743730a3da52e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  indicator: {fileID: 0}
-  mesh: {fileID: 0}
+  Indicador: {fileID: 1810482305696009964}
+  Mesh1: {fileID: 1810482305518923299}
   Play: 338
   A: 1
   B: 0
   C: 0
-  checkIn: 0
+  CheckIn: 0
