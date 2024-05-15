@@ -14,10 +14,7 @@ namespace SimpleFileBrowser
 			callbackHelper = new GameObject( "FBCallbackHelper" ).AddComponent<FBCallbackHelper>();
 		}
 
-<<<<<<< HEAD
-=======
 		[UnityEngine.Scripting.Preserve]
->>>>>>> Marco
 		public void OnDirectoryPicked( string rawUri, string name )
 		{
 			callbackHelper.CallOnMainThread( () => DirectoryPickedCallback( rawUri, name ) );

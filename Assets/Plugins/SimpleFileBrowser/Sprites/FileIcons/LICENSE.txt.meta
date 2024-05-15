@@ -1,13 +1,8 @@
 fileFormatVersion: 2
-<<<<<<<< HEAD:Assets/MeshBaker/MeshBakerWorkingFolder/DONT_DELETE.txt.meta
-guid: 4bdd3f9a90a7923428f5dedc4d223593
-========
 guid: 99791c82b2c040241ae29b4408c8e02f
 timeCreated: 1563308858
 licenseType: Store
->>>>>>>> Marco:Assets/Plugins/SimpleFileBrowser/Sprites/FileIcons/LICENSE.txt.meta
 TextScriptImporter:
-  externalObjects: {}
   userData: 
   assetBundleName: 
   assetBundleVariant: 

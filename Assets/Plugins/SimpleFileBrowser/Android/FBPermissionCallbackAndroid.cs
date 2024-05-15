@@ -15,10 +15,7 @@ namespace SimpleFileBrowser
 			this.threadLock = threadLock;
 		}
 
-<<<<<<< HEAD
-=======
 		[UnityEngine.Scripting.Preserve]
->>>>>>> Marco
 		public void OnPermissionResult( int result )
 		{
 			Result = result;

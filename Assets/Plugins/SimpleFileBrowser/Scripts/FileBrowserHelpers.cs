@@ -239,16 +239,6 @@ namespace SimpleFileBrowser
 
 			try
 			{
-<<<<<<< HEAD
-				FileSystemInfo[] items = new DirectoryInfo( path ).GetFileSystemInfos();
-				FileSystemEntry[] result = new FileSystemEntry[items.Length];
-				int index = 0;
-				for( int i = 0; i < items.Length; i++ )
-				{
-					try
-					{
-						result[index] = new FileSystemEntry( items[i], FileBrowser.GetExtensionFromFilename( items[i].Name, extractOnlyLastSuffixFromExtensions ) );
-=======
 				string[] files = Directory.GetFiles( path );
 				string[] subDirectories = Directory.GetDirectories( path );
 				FileSystemEntry[] result = new FileSystemEntry[files.Length + subDirectories.Length];
@@ -272,7 +262,6 @@ namespace SimpleFileBrowser
 					try
 					{
 						result[index] = new FileSystemEntry( new DirectoryInfo( subDirectories[i] ), string.Empty );
->>>>>>> Marco
 						index++;
 					}
 					catch( System.Exception e )
