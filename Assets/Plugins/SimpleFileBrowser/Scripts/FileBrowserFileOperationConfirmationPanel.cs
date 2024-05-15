@@ -36,10 +36,17 @@ namespace SimpleFileBrowser
 		private Text targetItemsRestLabel;
 
 		[SerializeField]
+<<<<<<< HEAD
 		private RectTransform yesButtonTransform;
 
 		[SerializeField]
 		private RectTransform noButtonTransform;
+=======
+		private Button yesButton;
+
+		[SerializeField]
+		private Button noButton;
+>>>>>>> Marco
 
 		[SerializeField]
 		private float narrowScreenWidth = 380f;
@@ -47,6 +54,15 @@ namespace SimpleFileBrowser
 
 		private OnOperationConfirmed onOperationConfirmed;
 
+<<<<<<< HEAD
+=======
+		private void Awake()
+		{
+			yesButton.onClick.AddListener( OnYesButtonClicked );
+			noButton.onClick.AddListener( OnNoButtonClicked );
+		}
+
+>>>>>>> Marco
 		internal void Show( FileBrowser fileBrowser, List<FileSystemEntry> items, OperationType operationType, OnOperationConfirmed onOperationConfirmed )
 		{
 			Show( fileBrowser, items, null, operationType, onOperationConfirmed );
@@ -87,6 +103,7 @@ namespace SimpleFileBrowser
 		{
 			if( size.x >= narrowScreenWidth )
 			{
+<<<<<<< HEAD
 				yesButtonTransform.anchorMin = new Vector2( 0.5f, 0f );
 				yesButtonTransform.anchorMax = new Vector2( 0.75f, 1f );
 				noButtonTransform.anchorMin = new Vector2( 0.75f, 0f );
@@ -96,6 +113,17 @@ namespace SimpleFileBrowser
 				yesButtonTransform.anchorMin = Vector2.zero;
 				yesButtonTransform.anchorMax = new Vector2( 0.5f, 1f );
 				noButtonTransform.anchorMin = new Vector2( 0.5f, 0f );
+=======
+				( yesButton.transform as RectTransform ).anchorMin = new Vector2( 0.5f, 0f );
+				( yesButton.transform as RectTransform ).anchorMax = new Vector2( 0.75f, 1f );
+				( noButton.transform as RectTransform ).anchorMin = new Vector2( 0.75f, 0f );
+			}
+			else
+			{
+				( yesButton.transform as RectTransform ).anchorMin = Vector2.zero;
+				( yesButton.transform as RectTransform ).anchorMax = new Vector2( 0.5f, 1f );
+				( noButton.transform as RectTransform ).anchorMin = new Vector2( 0.5f, 0f );
+>>>>>>> Marco
 			}
 		}
 
@@ -112,14 +140,22 @@ namespace SimpleFileBrowser
 #else
 				if( Input.GetKeyDown( KeyCode.Return ) || Input.GetKeyDown( KeyCode.KeypadEnter ) )
 #endif
+<<<<<<< HEAD
 					YesButtonClicked();
+=======
+					OnYesButtonClicked();
+>>>>>>> Marco
 
 #if ENABLE_INPUT_SYSTEM && !ENABLE_LEGACY_INPUT_MANAGER
 				if( Keyboard.current[Key.Escape].wasPressedThisFrame )
 #else
 				if( Input.GetKeyDown( KeyCode.Escape ) )
 #endif
+<<<<<<< HEAD
 					NoButtonClicked();
+=======
+					OnNoButtonClicked();
+>>>>>>> Marco
 			}
 		}
 #endif
@@ -133,11 +169,19 @@ namespace SimpleFileBrowser
 			background.color = skin.PopupPanelsBackgroundColor;
 			background.sprite = skin.PopupPanelsBackground;
 
+<<<<<<< HEAD
 			RectTransform buttonsParent = (RectTransform) yesButtonTransform.parent;
 			buttonsParent.sizeDelta = new Vector2( buttonsParent.sizeDelta.x, skin.RowHeight );
 
 			skin.ApplyTo( yesButtonTransform.GetComponent<Button>() );
 			skin.ApplyTo( noButtonTransform.GetComponent<Button>() );
+=======
+			RectTransform buttonsParent = yesButton.transform.parent as RectTransform;
+			buttonsParent.sizeDelta = new Vector2( buttonsParent.sizeDelta.x, skin.RowHeight );
+
+			skin.ApplyTo( yesButton );
+			skin.ApplyTo( noButton );
+>>>>>>> Marco
 
 			for( int i = 0; i < titleLabels.Length; i++ )
 				skin.ApplyTo( titleLabels[i], skin.PopupPanelsTextColor );
@@ -151,7 +195,11 @@ namespace SimpleFileBrowser
 				targetItems[i].GetComponent<LayoutElement>().preferredHeight = skin.FileHeight;
 		}
 
+<<<<<<< HEAD
 		public void YesButtonClicked()
+=======
+		private void OnYesButtonClicked()
+>>>>>>> Marco
 		{
 			gameObject.SetActive( false );
 
@@ -159,7 +207,11 @@ namespace SimpleFileBrowser
 				onOperationConfirmed();
 		}
 
+<<<<<<< HEAD
 		public void NoButtonClicked()
+=======
+		private void OnNoButtonClicked()
+>>>>>>> Marco
 		{
 			gameObject.SetActive( false );
 			onOperationConfirmed = null;

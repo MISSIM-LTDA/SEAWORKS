@@ -1,5 +1,15 @@
 fileFormatVersion: 2
-guid: e88a409e8f1f98f4c9e450a746a5cc1f
+<<<<<<< HEAD
+guid: ad28f556bc9379e40a27308b9fd3c50b
 folderAsset: yes
 DefaultImporter:
   userData: 
+=======
+guid: e88a409e8f1f98f4c9e450a746a5cc1f
+folderAsset: yes
+DefaultImporter:
+  externalObjects: {}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+>>>>>>> Marco

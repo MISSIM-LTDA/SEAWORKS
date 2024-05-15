@@ -1,8 +1,14 @@
 fileFormatVersion: 2
 guid: be37f3e38d135f94e9d78c79ef89d303
 folderAsset: yes
+<<<<<<< HEAD
 DefaultImporter:
   externalObjects: {}
+=======
+timeCreated: 1479413886
+licenseType: Store
+DefaultImporter:
+>>>>>>> Marco
   userData: 
   assetBundleName: 
   assetBundleVariant: 

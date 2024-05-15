@@ -8,37 +8,25 @@ TagManager:
   - JumpOutOfWater
   - Terrain
   - Water
-  - Player2
   - fdDomeDroneTilting
   - ROV1
-  - gaiola
-  - Left1
-  - thrusterprop1
-  - pontatether
   - Jaw7
-  - Slider Console
-  - MainG
   - Jaw7finger
   - XLX
-  - CAM1
-  - CAM2
-  - CAM3
-  - CAM4
-  - CAM5
-  - CAM6
   - ROVComponents
-  - EFL_socket
   - EFL_Parent
-  - HFL_socket
   - HFL_Parent
+  - Surface
+  - LateralUIPanel
   - RightClaw
   - LeftClaw
-  - cubo
+  - SonarCamera
+  - SmartTrackConsole
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Terrain
   - Water
   - UI
   - 

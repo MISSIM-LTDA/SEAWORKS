@@ -79,7 +79,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				CreateGUI();
 			}
 		}
-
 		private void CreateGUI()
 		{
 			switch (_movieCapture.ResolutionDownScale)
@@ -143,7 +142,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 			_movieCapture.SelectAudioCodec();
 			_movieCapture.SelectAudioInputDevice();
 		}
-
 		private void OnGUI()
 		{
 			GUI.skin = _guiSkin;
@@ -176,7 +174,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				GUILayout.Window(4, new Rect(0f, y, 480f, 256f), MyWindow, "AVPro Movie Capture UI");
 			}
 		}
-
 		private void MyWindow(int id)
 		{
 			if (_movieCapture == null)
@@ -637,7 +634,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 			GL.sRGBWrite = sRGBWritePrev;
 		}
-
 		private void GUI_RecordingStatus()
 		{
 			GUILayout.Space(8.0f);
@@ -758,7 +754,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 			GUILayout.EndVertical();
 		}
-
 		private void DrawPauseResumeButtons()
 		{
 			GUILayout.BeginHorizontal();
@@ -794,7 +789,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 
 			GUILayout.EndHorizontal();
 		}
-
 		private void DrawGuiField(string a, string b)
 		{
 			GUILayout.BeginHorizontal();
@@ -803,7 +797,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 			GUILayout.Label(b);
 			GUILayout.EndHorizontal();
 		}
-
 		private void StartCapture()
 		{
 			_lastFileSize = 0;
@@ -817,7 +810,10 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_movieCapture.StartCapture();
 			}
 		}
+<<<<<<< HEAD
 
+=======
+>>>>>>> Marco
 		public void StopCapture()
 		{
 			if (_movieCapture != null)
@@ -825,7 +821,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_movieCapture.StopCapture();
 			}
 		}
-
 		private void CancelCapture()
 		{
 			if (_movieCapture != null)
@@ -833,7 +828,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_movieCapture.CancelCapture();
 			}
 		}
-
 		private void ResumeCapture()
 		{
 			if (_movieCapture != null)
@@ -841,7 +835,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_movieCapture.ResumeCapture();
 			}
 		}
-
 		private void PauseCapture()
 		{
 			if (_movieCapture != null)
@@ -849,7 +842,6 @@ namespace RenderHeads.Media.AVProMovieCapture
 				_movieCapture.PauseCapture();
 			}
 		}
-
 		private void Update()
 		{
 			if (Input.GetKeyDown("space"))

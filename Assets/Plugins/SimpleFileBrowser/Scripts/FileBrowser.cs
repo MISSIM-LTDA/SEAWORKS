@@ -502,9 +502,21 @@ namespace SimpleFileBrowser
 		private Toggle showHiddenFilesToggle;
 
 		[SerializeField]
+<<<<<<< HEAD
 		private Text submitButtonText;
 
 		[SerializeField]
+=======
+		private Button submitButton;
+
+		[SerializeField]
+		private Text submitButtonText;
+
+		[SerializeField]
+		private Button cancelButton;
+
+		[SerializeField]
+>>>>>>> Marco
 		private Button[] allButtons;
 
 		[SerializeField]
@@ -842,8 +854,23 @@ namespace SimpleFileBrowser
 			forwardButton.interactable = false;
 			upButton.interactable = false;
 
+<<<<<<< HEAD
 			filenameInputField.onValidateInput += OnValidateFilenameInput;
 			filenameInputField.onValueChanged.AddListener( OnFilenameInputChanged );
+=======
+			backButton.onClick.AddListener( OnBackButtonClicked );
+			forwardButton.onClick.AddListener( OnForwardButtonClicked );
+			upButton.onClick.AddListener( OnUpButtonClicked );
+			moreOptionsButton.onClick.AddListener( OnMoreOptionsButtonClicked );
+			submitButton.onClick.AddListener( OnSubmitButtonClicked );
+			cancelButton.onClick.AddListener( OnCancelButtonClicked );
+			pathInputField.onEndEdit.AddListener( OnPathChanged );
+			searchInputField.onValueChanged.AddListener( OnSearchStringChanged );
+			filenameInputField.onValidateInput += OnValidateFilenameInput;
+			filenameInputField.onValueChanged.AddListener( OnFilenameInputChanged );
+			filtersDropdown.onValueChanged.AddListener( OnFilterChanged );
+			showHiddenFilesToggle.onValueChanged.AddListener( OnShowHiddenFilesToggleChanged );
+>>>>>>> Marco
 
 			allFilesFilter = new Filter( AllFilesFilterText );
 			filters.Add( allFilesFilter );
@@ -1321,19 +1348,31 @@ namespace SimpleFileBrowser
 		#endregion
 
 		#region Button Events
+<<<<<<< HEAD
 		public void OnBackButtonPressed()
+=======
+		private void OnBackButtonClicked()
+>>>>>>> Marco
 		{
 			if( currentPathIndex > 0 )
 				CurrentPath = pathsFollowed[--currentPathIndex];
 		}
 
+<<<<<<< HEAD
 		public void OnForwardButtonPressed()
+=======
+		private void OnForwardButtonClicked()
+>>>>>>> Marco
 		{
 			if( currentPathIndex < pathsFollowed.Count - 1 )
 				CurrentPath = pathsFollowed[++currentPathIndex];
 		}
 
+<<<<<<< HEAD
 		public void OnUpButtonPressed()
+=======
+		private void OnUpButtonClicked()
+>>>>>>> Marco
 		{
 #if !UNITY_EDITOR && UNITY_ANDROID
 			if( FileBrowserHelpers.ShouldUseSAF )
@@ -1357,7 +1396,11 @@ namespace SimpleFileBrowser
 			}
 		}
 
+<<<<<<< HEAD
 		public void OnMoreOptionsButtonClicked()
+=======
+		private void OnMoreOptionsButtonClicked()
+>>>>>>> Marco
 		{
 			ShowContextMenuAt( rectTransform.InverseTransformPoint( moreOptionsContextMenuPosition.position ), true );
 		}
@@ -1399,7 +1442,11 @@ namespace SimpleFileBrowser
 			contextMenu.Show( selectAllButtonVisible, deselectAllButtonVisible, deleteButtonVisible, renameButtonVisible, position, isMoreOptionsMenu );
 		}
 
+<<<<<<< HEAD
 		public void OnSubmitButtonClicked()
+=======
+		private void OnSubmitButtonClicked()
+>>>>>>> Marco
 		{
 			string[] result = null;
 			string filenameInput = filenameInputField.text.Trim();
@@ -1654,7 +1701,11 @@ namespace SimpleFileBrowser
 			}
 		}
 
+<<<<<<< HEAD
 		public void OnCancelButtonClicked()
+=======
+		private void OnCancelButtonClicked()
+>>>>>>> Marco
 		{
 			OnOperationCanceled( true );
 		}
@@ -1697,7 +1748,11 @@ namespace SimpleFileBrowser
 				_onCancel();
 		}
 
+<<<<<<< HEAD
 		public void OnPathChanged( string newPath )
+=======
+		private void OnPathChanged( string newPath )
+>>>>>>> Marco
 		{
 			// Fixes harmless NullReferenceException that occurs when Play button is clicked while SimpleFileBrowserCanvas prefab is open in prefab mode
 			// https://github.com/yasirkula/UnitySimpleFileBrowser/issues/30
@@ -1707,7 +1762,11 @@ namespace SimpleFileBrowser
 			CurrentPath = newPath;
 		}
 
+<<<<<<< HEAD
 		public void OnSearchStringChanged( string newSearchString )
+=======
+		private void OnSearchStringChanged( string newSearchString )
+>>>>>>> Marco
 		{
 			if( !canvas ) // Same as OnPathChanged
 				return;
@@ -1716,17 +1775,28 @@ namespace SimpleFileBrowser
 			SearchString = newSearchString;
 		}
 
+<<<<<<< HEAD
 		public void OnFilterChanged()
+=======
+		private void OnFilterChanged( int value )
+>>>>>>> Marco
 		{
 			if( !canvas ) // Same as OnPathChanged
 				return;
 
 			bool extensionsSingleSuffixModeChanged = false;
 
+<<<<<<< HEAD
 			if( filters != null && filtersDropdown.value < filters.Count )
 			{
 				bool allExtensionsHadSingleSuffix = AllExtensionsHaveSingleSuffix;
 				allFiltersHaveSingleSuffix = filters[filtersDropdown.value].allExtensionsHaveSingleSuffix;
+=======
+			if( filters != null && value < filters.Count )
+			{
+				bool allExtensionsHadSingleSuffix = AllExtensionsHaveSingleSuffix;
+				allFiltersHaveSingleSuffix = filters[value].allExtensionsHaveSingleSuffix;
+>>>>>>> Marco
 				extensionsSingleSuffixModeChanged = ( AllExtensionsHaveSingleSuffix != allExtensionsHadSingleSuffix );
 			}
 
@@ -1734,7 +1804,11 @@ namespace SimpleFileBrowser
 			RefreshFiles( extensionsSingleSuffixModeChanged );
 		}
 
+<<<<<<< HEAD
 		public void OnShowHiddenFilesToggleChanged()
+=======
+		private void OnShowHiddenFilesToggleChanged( bool value )
+>>>>>>> Marco
 		{
 			if( !canvas ) // Same as OnPathChanged
 				return;

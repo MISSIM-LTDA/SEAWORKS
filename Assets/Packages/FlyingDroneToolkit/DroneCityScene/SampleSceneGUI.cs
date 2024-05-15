@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
-using CnControls;
 using UnityEngine.SceneManagement;
 using System.Collections;
 
@@ -70,11 +69,11 @@ public class SampleSceneGUI : MonoBehaviour {
     public void FecharPause()
     {
        
-            briefing.SetActive(false);
-            arrived.SetActive(false);
-            thrusterH.SetActive(false);
-            HPU.SetActive(false);
-            frame.SetActive(false);
+        briefing.SetActive(false);
+        arrived.SetActive(false);
+        thrusterH.SetActive(false);
+        HPU.SetActive(false);
+        frame.SetActive(false);
         sonar.SetActive(false);
         cameracolor.SetActive(false);
         cameralow.SetActive(false);

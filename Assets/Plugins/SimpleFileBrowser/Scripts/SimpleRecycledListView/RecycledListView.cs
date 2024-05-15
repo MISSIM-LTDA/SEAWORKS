@@ -203,7 +203,10 @@ namespace SimpleFileBrowser
 			else
 			{
 				item = adapter.CreateItem();
+<<<<<<< HEAD
 				item.transform.SetParent( contentTransform, false );
+=======
+>>>>>>> Marco
 				item.SetAdapter( adapter );
 			}
 
@@ -223,6 +226,17 @@ namespace SimpleFileBrowser
 				item.gameObject.SetActive( false );
 				pooledItems.Push( item );
 			}
+<<<<<<< HEAD
+=======
+
+			if( topIndex == currentTopIndex && bottomIndex == currentBottomIndex )
+				items.Clear();
+			else
+			{
+				for( int i = topIndex; i <= bottomIndex; i++ )
+					items.Remove( i );
+			}
+>>>>>>> Marco
 		}
 
 		private void UpdateItemContentsBetweenIndices( int topIndex, int bottomIndex )

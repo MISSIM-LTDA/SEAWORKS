@@ -37,6 +37,18 @@ namespace SimpleFileBrowser
 		private float minDistanceToEdges = 10f;
 #pragma warning restore 0649
 
+<<<<<<< HEAD
+=======
+		private void Awake()
+		{
+			selectAllButton.onClick.AddListener( OnSelectAllButtonClicked );
+			deselectAllButton.onClick.AddListener( OnDeselectAllButtonClicked );
+			createFolderButton.onClick.AddListener( OnCreateFolderButtonClicked );
+			deleteButton.onClick.AddListener( OnDeleteButtonClicked );
+			renameButton.onClick.AddListener( OnRenameButtonClicked );
+		}
+
+>>>>>>> Marco
 		internal void Show( bool selectAllButtonVisible, bool deselectAllButtonVisible, bool deleteButtonVisible, bool renameButtonVisible, Vector2 position, bool isMoreOptionsMenu )
 		{
 			selectAllButton.gameObject.SetActive( selectAllButtonVisible );
@@ -114,31 +126,51 @@ namespace SimpleFileBrowser
 				allButtonSeparators[i].color = skin.ContextMenuSeparatorColor;
 		}
 
+<<<<<<< HEAD
 		public void OnSelectAllButtonClicked()
+=======
+		private void OnSelectAllButtonClicked()
+>>>>>>> Marco
 		{
 			Hide();
 			fileBrowser.SelectAllFiles();
 		}
 
+<<<<<<< HEAD
 		public void OnDeselectAllButtonClicked()
+=======
+		private void OnDeselectAllButtonClicked()
+>>>>>>> Marco
 		{
 			Hide();
 			fileBrowser.DeselectAllFiles();
 		}
 
+<<<<<<< HEAD
 		public void OnCreateFolderButtonClicked()
+=======
+		private void OnCreateFolderButtonClicked()
+>>>>>>> Marco
 		{
 			Hide();
 			fileBrowser.CreateNewFolder();
 		}
 
+<<<<<<< HEAD
 		public void OnDeleteButtonClicked()
+=======
+		private void OnDeleteButtonClicked()
+>>>>>>> Marco
 		{
 			Hide();
 			fileBrowser.DeleteSelectedFiles();
 		}
 
+<<<<<<< HEAD
 		public void OnRenameButtonClicked()
+=======
+		private void OnRenameButtonClicked()
+>>>>>>> Marco
 		{
 			Hide();
 			fileBrowser.RenameSelectedFile();

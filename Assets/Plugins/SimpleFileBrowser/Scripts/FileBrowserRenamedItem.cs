@@ -37,6 +37,14 @@ namespace SimpleFileBrowser
 			}
 		}
 
+<<<<<<< HEAD
+=======
+		private void Awake()
+		{
+			nameInputField.onEndEdit.AddListener( OnInputFieldEndEdit );
+		}
+
+>>>>>>> Marco
 		public void Show( string initialFilename, Color backgroundColor, Sprite icon, OnRenameCompleted onRenameCompleted )
 		{
 			background.color = backgroundColor;
@@ -63,7 +71,11 @@ namespace SimpleFileBrowser
 		}
 #endif
 
+<<<<<<< HEAD
 		public void OnInputFieldEndEdit( string filename )
+=======
+		private void OnInputFieldEndEdit( string filename )
+>>>>>>> Marco
 		{
 			gameObject.SetActive( false );
 
