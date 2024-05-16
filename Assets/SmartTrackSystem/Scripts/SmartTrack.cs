@@ -196,7 +196,7 @@ namespace SmartTrackSystem
             }
 
             //Setup all UI elements
-            Transform canvas = GameObject.Find("Display1Canvas").transform;
+            Transform canvas = GameObject.Find("Canvas Display 1").transform;
             smartTrackUIConsole = CreatePrefabOnScene("SmartTrackConsole", canvas, new Vector3(0, 540, 0)).transform;
 
             createdSetup = true;
@@ -214,7 +214,9 @@ namespace SmartTrackSystem
 
             ropesInitialIndexes.Clear();
 
-            DestroyImmediate(smartTrackUIConsole.gameObject);
+            if (smartTrackUIConsole) {
+                DestroyImmediate(smartTrackUIConsole.gameObject);
+            }
 
             createdSetup = false;
 

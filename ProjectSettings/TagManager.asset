@@ -21,6 +21,7 @@ TagManager:
   - RightClaw
   - LeftClaw
   - SonarCamera
+  - Interectable
   - SmartTrackConsole
   layers:
   - Default
