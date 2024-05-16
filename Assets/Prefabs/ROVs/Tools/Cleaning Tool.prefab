@@ -967,7 +967,7 @@ GameObject:
   - component: {fileID: 4848642571991386188}
   m_Layer: 0
   m_Name: Cleaning Tool
-  m_TagString: ROVComponents
+  m_TagString: Interectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

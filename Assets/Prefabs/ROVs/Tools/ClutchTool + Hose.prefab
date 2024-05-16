@@ -1876,7 +1876,7 @@ GameObject:
   - component: {fileID: 4140648817077081044}
   m_Layer: 0
   m_Name: ClutchTool
-  m_TagString: Untagged
+  m_TagString: Interectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

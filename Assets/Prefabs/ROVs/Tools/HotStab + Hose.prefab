@@ -630,6 +630,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: HotStab
       objectReference: {fileID: 0}
+    - target: {fileID: 7194278447730333919, guid: e6bb47e323c4fee4899f67e736589c78,
+        type: 3}
+      propertyPath: m_TagString
+      value: Interectable
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e6bb47e323c4fee4899f67e736589c78, type: 3}
 --- !u!4 &7497045559259195180 stripped

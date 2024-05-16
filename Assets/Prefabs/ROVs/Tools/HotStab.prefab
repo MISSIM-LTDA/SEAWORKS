@@ -3119,7 +3119,7 @@ GameObject:
   - component: {fileID: 2068918807021066337}
   m_Layer: 0
   m_Name: HotStab
-  m_TagString: Untagged
+  m_TagString: Interectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

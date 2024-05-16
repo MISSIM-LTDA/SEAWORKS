@@ -3957,7 +3957,7 @@ GameObject:
   - component: {fileID: 2584593059091830734}
   m_Layer: 0
   m_Name: W2 LLOT
-  m_TagString: ROVComponents
+  m_TagString: Interectable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
