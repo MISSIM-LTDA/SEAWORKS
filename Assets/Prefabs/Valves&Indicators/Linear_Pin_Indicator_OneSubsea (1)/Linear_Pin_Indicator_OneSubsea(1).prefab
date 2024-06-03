@@ -61,7 +61,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: -6102424717986512467, guid: 79c755e07bd95bb4d8a65a6ce0042823, type: 3}
+  - {fileID: -6102424717986512467, guid: 81b47008b9d217741ba0f50505f34472, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -230,7 +230,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2925771624149768371}
   m_Layer: 0
-  m_Name: Linear_Pin_Indicator_OneSubsea
+  m_Name: Linear_Pin_Indicator_OneSubsea(1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
