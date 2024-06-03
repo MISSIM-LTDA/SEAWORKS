@@ -6,7 +6,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: Indicator1_indicator_bake-mesh0
+  m_Name: Indicator(1)_baked-mesh0
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

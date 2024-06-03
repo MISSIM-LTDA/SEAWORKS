@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2958351054292779672}
   m_Layer: 0
-  m_Name: Mesh_Linear_Pin_Indicator_OneSubsea_baked
+  m_Name: Mesh_Linear_Pin_Indicator_OneSubsea(1)_baked
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
