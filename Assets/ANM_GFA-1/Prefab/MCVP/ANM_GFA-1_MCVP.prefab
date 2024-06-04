@@ -8795,7 +8795,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4395792798575090543}
   m_Layer: 0
-  m_Name: Mesh Colliders
+  m_Name: Interactive Colliders
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
