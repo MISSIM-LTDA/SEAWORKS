@@ -4047,6 +4047,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Baked Mesh
       objectReference: {fileID: 0}
+    - target: {fileID: 8373854554326633427, guid: 9d2dbe124dc5b6d4082e99fcaa81b0c3,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9d2dbe124dc5b6d4082e99fcaa81b0c3, type: 3}
 --- !u!4 &7071757353119937960 stripped
