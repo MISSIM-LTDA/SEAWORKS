@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/ANM_GFA-1/3D Models/2184491-15_1_FIBAP.fbx.meta
 guid: 9b81b8bd96c326b439a8ffa13f4a3bea
+========
+guid: 01c04834b4c71b64d9dff729b0cba7f8
+>>>>>>>> Bap_backup:Assets/BAP.fbx.meta
 ModelImporter:
   serializedVersion: 21202
   internalIDToNameTable: []

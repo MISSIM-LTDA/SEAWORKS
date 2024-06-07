@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Valves&Indicators/Test_Cap_Lock_OneSubsea/Lock_BakeMesh.prefab.meta
 guid: a00ff80718d9078428f0c952bdd1b0f3
+========
+guid: db9aa5be50f02ab4e99b7e360324bd95
+>>>>>>>> Bap_backup:Assets/Prefabs/One Subsea/EFL_OneSubsea/Male/Bocal_EFL_Male.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 

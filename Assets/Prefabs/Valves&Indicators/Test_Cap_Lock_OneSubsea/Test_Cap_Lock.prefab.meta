@@ -1,5 +1,9 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Prefabs/Valves&Indicators/Test_Cap_Lock_OneSubsea/Test_Cap_Lock.prefab.meta
 guid: f3124d898d7cfad4b9879a96743fa42d
+========
+guid: 40d59ca05b4d1ea4ba244ec9e2c0fe63
+>>>>>>>> Bap_backup:Assets/ANM_GFA-1/Prefab/BAP/BAP.prefab.meta
 PrefabImporter:
   externalObjects: {}
   userData: 
