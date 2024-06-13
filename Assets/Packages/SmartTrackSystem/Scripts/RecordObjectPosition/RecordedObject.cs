@@ -35,14 +35,16 @@ namespace SmartTrackSystem
 
         protected string folderPath;
 
-        public RecordedObjectInfo record = new RecordedObjectInfo("", 0, new List<ObjectTransformToRecord>() { });
+        public RecordedObjectInfo record = new RecordedObjectInfo("", new List<ObjectTransformToRecord>() { });
 
         public int index;
+
+        public int decimalPlaces;
         protected virtual void Start()
         {
             if (rope != null) { connectedToRope = true; }
 
-            mainCamera = GameObject.FindGameObjectWithTag("Main");
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             outEffect = mainCamera.GetComponent<OutlineEffect>();
 
             eventSystem = FindObjectOfType<EventSystem>();
@@ -263,21 +265,21 @@ namespace SmartTrackSystem
                 Transform eflConnector2 = transform.GetChild(1);
 
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (eflConnector1.gameObject.activeSelf,
-                    eflConnector1.localPosition,
-                    eflConnector1.localRotation));
+                    (eflConnector1.gameObject.activeSelf, 
+                    LimitVector3FloatValue(eflConnector1.localPosition,decimalPlaces),
+                    LimitQuaternionFloatValue(eflConnector1.localRotation,decimalPlaces)));
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (eflConnector2.gameObject.activeSelf,
-                    eflConnector2.localPosition,
-                    eflConnector2.localRotation));
+                    LimitVector3FloatValue(eflConnector2.localPosition, decimalPlaces),
+                    LimitQuaternionFloatValue(eflConnector2.localRotation, decimalPlaces)));
             }
 
             else
             {
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (gameObject.activeSelf,
-                    transform.localPosition,
-                    transform.localRotation));
+                    LimitVector3FloatValue(transform.localPosition, decimalPlaces),
+                    LimitQuaternionFloatValue(transform.localRotation, decimalPlaces)));
             }
         }
         protected void SavePositions()
@@ -375,7 +377,8 @@ namespace SmartTrackSystem
         #endregion
 
         #region Support Functions
-        protected void SetLocalPositionAndRotation(Transform obj, Vector3 position, Quaternion rotation)
+        protected void SetLocalPositionAndRotation(Transform obj, 
+            Vector3 position, Quaternion rotation)
         {
             obj.localPosition = position;
             obj.localRotation = rotation;
@@ -387,7 +390,6 @@ namespace SmartTrackSystem
             folderPath = null;
 
             record.Name = gameObject.name;
-            record.ThisIsRecordedObjectData = 0;
             record.RecordObjectStore.Clear();
         }
         protected string CreateDirectoryToSaveAll(string path)
@@ -459,6 +461,33 @@ namespace SmartTrackSystem
             {
                 folderPath = FileBrowser.Result[0];
             }
+        }
+        public Vector3 LimitVector3FloatValue(Vector3 vector3,int decimate)
+        {
+            vector3.x = LimitFloatValue(vector3.x, decimate);
+            vector3.y = LimitFloatValue(vector3.y, decimate);
+            vector3.z = LimitFloatValue(vector3.z, decimate);
+
+            return vector3;
+        }
+        public Quaternion LimitQuaternionFloatValue(Quaternion quaternion, int decimate)
+        {
+            quaternion.x = LimitFloatValue(quaternion.x, decimate);
+            quaternion.y = LimitFloatValue(quaternion.y, decimate);
+            quaternion.z = LimitFloatValue(quaternion.z, decimate);
+            quaternion.w = LimitFloatValue(quaternion.w, decimate);
+
+            return quaternion;
+        }
+        public float LimitFloatValue(float number, int decimate)
+        {
+            if (decimate == 0) return number;
+
+            number *= 10*decimate;
+            number = Mathf.Round(number);
+            number /= decimate;
+
+            return number;
         }
 
         #endregion

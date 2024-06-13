@@ -75,6 +75,7 @@ namespace SmartTrackSystem
         private int recordedFrames;
 
         public float recordingRate;
+        public int decimalPlaces;
 
         Coroutine replayCoroutine;
         private bool preparedToReplay;
@@ -110,14 +111,14 @@ namespace SmartTrackSystem
 
             if (isRecording) { recordingTime += Time.deltaTime; }
 
-            RefreshTimer();
+            if (createdSetup) { RefreshTimer(); }
         }
 
         #region Setup Functions
         //Setup all gameObjects that will be recorded, also find and set all UI elements
         public void CreateSetUp()
         {
-            //ClearSetup(false);
+            ClearSetup(false);
 
             foreach (GameObject rovComponent in GameObject.FindGameObjectsWithTag("XLX")){
                 gameObjectsToRecord.Add(rovComponent);
@@ -174,6 +175,7 @@ namespace SmartTrackSystem
 
                     objectsToRecord.Add(SetupRecordedObject(rr, rope, null));
                     rr.record.Name = rr.rope.sourceBlueprint.name;
+                    rr.decimalPlaces = decimalPlaces;
                 }
 
                 else 
@@ -185,6 +187,7 @@ namespace SmartTrackSystem
 
                     objectsToRecord.Add(SetupRecordedObject(rO, null, null));
                     rO.record.Name = rO.name;
+                    rO.decimalPlaces = decimalPlaces;
                 }
             }
 
@@ -456,8 +459,6 @@ namespace SmartTrackSystem
             {
                 isSaving = true;
 
-                objectsToRecord[0].record.ThisIsRecordedObjectData = (int)recordingTime;
-
                 yield return StartCoroutine(ChooseSaveDirectory());
 
                 if(folderPath != null) 
@@ -468,6 +469,9 @@ namespace SmartTrackSystem
                     }
 
                     string jsonString = JsonHelper.ToJson(records);
+
+                    jsonString = jsonString.Insert(1, 
+                        "\"TIME\":[{ \"RecordingTime\":\"" + (int)recordingTime + "\"}],");
                     File.WriteAllText(folderPath, jsonString);
 
                     ClearRecordData(true);
@@ -523,6 +527,9 @@ namespace SmartTrackSystem
                 {
                     string jsonString = File.ReadAllText(folderPath);
 
+                    int indexOf = jsonString.IndexOf("RecordingTime") + 16;
+                    recordingTime = float.Parse($"{jsonString[indexOf]}");
+
                     List<RecordedObjectInfo> records = new List<RecordedObjectInfo>() { };
                     records = JsonHelper.FromJson<RecordedObjectInfo>(jsonString);
 
@@ -543,7 +550,6 @@ namespace SmartTrackSystem
                             objectsToRecord[j].record = records[j];
                         }
 
-                        recordingTime = objectsToRecord[0].record.ThisIsRecordedObjectData;
                         recordedFrames = objectsToRecord[0].record.RecordObjectStore.Count;
 
                         slider.value = 0;
@@ -668,9 +674,7 @@ namespace SmartTrackSystem
             {
                 slider.interactable = false;
 
-                foreach (RecordedObject recordedObject in objectsToRecord)
-                {
-                    recordedObject.record.ThisIsRecordedObjectData = 0;
+                foreach (RecordedObject recordedObject in objectsToRecord){
                     recordedObject.record.RecordObjectStore.Clear();
                 }
 

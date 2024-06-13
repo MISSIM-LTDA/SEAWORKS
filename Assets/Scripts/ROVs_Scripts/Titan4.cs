@@ -78,7 +78,7 @@ public class Titan4 : MonoBehaviour
         jawRigidbody = jaw.GetComponent<Rigidbody>();
         jawJoint = jaw.GetComponent<FixedJoint>();
 
-        rovRigidbody = azimuthRef.transform.parent.parent.GetComponent<Rigidbody>();
+        rovRigidbody = GameObject.FindGameObjectWithTag("XLX").GetComponent<Rigidbody>();
     }
     void FixedUpdate()
     {
