@@ -40,6 +40,7 @@ namespace SmartTrackSystem
         public int index;
 
         public int decimalPlaces;
+        private float pow;
         protected virtual void Start()
         {
             if (rope != null) { connectedToRope = true; }
@@ -48,6 +49,8 @@ namespace SmartTrackSystem
             outEffect = mainCamera.GetComponent<OutlineEffect>();
 
             eventSystem = FindObjectOfType<EventSystem>();
+
+            pow = MathF.Pow(10, decimalPlaces);
         }
 
         #region Select Functions
@@ -266,20 +269,20 @@ namespace SmartTrackSystem
 
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (eflConnector1.gameObject.activeSelf, 
-                    LimitVector3FloatValue(eflConnector1.localPosition,decimalPlaces),
-                    LimitQuaternionFloatValue(eflConnector1.localRotation,decimalPlaces)));
+                    eflConnector1.localPosition,
+                    eflConnector1.localRotation));
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (eflConnector2.gameObject.activeSelf,
-                    LimitVector3FloatValue(eflConnector2.localPosition, decimalPlaces),
-                    LimitQuaternionFloatValue(eflConnector2.localRotation, decimalPlaces)));
+                    eflConnector2.localPosition,
+                    eflConnector2.localRotation));
             }
 
             else
             {
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (gameObject.activeSelf,
-                    LimitVector3FloatValue(transform.localPosition, decimalPlaces),
-                    LimitQuaternionFloatValue(transform.localRotation, decimalPlaces)));
+                    transform.localPosition,
+                    transform.localRotation));
             }
         }
         protected void SavePositions()
@@ -342,15 +345,15 @@ namespace SmartTrackSystem
                 eflConnector1.GetComponent<Rigidbody>().isKinematic = true;
                 eflConnector2.GetComponent<Rigidbody>().isKinematic = true;
 
-                eflConnector1.gameObject.SetActive(record.RecordObjectStore[index].enable);
+                eflConnector1.gameObject.SetActive(record.RecordObjectStore[index].e);
                 SetLocalPositionAndRotation(eflConnector1,
-                    record.RecordObjectStore[index].postion,
-                    record.RecordObjectStore[index].rotation);
+                record.RecordObjectStore[index].p,
+                record.RecordObjectStore[index].r);
 
-                eflConnector2.gameObject.SetActive(record.RecordObjectStore[index].enable);
+                eflConnector2.gameObject.SetActive(record.RecordObjectStore[index].e);
                 SetLocalPositionAndRotation(eflConnector2,
-                    record.RecordObjectStore[index + 1].postion,
-                    record.RecordObjectStore[index + 1].rotation);
+                record.RecordObjectStore[index + 1].p,
+                record.RecordObjectStore[index + 1].r);
 
                 if (makePhysics)
                 {
@@ -364,8 +367,8 @@ namespace SmartTrackSystem
             else
             {
                 SetLocalPositionAndRotation(transform,
-                 record.RecordObjectStore[index].postion,
-                 record.RecordObjectStore[index].rotation);
+                record.RecordObjectStore[index].p,
+                record.RecordObjectStore[index].r);
 
                 index++;
             }
@@ -462,34 +465,6 @@ namespace SmartTrackSystem
                 folderPath = FileBrowser.Result[0];
             }
         }
-        public Vector3 LimitVector3FloatValue(Vector3 vector3,int decimate)
-        {
-            vector3.x = LimitFloatValue(vector3.x, decimate);
-            vector3.y = LimitFloatValue(vector3.y, decimate);
-            vector3.z = LimitFloatValue(vector3.z, decimate);
-
-            return vector3;
-        }
-        public Quaternion LimitQuaternionFloatValue(Quaternion quaternion, int decimate)
-        {
-            quaternion.x = LimitFloatValue(quaternion.x, decimate);
-            quaternion.y = LimitFloatValue(quaternion.y, decimate);
-            quaternion.z = LimitFloatValue(quaternion.z, decimate);
-            quaternion.w = LimitFloatValue(quaternion.w, decimate);
-
-            return quaternion;
-        }
-        public float LimitFloatValue(float number, int decimate)
-        {
-            if (decimate == 0) return number;
-
-            number *= 10*decimate;
-            number = Mathf.Round(number);
-            number /= decimate;
-
-            return number;
-        }
-
         #endregion
     }
 }

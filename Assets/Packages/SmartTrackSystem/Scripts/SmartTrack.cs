@@ -10,6 +10,8 @@ using SimpleFileBrowser;
 using TMPro;
 using System;
 
+using Newtonsoft.Json;
+
 namespace SmartTrackSystem
 {
     public class SmartTrack : MonoBehaviour
@@ -470,7 +472,7 @@ namespace SmartTrackSystem
 
                     string jsonString = JsonHelper.ToJson(records);
 
-                    jsonString = jsonString.Insert(1, 
+                    jsonString = jsonString.Insert(1,
                         "\"TIME\":[{ \"RecordingTime\":\"" + (int)recordingTime + "\"}],");
                     File.WriteAllText(folderPath, jsonString);
 
@@ -614,7 +616,7 @@ namespace SmartTrackSystem
                     if (rr != null){
                         ropesInitialIndexes[rope].array = new int[lenght];
                         for (int i = 0,j=0; i < rr.record.RecordObjectStore.Count; i++){
-                            if (rr.record.RecordObjectStore[i].initialIndex){
+                            if (rr.record.RecordRopeStore[i].i){
                                 ropesInitialIndexes[rope].array[j] = i;
                                 j++;
                             }
