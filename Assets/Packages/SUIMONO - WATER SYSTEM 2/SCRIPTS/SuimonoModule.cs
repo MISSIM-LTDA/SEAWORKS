@@ -278,13 +278,7 @@ namespace Suimono.Core
 
 
 
-		void Start () {
-
-			//### DISCONNECT FROM PREFAB ###;
-			#if UNITY_EDITOR
-				PrefabUtility.DisconnectPrefabInstance(this.gameObject);
-			#endif
-		    
+		void Start () {		    
 		    //set random
 			randSeed = System.Environment.TickCount;
 			modRand = new Suimono.Core.Random(randSeed);
@@ -1076,8 +1070,6 @@ namespace Suimono.Core
 							#if UNITY_5_4 || UNITY_5_5 || UNITY_5_6 || UNITY_5_7 || UNITY_5_8 || UNITY_5_9 || UNITY_6
 								debrisEmission = underwaterDebris.emission;
 								debrisEmission.enabled = isUnderwater;
-							#else
-								underwaterDebris.enableEmission = isUnderwater;
 							#endif
 
 						} else {

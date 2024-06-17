@@ -9,13 +9,13 @@ namespace SmartTrackSystem
     {
         public bool e = false;//enable
 
-        public Vector3 p = Vector3.zero;//position
-        public Quaternion r = Quaternion.identity;//rotation
-        public ObjectTransformToRecord(bool enable, Vector3 position, Quaternion rotation)
+        public string p;//position
+        public string r;//rotation
+        public ObjectTransformToRecord(bool enable, string position, string rotation)
         {
-            this.e = enable;
-            this.p = position;
-            this.r = rotation;
+            e = enable;
+            p = position;
+            r = rotation;
         }
     }
 
@@ -23,20 +23,28 @@ namespace SmartTrackSystem
     public class RopeTransformToRecord
     {
         public bool i = false;//initialIndex
-
         public bool e = false;//enable
 
-        public Vector3 p = Vector3.zero;//position
-        public Quaternion r = Quaternion.identity;//rotation
+        public string p;//position
+        public string r;//rotation
 
-        public float iPM = 0.0f;//invPosMasses
-        public float iRM = 0.0f;//invRotMasses
+        public string iPM;//invPosMasses
+        public string iRM;//invRotMasses
 
         public int pC = 0;//particleCount
-        public float l = 0.0f;//lenght
-        public RopeTransformToRecord(bool initialIndex, bool enable, Vector3 position, 
-            Quaternion rotation, float invPosMasses, 
-            float invRotMasses, int particleCount, float lenght)
+        public string l;//lenght
+        public RopeTransformToRecord(bool initialIndex, bool enable, string position, string rotation)
+        {
+            i = initialIndex;
+
+            e = enable;
+
+            p = position;
+            r = rotation;
+        }
+        public RopeTransformToRecord(bool initialIndex, bool enable, string position,
+            string rotation, string invPosMasses,
+            string invRotMasses, int particleCount, string lenght)
         {
             i = initialIndex;
 
@@ -64,7 +72,6 @@ namespace SmartTrackSystem
             Name = m_name;
             RecordObjectStore = m_recordObjectStore;
         }
-
         public RecordedObjectInfo(string m_name, List<RopeTransformToRecord> m_recordRopeStore)
         {
             Name = m_name;

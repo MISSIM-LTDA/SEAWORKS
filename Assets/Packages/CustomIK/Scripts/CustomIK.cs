@@ -51,7 +51,6 @@ public class CustomIK : MonoBehaviour {
 			}else{
 			targetAngleV = -Vector3.Angle(Vector3.forward, targetIK.position - rootBone.position);
 		}
-		float targetAngleH;
 
 		#endregion
 		

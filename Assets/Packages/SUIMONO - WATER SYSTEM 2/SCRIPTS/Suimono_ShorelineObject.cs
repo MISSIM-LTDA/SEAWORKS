@@ -73,13 +73,7 @@ namespace Suimono.Core
 		}
 
 
-		void Start () {
-
-			//DISCONNECT FROM PREFAB
-			#if UNITY_EDITOR
-				PrefabUtility.DisconnectPrefabInstance(this.gameObject);
-			#endif
-			
+		void Start () {			
 			//turn off debig at start
 			if (Application.isPlaying){
 				debug = false;

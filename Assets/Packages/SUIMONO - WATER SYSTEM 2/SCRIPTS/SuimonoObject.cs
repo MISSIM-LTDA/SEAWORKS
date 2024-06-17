@@ -352,12 +352,6 @@ namespace Suimono.Core
 
 
 		void Start(){
-
-			//DISCONNECT FROM PREFAB
-			#if UNITY_EDITOR
-			PrefabUtility.DisconnectPrefabInstance(this.gameObject);
-			#endif
-
 			//SET PRESET DIRECTORIES
 			#if UNITY_EDITOR
 				baseDir = "SUIMONO - WATER SYSTEM 2/RESOURCES/";

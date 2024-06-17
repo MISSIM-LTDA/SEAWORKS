@@ -10,8 +10,6 @@ using SimpleFileBrowser;
 using TMPro;
 using System;
 
-using Newtonsoft.Json;
-
 namespace SmartTrackSystem
 {
     public class SmartTrack : MonoBehaviour
@@ -130,6 +128,10 @@ namespace SmartTrackSystem
                 gameObjectsToRecord.Add(rovComponent);
             }
 
+            foreach (GameObject rovComponent in GameObject.FindGameObjectsWithTag("Jaw7")){
+                gameObjectsToRecord.Add(rovComponent);
+            }
+
             foreach (GameObject rovComponent in GameObject.FindGameObjectsWithTag("Jaw7finger")){
                 gameObjectsToRecord.Add(rovComponent);
             }
@@ -177,7 +179,7 @@ namespace SmartTrackSystem
 
                     objectsToRecord.Add(SetupRecordedObject(rr, rope, null));
                     rr.record.Name = rr.rope.sourceBlueprint.name;
-                    rr.decimalPlaces = decimalPlaces;
+                    rr.decimalPlaces = "F" + decimalPlaces;
                 }
 
                 else 
@@ -189,7 +191,7 @@ namespace SmartTrackSystem
 
                     objectsToRecord.Add(SetupRecordedObject(rO, null, null));
                     rO.record.Name = rO.name;
-                    rO.decimalPlaces = decimalPlaces;
+                    rO.decimalPlaces = "F" + decimalPlaces;
                 }
             }
 
@@ -530,10 +532,14 @@ namespace SmartTrackSystem
                     string jsonString = File.ReadAllText(folderPath);
 
                     int indexOf = jsonString.IndexOf("RecordingTime") + 16;
-                    recordingTime = float.Parse($"{jsonString[indexOf]}");
+                    int lastindexOf = jsonString.IndexOf("\"", indexOf);
 
-                    List<RecordedObjectInfo> records = new List<RecordedObjectInfo>() { };
-                    records = JsonHelper.FromJson<RecordedObjectInfo>(jsonString);
+                    string time = jsonString.Substring(indexOf, lastindexOf-indexOf);
+
+                    recordingTime = float.Parse(time);
+
+                    List<RecordedObjectInfo> records = 
+                        JsonHelper.FromJson<RecordedObjectInfo>(jsonString);
 
                     int i = 0;
                     if (objectsToRecord.Count == records.Count) {
@@ -615,7 +621,7 @@ namespace SmartTrackSystem
                     RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
                     if (rr != null){
                         ropesInitialIndexes[rope].array = new int[lenght];
-                        for (int i = 0,j=0; i < rr.record.RecordObjectStore.Count; i++){
+                        for (int i = 0,j=0; i < rr.record.RecordRopeStore.Count; i++){
                             if (rr.record.RecordRopeStore[i].i){
                                 ropesInitialIndexes[rope].array[j] = i;
                                 j++;

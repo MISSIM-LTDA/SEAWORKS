@@ -142,12 +142,13 @@ public class Titan4 : MonoBehaviour
             direction = transform.forward;
         }
 
-        else if (Input.GetAxis("T4UD") >= 0.8 && Input.GetKey(upDown)){
-            direction = transform.up;
+        else if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(upDown))
+        {
+            direction = transform.forward * (-1);
         }
 
-        else if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(upDown)){
-            direction = transform.forward * (-1);
+        else if (Input.GetAxis("T4UD") >= 0.8 && Input.GetKey(upDown)){
+            direction = transform.up;
         }
 
         else if (Input.GetAxis("T4UD") <= -0.8 && Input.GetKey(upDown)){
@@ -165,8 +166,8 @@ public class Titan4 : MonoBehaviour
         else {
             if (!azimuthJoint) {
                 azimuthJoint = Jointify(azimuthRef, rovRigidbody);
-                return;
             }
+            return;
         }
 
         Destroy(azimuthJoint);
