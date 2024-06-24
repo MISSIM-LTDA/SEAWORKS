@@ -128,41 +128,47 @@ public class Rigmaster : MonoBehaviour
     }
     private void ArmRotation()
     {
-        int armCurrentDirection;
-
-        if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(upDown))
-            armCurrentDirection = 1;
-        else if (Input.GetAxis("T4UD") >= 0.8 && !Input.GetKey(upDown))
-            armCurrentDirection = -1;
-        else
+        if (!Input.GetKey(upDown)) 
         {
-            armJoint = Jointify(arm, shoulderRigidbody);
-            return;
+            int armCurrentDirection;
+
+            if (Input.GetAxis("T4UD") <= -0.8)
+                armCurrentDirection = 1;
+            else if (Input.GetAxis("T4UD") >= 0.8)
+                armCurrentDirection = -1;
+            else
+            {
+                armJoint = Jointify(arm, shoulderRigidbody);
+                return;
+            }
+
+            Destroy(armJoint);
+
+            armTorqueForce = armEulerAngleVelocity * Time.fixedDeltaTime * armCurrentDirection;
+            armRigidbody.AddRelativeTorque(armTorqueForce, armForceMode);
         }
-
-        Destroy(armJoint);
-
-        armTorqueForce = armEulerAngleVelocity * Time.fixedDeltaTime * armCurrentDirection;
-        armRigidbody.AddRelativeTorque(armTorqueForce, armForceMode);
     }
     private void BoomMovement()
     {
-        int boomCurrentDirection;
-
-        if (Input.GetAxis("T4UD") <= -0.8 && Input.GetKey(upDown))
-            boomCurrentDirection = 1;
-        else if (Input.GetAxis("T4UD") >= 0.8 && Input.GetKey(upDown))
-            boomCurrentDirection = -1;
-        else
+        if (Input.GetKey(upDown)) 
         {
-            boomJoint = Jointify(boom, armRigidbody);
-            return;
+            int boomCurrentDirection;
+
+            if (Input.GetAxis("T4UD") <= -0.8)
+                boomCurrentDirection = 1;
+            else if (Input.GetAxis("T4UD") >= 0.8)
+                boomCurrentDirection = -1;
+            else
+            {
+                boomJoint = Jointify(boom, armRigidbody);
+                return;
+            }
+
+            Destroy(boomJoint);
+
+            boomForce = boomVelocity * Time.fixedDeltaTime * boomCurrentDirection;
+            boomRigidbody.AddRelativeForce(boomForce, boomForceMode);
         }
-
-        Destroy(boomJoint);
-
-        boomForce = boomVelocity * Time.fixedDeltaTime * boomCurrentDirection;
-        boomRigidbody.AddRelativeForce(boomForce, boomForceMode);
     }
     private void WristRotation()
     {

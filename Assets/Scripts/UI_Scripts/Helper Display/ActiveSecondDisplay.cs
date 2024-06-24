@@ -10,11 +10,6 @@ public class ActiveSecondDisplay : MonoBehaviour
             {
                 Display.displays[1].Activate();
             }
-
-            else
-            {
-                gameObject.SetActive(false);
-            }
         }
     }
 }

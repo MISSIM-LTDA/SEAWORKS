@@ -23,6 +23,7 @@ namespace SmartTrackSystem
             public List<FlyingDroneScript> flyingDroneScripts = new List<FlyingDroneScript>();
             public List<Rigmaster> rigmasters = new List<Rigmaster>();
             public List<Titan4> titan4s = new List<Titan4>();
+            public List<Claw> claw = new List<Claw>();
             public List<GenericMovement> genericMovements = new List<GenericMovement>();
 
             public List<Animator> animators = new List<Animator>();
@@ -107,7 +108,8 @@ namespace SmartTrackSystem
         }
         public void Update()
         {
-            if (Input.GetKeyDown(KeyCode.Space)) { HideConsole(); }
+            if (Input.GetKey(KeyCode.LeftShift) && 
+                Input.GetKeyUp(KeyCode.Space)) { HideConsole(); }
 
             if (isRecording) { recordingTime += Time.deltaTime; }
 
@@ -148,10 +150,10 @@ namespace SmartTrackSystem
             {
                 ObiActor rope = objectToRecord.GetComponent<ObiActor>();
 
-                if (rope != null) 
+                if (rope) 
                 {
                     RecordedRope rr = objectToRecord.GetComponent<RecordedRope>();
-                    if (rr == null){
+                    if (!rr){
                         rr = objectToRecord.gameObject.AddComponent<RecordedRope>();
                     }
 
@@ -185,7 +187,7 @@ namespace SmartTrackSystem
                 else 
                 {
                     RecordedObject rO = objectToRecord.GetComponent<RecordedObject>();
-                    if (rO == null){
+                    if (!rO){
                         rO = objectToRecord.AddComponent<RecordedObject>();
                     }
 
@@ -197,7 +199,7 @@ namespace SmartTrackSystem
 
             foreach(RecordedObject recordedObject in objectsToRecord) 
             {
-                if(recordedObject.GetComponent<RecordedRope>() != null) {
+                if(recordedObject.GetComponent<RecordedRope>()) {
                     ropesInitialIndexes.Add(new Matrix(0));
                 }
             }
@@ -233,9 +235,6 @@ namespace SmartTrackSystem
         {
             console = smartTrackUIConsole.Find("Console");
             loadAlert = console.Find("Load Alert");
-
-            Button hideConsoleButton = smartTrackUIConsole.Find("ShowHide").GetComponentInChildren<Button>();
-            hideConsoleButton.onClick.AddListener(HideConsole);
 
             Button returnPhysics = console.Find("ReturnROVPhysicsButton").GetComponentInChildren<Button>();
             returnPhysics.onClick.AddListener(ReturnPhysics);
@@ -308,7 +307,7 @@ namespace SmartTrackSystem
                         foreach (RecordedObject recordedObject in objectsToRecord)
                         {
                             RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
-                            if (rr != null) {
+                            if (rr) {
                                 int ropeIndex = ropesInitialIndexes[rope].array[index]; 
                                 int ropeCount = rr.record.RecordObjectStore.Count - ropeIndex;
 
@@ -320,6 +319,8 @@ namespace SmartTrackSystem
 
                             slider.value = 0;
                             slider.maxValue = count;
+
+                            slideT = 0;
                         }
                     }
 
@@ -333,6 +334,9 @@ namespace SmartTrackSystem
 
                     slider.value = 0;
                     slider.maxValue = recordedFrames - 1;
+
+                    slideT = 0;
+
                     ArrangeRopeIndexes(recordedFrames);
                 }
             }
@@ -361,7 +365,10 @@ namespace SmartTrackSystem
             {
                 if (playButton.image.sprite == playSprite)
                 {
-                    if(slider.value == slider.maxValue) { slider.value = 0; }
+                    if(slider.value == slider.maxValue) { 
+                        slider.value = 0;
+                        slideT = 0;
+                    }
 
                     playButton.image.sprite = pauseSprite;
                     replayCoroutine = StartCoroutine(Play());
@@ -390,7 +397,7 @@ namespace SmartTrackSystem
             isReplaying = true;
 
             slider.interactable = true;
-            for (slider.value = (int) slideT; slider.value < slider.maxValue; slider.value+=multiplier) {
+            for (slider.value = slideT; slider.value < slider.maxValue; slider.value+=multiplier) {
 
                 yield return new WaitForSeconds(recordingTime / recordedFrames);
             }
@@ -399,16 +406,18 @@ namespace SmartTrackSystem
         }
         private void Stop() 
         {
-            StopCoroutine(replayCoroutine);
             playButton.image.sprite = playSprite;
 
             slider.value = 0;
+            slideT = 0;
+
+            StopCoroutine(replayCoroutine);
 
             isReplaying = false;
         }
         private void OnSliderValueChange(float frame)
         {
-            if (preparedToReplay) 
+            if (preparedToReplay && isReplaying) 
             {
                 slideT = (int)frame;
 
@@ -465,7 +474,7 @@ namespace SmartTrackSystem
 
                 yield return StartCoroutine(ChooseSaveDirectory());
 
-                if(folderPath != null) 
+                if(!string.IsNullOrEmpty(folderPath)) 
                 {
                     List<RecordedObjectInfo> records = new List<RecordedObjectInfo>() { };
                     foreach(RecordedObject recordedObject in objectsToRecord) {
@@ -495,6 +504,8 @@ namespace SmartTrackSystem
             if (FileBrowser.Success){
                 folderPath = FileBrowser.Result[0];
             }
+
+            else {isSaving = false; }
         }
 
         #endregion
@@ -519,16 +530,17 @@ namespace SmartTrackSystem
         {
             loadAlert.gameObject.SetActive(false);
 
-            if (confirm)
-            {
+            if (confirm) {
+                if (isReplaying) { Stop(); }
+
                 isLoading = true;
 
-                ClearRecordData(true);
+                yield return StartCoroutine(ChooseLoadFile());              
 
-                yield return StartCoroutine(ChooseLoadFile());
-
-                if (folderPath != null)
+                if (!string.IsNullOrEmpty(folderPath))
                 {
+                    ClearRecordData(true);
+
                     string jsonString = File.ReadAllText(folderPath);
 
                     int indexOf = jsonString.IndexOf("RecordingTime") + 16;
@@ -545,8 +557,9 @@ namespace SmartTrackSystem
                     if (objectsToRecord.Count == records.Count) {
                         for (int j = 0; j < objectsToRecord.Count; j++){
                             RecordedRope rr = objectsToRecord[j].GetComponent<RecordedRope>();
-                            if(rr != null && objectsToRecord[j].rope.sourceBlueprint.name 
-                                == records[j].Name) { i++; }
+                            if(rr && objectsToRecord[j].rope.sourceBlueprint.name == records[j].Name) {
+                                i++; 
+                            }
                             else if (objectsToRecord[j].name == records[j].Name){
                                 i++;
                             }
@@ -562,6 +575,9 @@ namespace SmartTrackSystem
 
                         slider.value = 0;
                         slider.maxValue = recordedFrames - 1;
+
+                        slideT = 0;
+
                         ArrangeRopeIndexes(recordedFrames);
 
                         loadead = true;
@@ -574,8 +590,7 @@ namespace SmartTrackSystem
                 }
             }
 
-            else
-            {
+            else {
                 yield return StartCoroutine(SaveCoroutine());
                 StartCoroutine(ConfirmLoad(true));
             }
@@ -588,6 +603,8 @@ namespace SmartTrackSystem
             if (FileBrowser.Success){
                 folderPath = FileBrowser.Result[0];
             }
+
+            else {isLoading = false; }
         }
 
         #endregion
@@ -606,7 +623,8 @@ namespace SmartTrackSystem
 
             return prefab;
         }
-        private RecordedObject SetupRecordedObject(RecordedObject recordedObject, ObiActor rope, RecordedObject otherConnector)
+        private RecordedObject SetupRecordedObject(RecordedObject recordedObject, 
+            ObiActor rope, RecordedObject otherConnector)
         {
             recordedObject.rope = rope;
             recordedObject.otherConnector = otherConnector;
@@ -619,7 +637,7 @@ namespace SmartTrackSystem
                 int rope = 0;
                 foreach (RecordedObject recordedObject in objectsToRecord){
                     RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
-                    if (rr != null){
+                    if (rr){
                         ropesInitialIndexes[rope].array = new int[lenght];
                         for (int i = 0,j=0; i < rr.record.RecordRopeStore.Count; i++){
                             if (rr.record.RecordRopeStore[i].i){
@@ -659,22 +677,17 @@ namespace SmartTrackSystem
             string totalMinutes = Mathf.Floor(total / 60).ToString("00");
             string totalSeconds = (total % 60).ToString("00");
 
-            if (recordedFrames != 0) {
-                float current = (slider.value / recordedFrames) * recordingTime ;
 
-                string currentHours = Mathf.Floor(current / 3600).ToString("00");
-                string currentMinutes = Mathf.Floor(current / 60).ToString("00");
-                string currentSeconds = (current % 60).ToString("00");
+            float current = recordedFrames != 0 ? 
+                (slider.value / recordedFrames) * recordingTime : 0.0f; 
 
-                timeStamp.text = currentHours + ":" + currentMinutes + ":" +
-                currentSeconds + " / " + totalHours + ":"
-                + totalMinutes + ":" + totalSeconds;
-            }
+            string currentHours = Mathf.Floor(current / 3600).ToString("00");
+            string currentMinutes = Mathf.Floor(current / 60).ToString("00");
+            string currentSeconds = (current % 60).ToString("00");
 
-            else {
-                timeStamp.text = "00:00:00 / " + totalHours + ":"
-                + totalMinutes + ":" + totalSeconds;
-            }
+            timeStamp.text = currentHours + ":" + currentMinutes + ":" +
+            currentSeconds + " / " + totalHours + ":"
+            + totalMinutes + ":" + totalSeconds;
         }
         private void ClearRecordData(bool passThrough) 
         {
@@ -684,12 +697,15 @@ namespace SmartTrackSystem
 
                 foreach (RecordedObject recordedObject in objectsToRecord){
                     recordedObject.record.RecordObjectStore.Clear();
+                    recordedObject.record.RecordRopeStore.Clear();
                 }
 
                 ArrangeRopeIndexes(0);
 
                 slider.value = 0;
                 slider.maxValue = 0;
+
+                slideT = 0;
 
                 recordingTime = 0.0f;
                 recordedFrames = 0;
@@ -725,6 +741,13 @@ namespace SmartTrackSystem
                 if (t4.enabled){
                     rovItens.titan4s.Add(t4);
                     t4.enabled = false;
+                }
+            }
+
+            foreach (Claw claw in rov.GetComponentsInChildren<Claw>()){
+                if (claw.enabled){
+                    rovItens.claw.Add(claw);
+                    claw.enabled = false;
                 }
             }
 
@@ -786,6 +809,9 @@ namespace SmartTrackSystem
                 }
                 foreach (Titan4 t4 in rovItens.titan4s){
                     t4.enabled = true;
+                }
+                foreach (Claw claw in rovItens.claw){
+                    claw.enabled = true;
                 }
                 foreach (GenericMovement gm in rovItens.genericMovements){
                     gm.enabled = true;

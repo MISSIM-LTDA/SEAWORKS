@@ -3,6 +3,7 @@ using UnityEngine;
 public class JoystickControl : MonoBehaviour
 {
     [SerializeField] private KeyCode toggleKey;
+    [SerializeField] private KeyCode toggleKeyboardKey;
 
     private Transform rovControls; 
     private GameObject[] controls;
@@ -30,8 +31,8 @@ public class JoystickControl : MonoBehaviour
 
     void Update()
     {
-        if (controls.Length != 0 && Input.GetKeyDown(toggleKey))
-        {
+        if (controls.Length != 0 && (Input.GetKeyDown(toggleKey) || 
+            (Input.GetKey(KeyCode.LeftShift) && Input.GetKeyDown(toggleKeyboardKey)))) {
             // Deactivate the current GameObject
             controls[currentIndex].SetActive(false);
 

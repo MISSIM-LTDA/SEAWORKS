@@ -133,7 +133,6 @@ public class Titan4 : MonoBehaviour
             jawRigidbody.angularVelocity = Vector3.zero;
         }
     }
-
     private void AzimuthRotation() 
     {
         Vector3 direction = Vector3.zero;
