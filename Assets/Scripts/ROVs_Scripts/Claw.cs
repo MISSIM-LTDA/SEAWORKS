@@ -1,11 +1,42 @@
+using cakeslice;
 using UnityEngine;
+using UnityEngine.EventSystems;
+using UnityEngine.UIElements;
+using static UnityEngine.UI.ScrollRect;
 
 public class Claw : MonoBehaviour
 {
-    [SerializeField] private Transform moveObject;
+    private enum MovementType { Linear, Rotation };
+    private enum MoveAxis { X, Y, Z };
+    private class Direction
+    {
+        public MoveAxis axis;
 
-    [SerializeField] private KeyCode clockWise;
-    [SerializeField] private KeyCode CounterClockWise;
+        static readonly Vector3[] axisVector = new Vector3[] {
+            new Vector3(1,0,0),
+            new Vector3(0,1,0),
+            new Vector3(0,0,1)
+        };
+        public Vector3 GetAxis()
+        {
+            return axisVector[(int)axis];
+        }
+    }
+
+    private Direction direction = new Direction();
+    private Vector3 moveDirection;
+
+    [SerializeField] private Transform moveObject;
+    [Space(10)]
+
+    [SerializeField] private MovementType movementType;
+    [Space(10)]
+
+    [SerializeField] private MoveAxis moveAxis;
+    [Space(10)]
+
+    [SerializeField] private KeyCode right;
+    [SerializeField] private KeyCode left;
     [Space(10)]
 
     [SerializeField] private float speed;
@@ -15,66 +46,62 @@ public class Claw : MonoBehaviour
     [SerializeField] private float minLimit;
     [Space(10)]
 
-    [SerializeField] private bool translate;
-    [SerializeField] private bool rotate;
-    [Space(10)]
-
-    [SerializeField] private bool x;
-    [SerializeField] private bool y;
-    [SerializeField] private bool z;
-
-    float rotateAngle;
-    void Update()
+    public float movementAmount;
+    void FixedUpdate()
     {
-        if (Input.GetKey(CounterClockWise)){
-            if (rotate) {
-                rotateAngle++;
-                if (rotateAngle < maxLimit){
-                    if (x) { moveObject.Rotate(speed, 0.0f, 0.0f); }
-                    else if (y) { moveObject.Rotate(0.0f, speed, 0.0f); }
-                    else if (z) { moveObject.Rotate(0.0f, 0.0f, speed); }
-                }
-                else{
-                    rotateAngle = (maxLimit - 1);
-                }
-            }
-            else if (translate) {
-                rotateAngle += speed;
+        direction.axis = moveAxis;
+        moveDirection = direction.GetAxis() * speed;
 
-                if (rotateAngle >= maxLimit){
-                    rotateAngle = maxLimit + speed;
-                }
-
-                else{
-                    if (x) { moveObject.Translate(speed, 0.0f, 0.0f); }
-                    else if (y) { moveObject.Translate(0.0f, speed, 0.0f); }
-                    else if (z) { moveObject.Translate(0.0f, 0.0f, speed); }
-                }
-            }
+        if (movementType == MovementType.Linear){
+            LinearMovement();
         }
-        else if (Input.GetKey(clockWise)){
-            if (rotate) {
-                rotateAngle--;
-                if (rotateAngle > minLimit){
-                    if (x) { moveObject.Rotate(-speed, 0.0f, 0.0f); }
-                    else if (y) { moveObject.Rotate(0.0f, -speed, 0.0f); }
-                    else if (z) { moveObject.Rotate(0.0f, 0.0f, -speed); }
-                }
-                else{
-                    rotateAngle = minLimit + 1;
-                }
+
+        else if (movementType == MovementType.Rotation){
+            RotationMovement();
+        }
+    }
+    public void LinearMovement()
+    {
+        if(Input.GetKey(left)) {
+            movementAmount += speed;
+
+            if(movementAmount > maxLimit) { 
+                movementAmount = maxLimit;
+                return;
             }
-            else if (translate) {
-                rotateAngle -= speed;
-                if (rotateAngle >= minLimit){
-                    if (x) { moveObject.Translate(-speed, 0.0f, 0.0f); }
-                    else if (y) { moveObject.Translate(0.0f, -speed, 0.0f); }
-                    else if (z) { moveObject.Translate(0.0f, 0.0f, -speed); }
-                }
-                else{
-                    rotateAngle = minLimit - speed;
-                }
+            else { moveObject.Translate(moveDirection); }
+        }
+
+        else if (Input.GetKey(right)){
+            movementAmount -= speed;
+
+            if (movementAmount < minLimit){
+                movementAmount = minLimit;
+                return;
             }
+            else { moveObject.Translate(-moveDirection); }
+        }
+    }
+    public void RotationMovement()
+    {
+        if (Input.GetKey(left)) {
+            movementAmount++;
+
+            if (movementAmount > maxLimit){
+                movementAmount = maxLimit;
+                return;
+            }
+            else { moveObject.Rotate(moveDirection); }
+        }
+
+        else if (Input.GetKey(right)) {
+            movementAmount--;
+
+            if (movementAmount < minLimit){
+                movementAmount = minLimit;
+                return;
+            }
+            else { moveObject.Rotate(-moveDirection); }
         }
     }
 }

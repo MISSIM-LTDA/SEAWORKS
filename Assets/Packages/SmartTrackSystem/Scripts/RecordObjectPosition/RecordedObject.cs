@@ -3,6 +3,7 @@ using SimpleFileBrowser;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Globalization;
 using System.IO;
 using UnityEngine;
 using UnityEngine.EventSystems;
@@ -35,14 +36,16 @@ namespace SmartTrackSystem
 
         protected string folderPath;
 
-        public RecordedObjectInfo record = new RecordedObjectInfo("", 0, new List<ObjectTransformToRecord>() { });
+        public RecordedObjectInfo record = new RecordedObjectInfo("", new List<ObjectTransformToRecord>() { });
 
         public int index;
+
+        public string decimalPlaces;
         protected virtual void Start()
         {
             if (rope != null) { connectedToRope = true; }
 
-            mainCamera = GameObject.FindGameObjectWithTag("Main");
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
             outEffect = mainCamera.GetComponent<OutlineEffect>();
 
             eventSystem = FindObjectOfType<EventSystem>();
@@ -263,21 +266,21 @@ namespace SmartTrackSystem
                 Transform eflConnector2 = transform.GetChild(1);
 
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (eflConnector1.gameObject.activeSelf,
-                    eflConnector1.localPosition,
-                    eflConnector1.localRotation));
+                    (eflConnector1.gameObject.activeSelf, 
+                    eflConnector1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
+                    eflConnector1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (eflConnector2.gameObject.activeSelf,
-                    eflConnector2.localPosition,
-                    eflConnector2.localRotation));
+                    (eflConnector2.gameObject,
+                    eflConnector2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
+                    eflConnector2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
             }
 
             else
             {
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (gameObject.activeSelf,
-                    transform.localPosition,
-                    transform.localRotation));
+                    transform.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
+                    transform.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
             }
         }
         protected void SavePositions()
@@ -332,42 +335,13 @@ namespace SmartTrackSystem
         }
         public virtual void LoadPositions(bool makePhysics)
         {
-            if (transform.tag == "EFL_Parent")
-            {
-                Transform eflConnector1 = transform.GetChild(0);
-                Transform eflConnector2 = transform.GetChild(1);
+            gameObject.SetActive((record.RecordObjectStore[index].e));
+            SetLocalPositionAndRotation(transform,
+            StringToVector3(record.RecordObjectStore[index].p),
+            StringToQuaternion(record.RecordObjectStore[index].r));
 
-                eflConnector1.GetComponent<Rigidbody>().isKinematic = true;
-                eflConnector2.GetComponent<Rigidbody>().isKinematic = true;
-
-                eflConnector1.gameObject.SetActive(record.RecordObjectStore[index].enable);
-                SetLocalPositionAndRotation(eflConnector1,
-                    record.RecordObjectStore[index].postion,
-                    record.RecordObjectStore[index].rotation);
-
-                eflConnector2.gameObject.SetActive(record.RecordObjectStore[index].enable);
-                SetLocalPositionAndRotation(eflConnector2,
-                    record.RecordObjectStore[index + 1].postion,
-                    record.RecordObjectStore[index + 1].rotation);
-
-                if (makePhysics)
-                {
-                    eflConnector1.GetComponent<Rigidbody>().isKinematic = false;
-                    eflConnector2.GetComponent<Rigidbody>().isKinematic = false;
-                }
-
-                index += 2;
-            }
-
-            else
-            {
-                SetLocalPositionAndRotation(transform,
-                 record.RecordObjectStore[index].postion,
-                 record.RecordObjectStore[index].rotation);
-
-                index++;
-            }
-
+            index++;
+            
             folderPath = null;
             loading = false;
         }
@@ -375,10 +349,36 @@ namespace SmartTrackSystem
         #endregion
 
         #region Support Functions
-        protected void SetLocalPositionAndRotation(Transform obj, Vector3 position, Quaternion rotation)
+        protected void SetLocalPositionAndRotation(Transform obj, 
+            Vector3 position, Quaternion rotation)
         {
             obj.localPosition = position;
             obj.localRotation = rotation;
+        }
+        protected Vector3 StringToVector3(string position) 
+        {
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
+            string[] axis = position.Split(",");
+        
+            float x = float.Parse(axis[0].Replace("(", "").Trim(), formatProvider);
+            float y = float.Parse(axis[1].Trim(), formatProvider);
+            float z = float.Parse(axis[2].Replace(")", "").Trim(), formatProvider);
+
+            return new Vector3(x, y, z);
+        }
+        protected Quaternion StringToQuaternion(string rotation) 
+        {
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
+            string[] axis = rotation.Split(",");
+
+            float x = float.Parse(axis[0].Replace("(", "").Trim(), formatProvider);
+            float y = float.Parse(axis[1].Trim(), formatProvider);
+            float z = float.Parse(axis[2].Trim(), formatProvider);
+            float w = float.Parse(axis[3].Replace(")", "").Trim(), formatProvider);
+
+            return new Quaternion(x, y, z, w);
         }
         protected virtual void SaveOrLoadSetup()
         {
@@ -387,7 +387,6 @@ namespace SmartTrackSystem
             folderPath = null;
 
             record.Name = gameObject.name;
-            record.ThisIsRecordedObjectData = 0;
             record.RecordObjectStore.Clear();
         }
         protected string CreateDirectoryToSaveAll(string path)
@@ -460,7 +459,6 @@ namespace SmartTrackSystem
                 folderPath = FileBrowser.Result[0];
             }
         }
-
         #endregion
     }
 }

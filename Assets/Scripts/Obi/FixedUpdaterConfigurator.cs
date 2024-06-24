@@ -1,10 +1,13 @@
 using Obi;
-using System.Collections.Generic;
 using UnityEngine;
 
 [RequireComponent(typeof(ObiFixedUpdater))]
 public class FixedUpdaterConfigurator : MonoBehaviour
 {
+    private void Start()
+    {
+        FixScene();
+    }
     public void FixScene() 
     {
         ObiFixedUpdater fixedUpdater = GetComponent<ObiFixedUpdater>();

@@ -26,25 +26,25 @@ public class PanAndTiltControl : MonoBehaviour
 
     private void FixedUpdate()
     {
-        if (Input.GetAxis("T4S") <= -0.8f){
-            if (pan.localEulerAngles.y < panMaxLimit){
+        if (Input.GetAxis("T4S") <= -0.8f || Input.GetKey(KeyCode.RightArrow)){
+            if (pan.localEulerAngles.y < panMaxLimit) {
                 pan.Rotate(0.0f, 0.0f, panRotationSpeed, Space.Self);
             }
         }
 
-        else if (Input.GetAxis("T4S") >= 0.8f){
+        else if (Input.GetAxis("T4S") >= 0.8f || Input.GetKey(KeyCode.LeftArrow)){
             if (pan.localEulerAngles.y > panMinLimit){
                 pan.Rotate(0.0f, 0.0f, -panRotationSpeed, Space.Self);
             }
         }
-        Debug.Log(WrapAngle(tilt.localEulerAngles.x));
-        if (Input.GetAxis("T4UD") >= 0.8f){
+
+        if (Input.GetAxis("T4UD") >= 0.8f || Input.GetKey(KeyCode.UpArrow)){
             if (WrapAngle(tilt.localEulerAngles.x) < tiltMaxLimit){
                 tilt.Rotate(tiltRotationSpeed, 0.0f, 0.0f, Space.Self);
             }
         }
 
-        else if (Input.GetAxis("T4UD") <= -0.8f){
+        else if (Input.GetAxis("T4UD") <= -0.8f || Input.GetKey(KeyCode.DownArrow)){
             if (WrapAngle(tilt.localEulerAngles.x) > tiltMinLimit){
                 tilt.Rotate(-tiltRotationSpeed, 0.0f, 0.0f, Space.Self);
             }

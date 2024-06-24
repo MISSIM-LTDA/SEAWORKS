@@ -1,90 +1,92 @@
 using UnityEngine;
 public class GenericMovement : MonoBehaviour
 {
-    private Rigidbody m_Rigidbody;
-    private Joint m_Joint;
+    private enum MovementType { Linear, Rotation };
+    [SerializeField] private MovementType movementType;
+    private enum MoveAxis { X, Y, Z };
+    [SerializeField] private MoveAxis moveAxis;
+    private class Direction
+    {
+        public MoveAxis axis;
 
-    private Rigidbody rovRigb;
+        static readonly Vector3[] axisVector = new Vector3[] {
+            new Vector3(1,0,0),
+            new Vector3(0,1,0),
+            new Vector3(0,0,1)
+        };
+        public Vector3 GetAxis(){
+            return axisVector[(int)axis];
+        }
+    }
 
-    [SerializeField] private bool x;
-    [SerializeField] private bool y;
-    [SerializeField] private bool z;
-
-    [SerializeField] private bool linear;
-    [SerializeField] private bool rotation;
+    private Direction direction = new Direction();
+    private Vector3 moveDirection;
 
     [SerializeField] private float speed;
 
     [SerializeField] private KeyCode right;
     [SerializeField] private KeyCode left;
+
+    private Rigidbody rigidBody;
+
+    private Joint joint;
+    private Rigidbody connectedBody;
     void Start()
     {
-        m_Rigidbody = GetComponent<Rigidbody>();
-        m_Joint = GetComponent<FixedJoint>();
+        rigidBody = GetComponent<Rigidbody>();
+        joint = GetComponent<FixedJoint>();
 
-        rovRigb = transform.parent.parent.GetComponent<Rigidbody>();
+        connectedBody = joint.connectedBody;
     }
     void FixedUpdate()
     {
-        Vector3 input = Vector3.zero;
-        Vector3 eulerAngleVelocity = Vector3.zero;
+        direction.axis = moveAxis;
+        moveDirection = direction.GetAxis() * speed;
 
-        if (x){
-            input = new Vector3(0, speed, 0);
-            eulerAngleVelocity = new Vector3(0, speed, 0);
+        if (movementType == MovementType.Linear) { 
+            LinearMovement(); 
         }
 
-        else if (y){
-            input = new Vector3(speed, 0, 0);
-            eulerAngleVelocity = new Vector3(speed, 0, 0);
+        else if (movementType == MovementType.Rotation) { 
+            RotationMovement(); 
         }
-
-        else if (z){
-            input = new Vector3(0, 0, speed);
-            eulerAngleVelocity = new Vector3(0, 0, speed);
-        }
-
-        if (linear)
+    }
+    public void LinearMovement() 
+    {
+        if(Input.GetKey(right) || Input.GetKey(left)) 
         {
-            if (Input.GetKey(right)){
-                Destroy(m_Joint);
-                m_Rigidbody.MovePosition(transform.position + input * Time.deltaTime * speed);
-            }
+            moveDirection = Input.GetKey(left) ? 
+                moveDirection = -moveDirection : moveDirection;
 
-            else if (Input.GetKey(left)){  
-                Destroy(m_Joint);
-                m_Rigidbody.MovePosition(transform.position + (-input) * Time.deltaTime * speed);
-            }
+            Destroy(joint);
 
-            else{
-                if (!m_Joint){
-                    m_Joint = gameObject.AddComponent<FixedJoint>();
-                    m_Joint.connectedBody = rovRigb;
-                }
-            }
+            rigidBody.MovePosition(transform.position + 
+                moveDirection * Time.fixedDeltaTime * speed);
         }
 
-        else if (rotation)
+        else if(!joint) { ReAddJoint(); }
+    }
+    public void RotationMovement() 
+    {
+        if (Input.GetKey(right) || Input.GetKey(left)) 
         {
-            if (Input.GetKey(right)){
-                Destroy(m_Joint);
-                Quaternion deltaRotation = Quaternion.Euler(eulerAngleVelocity * Time.fixedDeltaTime);
-                m_Rigidbody.MoveRotation(m_Rigidbody.rotation * deltaRotation);
-            }
+            moveDirection = Input.GetKey(left) ?
+                moveDirection = -moveDirection : moveDirection;
 
-            else if (Input.GetKey(left)){
-                Destroy(m_Joint);
-                Quaternion deltaRotation = Quaternion.Euler((-eulerAngleVelocity) * Time.fixedDeltaTime);
-                m_Rigidbody.MoveRotation(m_Rigidbody.rotation * deltaRotation);
-            }
+            Destroy(joint);
 
-            else{
-                if (!m_Joint){
-                    m_Joint = gameObject.AddComponent<FixedJoint>();
-                    m_Joint.connectedBody = rovRigb;
-                }
-            }
+            Quaternion deltaRotation = Quaternion.Euler
+                (moveDirection * Time.fixedDeltaTime);
+
+            rigidBody.MoveRotation(rigidBody.rotation * deltaRotation);
         }
+
+        else if(!joint){ ReAddJoint(); }
+    }
+    public void ReAddJoint() 
+    {
+        joint = gameObject.AddComponent<FixedJoint>();
+        joint.connectedBody = connectedBody;
     }
 }
 

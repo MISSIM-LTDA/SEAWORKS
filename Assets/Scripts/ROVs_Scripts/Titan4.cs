@@ -78,7 +78,7 @@ public class Titan4 : MonoBehaviour
         jawRigidbody = jaw.GetComponent<Rigidbody>();
         jawJoint = jaw.GetComponent<FixedJoint>();
 
-        rovRigidbody = azimuthRef.transform.parent.parent.GetComponent<Rigidbody>();
+        rovRigidbody = GameObject.FindGameObjectWithTag("XLX").GetComponent<Rigidbody>();
     }
     void FixedUpdate()
     {
@@ -133,7 +133,6 @@ public class Titan4 : MonoBehaviour
             jawRigidbody.angularVelocity = Vector3.zero;
         }
     }
-
     private void AzimuthRotation() 
     {
         Vector3 direction = Vector3.zero;
@@ -142,12 +141,13 @@ public class Titan4 : MonoBehaviour
             direction = transform.forward;
         }
 
-        else if (Input.GetAxis("T4UD") >= 0.8 && Input.GetKey(upDown)){
-            direction = transform.up;
+        else if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(upDown))
+        {
+            direction = transform.forward * (-1);
         }
 
-        else if (Input.GetAxis("T4UD") <= -0.8 && !Input.GetKey(upDown)){
-            direction = transform.forward * (-1);
+        else if (Input.GetAxis("T4UD") >= 0.8 && Input.GetKey(upDown)){
+            direction = transform.up;
         }
 
         else if (Input.GetAxis("T4UD") <= -0.8 && Input.GetKey(upDown)){
@@ -165,8 +165,8 @@ public class Titan4 : MonoBehaviour
         else {
             if (!azimuthJoint) {
                 azimuthJoint = Jointify(azimuthRef, rovRigidbody);
-                return;
             }
+            return;
         }
 
         Destroy(azimuthJoint);

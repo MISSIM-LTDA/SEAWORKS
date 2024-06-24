@@ -7,50 +7,57 @@ namespace SmartTrackSystem
     [Serializable]
     public class ObjectTransformToRecord
     {
-        public bool initialIndex = false;
+        public bool e = false;//enable
 
-        public bool enable = false;
-        public Vector3 postion = Vector3.zero;
-        public Quaternion rotation = Quaternion.identity;
-
-        public float invPosMasses = 0.0f;
-        public float invRotMasses = 0.0f;
-
-        public int particleCount = 0;
-        public float lenght = 0.0f;
-
-        public ObjectTransformToRecord(bool enable, Vector3 position, Quaternion rotation)
+        public string p;//position
+        public string r;//rotation
+        public ObjectTransformToRecord(bool enable, string position, string rotation)
         {
-            this.enable = enable;
-            this.postion = position;
-            this.rotation = rotation;
+            e = enable;
+            p = position;
+            r = rotation;
         }
+    }
 
-        public ObjectTransformToRecord(bool initialIndex, bool enable, Vector3 position, Quaternion rotation, int particleCount, float lenght)
+    [Serializable]
+    public class RopeTransformToRecord
+    {
+        public bool i = false;//initialIndex
+        public bool e = false;//enable
+
+        public string p;//position
+        public string r;//rotation
+
+        public string iPM;//invPosMasses
+        public string iRM;//invRotMasses
+
+        public int pC = 0;//particleCount
+        public string l;//lenght
+        public RopeTransformToRecord(bool initialIndex, bool enable, string position, string rotation)
         {
-            this.initialIndex = initialIndex;
+            i = initialIndex;
 
-            this.enable = enable;
-            this.postion = position;
-            this.rotation = rotation;
+            e = enable;
 
-            this.particleCount = particleCount;
-            this.lenght = lenght;
+            p = position;
+            r = rotation;
         }
-
-        public ObjectTransformToRecord(bool initialIndex, bool enable, Vector3 position, Quaternion rotation, float invPosMasses, float invRotMasses, int particleCount, float lenght)
+        public RopeTransformToRecord(bool initialIndex, bool enable, string position,
+            string rotation, string invPosMasses,
+            string invRotMasses, int particleCount, string lenght)
         {
-            this.initialIndex = initialIndex;
+            i = initialIndex;
 
-            this.enable = enable;
-            this.postion = position;
-            this.rotation = rotation;
+            e = enable;
 
-            this.invPosMasses = invPosMasses;
-            this.invRotMasses = invRotMasses;
+            p = position;
+            r = rotation;
 
-            this.particleCount = particleCount;
-            this.lenght = lenght;
+            iPM = invPosMasses;
+            iRM = invRotMasses;
+
+            pC = particleCount;
+            l = lenght;
         }
     }
 
@@ -58,13 +65,17 @@ namespace SmartTrackSystem
     public class RecordedObjectInfo
     {
         public string Name;
-        public int ThisIsRecordedObjectData;
         public List<ObjectTransformToRecord> RecordObjectStore = new List<ObjectTransformToRecord>();
-        public RecordedObjectInfo(string m_name, int m_thisIsRecordedObjectData, List<ObjectTransformToRecord> m_recordObjectStore)
+        public List<RopeTransformToRecord> RecordRopeStore = new List<RopeTransformToRecord>();
+        public RecordedObjectInfo(string m_name, List<ObjectTransformToRecord> m_recordObjectStore)
         {
             Name = m_name;
-            ThisIsRecordedObjectData = m_thisIsRecordedObjectData;
             RecordObjectStore = m_recordObjectStore;
+        }
+        public RecordedObjectInfo(string m_name, List<RopeTransformToRecord> m_recordRopeStore)
+        {
+            Name = m_name;
+            RecordRopeStore = m_recordRopeStore;
         }
     }
 }
