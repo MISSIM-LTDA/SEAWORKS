@@ -7,14 +7,18 @@ using UnityEngine;
 public class teste : MonoBehaviour
 {
     public bool start;
-
-    private void Update()
+    void Start()
     {
-        if (start)
+        
+    }
+
+    void Update()
+    {
+        if(start) 
         {
-            foreach (ObiCollider t in transform.GetComponentsInChildren<ObiCollider>()) 
+            foreach (ObiCollider collider in GetComponentsInChildren<ObiCollider>()) 
             {
-                DestroyImmediate(t);
+                DestroyImmediate(collider);
             }
 
             start = false;
