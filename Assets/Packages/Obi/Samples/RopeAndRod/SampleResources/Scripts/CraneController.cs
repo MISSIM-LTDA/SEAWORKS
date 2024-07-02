@@ -6,10 +6,10 @@ public class CraneController : MonoBehaviour
     private ObiRope rope;
     private ObiRopeCursor cursor;
 
-	public KeyCode extend;
-	public KeyCode decrease;
+	[SerializeField] private KeyCode extend = KeyCode.JoystickButton11;
+    [SerializeField] private KeyCode decrease = KeyCode.JoystickButton10;
 
-	public float speed;
+	[SerializeField] private float speed;
 
 	void Start()
 	{
