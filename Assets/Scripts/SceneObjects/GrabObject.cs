@@ -46,17 +46,13 @@ public class GrabObject : MonoBehaviour
                 }
 
                 grabObjectJoint.connectedBody = basketRigidbody;
-
-                grabObjectRigidbody.isKinematic = true;
-                grabObjectRigidbody.useGravity = false;
             }
 
             else {
                 Destroy(grabObjectJoint);
-
-                grabObjectRigidbody.useGravity = false;
             }
 
+            grabObjectRigidbody.useGravity = false;
             locked = false;
         }
     }
