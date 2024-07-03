@@ -49,6 +49,9 @@ namespace SmartTrackSystem
             outEffect = mainCamera.GetComponent<OutlineEffect>();
 
             eventSystem = FindObjectOfType<EventSystem>();
+
+            SmartTrack smartTrack = GameObject.FindObjectOfType<SmartTrack>();
+            decimalPlaces = "F" + smartTrack.decimalPlaces;
         }
 
         #region Select Functions

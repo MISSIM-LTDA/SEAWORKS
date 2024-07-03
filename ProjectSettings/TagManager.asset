@@ -23,6 +23,7 @@ TagManager:
   - SonarCamera
   - Interectable
   - SmartTrackConsole
+  - Basket
   layers:
   - Default
   - TransparentFX
