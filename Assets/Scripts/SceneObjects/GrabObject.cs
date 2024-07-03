@@ -34,6 +34,8 @@ public class GrabObject : MonoBehaviour
                 grabObjectJoint = gameObject.AddComponent<HingeJoint>();
             }
 
+            grabObjectRigidbody.isKinematic = false;
+
             grabObjectJoint.connectedBody = manipulatorRigidbody;
 
             locked = true;
@@ -50,6 +52,8 @@ public class GrabObject : MonoBehaviour
 
             else {
                 Destroy(grabObjectJoint);
+
+                grabObjectRigidbody.isKinematic = true;
             }
 
             grabObjectRigidbody.useGravity = false;
