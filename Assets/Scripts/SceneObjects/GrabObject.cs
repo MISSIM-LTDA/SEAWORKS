@@ -43,15 +43,11 @@ public class GrabObject : MonoBehaviour
 
         else if (Input.GetKeyDown(lockUnlockKey) && locked){
             if (onBasket) {
-                if (!grabObjectJoint){
-                    grabObjectJoint = gameObject.AddComponent<HingeJoint>();
-                }
-
                 grabObjectJoint.connectedBody = basketRigidbody;
             }
 
             else {
-                Destroy(grabObjectJoint);
+                grabObjectJoint.connectedBody = null;
 
                 grabObjectRigidbody.isKinematic = true;
             }
