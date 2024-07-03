@@ -27,9 +27,9 @@ public class GrabObject : MonoBehaviour
         manipulatorRigidbody = manipulator.GetComponent<Rigidbody>();
 
     }
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKey(lockUnlockKey) && checkIn && !locked){
+        if (Input.GetKeyDown(lockUnlockKey) && checkIn && !locked){
             if (!grabObjectJoint) {
                 grabObjectJoint = gameObject.AddComponent<HingeJoint>();
             }
@@ -39,7 +39,7 @@ public class GrabObject : MonoBehaviour
             locked = true;
         }
 
-        else if (Input.GetKey(lockUnlockKey) && locked){
+        else if (Input.GetKeyDown(lockUnlockKey) && locked){
             if (onBasket) {
                 if (!grabObjectJoint){
                     grabObjectJoint = gameObject.AddComponent<HingeJoint>();
