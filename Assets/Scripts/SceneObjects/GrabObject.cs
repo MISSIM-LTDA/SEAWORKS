@@ -9,8 +9,7 @@ public class GrabObject : MonoBehaviour
     private GameObject manipulator;
     private Rigidbody manipulatorRigidbody;
 
-    [SerializeField] private KeyCode lockKey = KeyCode.JoystickButton5;
-    [SerializeField] private KeyCode leaveKey = KeyCode.JoystickButton4;
+    [SerializeField] private KeyCode lockUnlockKey = KeyCode.JoystickButton8;
 
     private bool checkIn;
     private bool onBasket;
@@ -30,7 +29,7 @@ public class GrabObject : MonoBehaviour
     }
     void Update()
     {
-        if (Input.GetKey(lockKey) && checkIn && !locked){
+        if (Input.GetKey(lockUnlockKey) && checkIn && !locked){
             if (!grabObjectJoint) {
                 grabObjectJoint = gameObject.AddComponent<HingeJoint>();
             }
@@ -40,7 +39,7 @@ public class GrabObject : MonoBehaviour
             locked = true;
         }
 
-        else if (Input.GetKey(leaveKey) && locked){
+        else if (Input.GetKey(lockUnlockKey) && locked){
             if (onBasket) {
                 if (!grabObjectJoint){
                     grabObjectJoint = gameObject.AddComponent<HingeJoint>();
@@ -54,9 +53,6 @@ public class GrabObject : MonoBehaviour
 
             else {
                 Destroy(grabObjectJoint);
-
-                grabObjectRigidbody.isKinematic = false;
-                grabObjectRigidbody.useGravity = true;
             }
 
             locked = false;
