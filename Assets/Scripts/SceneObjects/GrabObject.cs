@@ -53,6 +53,9 @@ public class GrabObject : MonoBehaviour
 
             else {
                 Destroy(grabObjectJoint);
+
+                grabObjectRigidbody.isKinematic = true;
+                grabObjectRigidbody.useGravity = false;
             }
 
             locked = false;
