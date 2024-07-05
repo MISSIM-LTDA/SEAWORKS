@@ -23,7 +23,6 @@ namespace Obi
 
         public void OnEnable()
         {
-
             attachment = target as ObiParticleAttachment;
             targetTransform = serializedObject.FindProperty("m_Target");
             particleGroup = serializedObject.FindProperty("m_ParticleGroup");

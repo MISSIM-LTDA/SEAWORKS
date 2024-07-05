@@ -1,38 +1,64 @@
 using UnityEngine;
 using UnityEditor;
+using static Obi.ObiParticleAttachment;
 
 [CustomEditor(typeof(AddAttachmentsOnAObi))]
 public class AddAttachmentsOnAObiCustomInspector : Editor
 {
+    SerializedProperty objectToAttach;
+    SerializedProperty rope;
+    SerializedProperty particleGroupName;
+    SerializedProperty attachmentType;
+    SerializedProperty compliance;
+    SerializedProperty breakThreshold;
+
+    AddAttachmentsOnAObi addAttachment;
+    private void OnEnable()
+    {
+        addAttachment = target as AddAttachmentsOnAObi;
+
+        objectToAttach = serializedObject.FindProperty("objectToAttach");
+
+        rope = serializedObject.FindProperty("rope");
+
+        particleGroupName = serializedObject.FindProperty("particleGroupName");
+
+        attachmentType = serializedObject.FindProperty("attachmentType");
+
+        compliance = serializedObject.FindProperty("compliance");
+        breakThreshold = serializedObject.FindProperty("breakThreshold");
+    }
     public override void OnInspectorGUI()
     {
-        DrawDefaultInspector();
+        serializedObject.UpdateIfRequiredOrScript();
 
-        AddAttachmentsOnAObi addAttachments = (AddAttachmentsOnAObi)target;
+        EditorGUILayout.PropertyField(objectToAttach, new GUIContent("Object To Attach"));
 
-        if (GUILayout.Button("Add Attachments in Lock Particles"))
-        {
-            addAttachments.AddLock();
+        EditorGUILayout.Space(20);
+
+        EditorGUILayout.PropertyField(rope, new GUIContent("Rope", "Place the rope object you want to attach the particles"));
+
+        if (addAttachment.objectToAttach && addAttachment.rope) {
+            EditorGUILayout.PropertyField(particleGroupName, new GUIContent("Particle Group Name",
+                "Fill with the name of the particles you want to add lock attachments"));
+            EditorGUILayout.PropertyField(attachmentType, new GUIContent("Attachment Type"));
+
+            if(addAttachment.attachmentType == AttachmentType.Dynamic) {
+                EditorGUILayout.PropertyField(compliance, new GUIContent("Compliance"));
+                EditorGUILayout.PropertyField(breakThreshold, new GUIContent("BreakThreshold"));
+            }
+
+            EditorGUILayout.Space(20);
+
+            if (GUILayout.Button("Add Attachments")) {
+                addAttachment.AddAttachments();
+            }
+
+            if (GUILayout.Button("Remove Attachments")) {
+                addAttachment.RemoveAttachments();
+            }
         }
 
-        if (GUILayout.Button("Add Attachments in Break Particles"))
-        {
-            addAttachments.AddBreak();
-        }
-
-        if (GUILayout.Button("Remove Lock Particles Attachments"))
-        {
-            addAttachments.RemoveLocks();
-        }
-
-        if (GUILayout.Button("Remove Break Particles Attachments"))
-        {
-            addAttachments.RemoveBreaks();
-        }
-
-        if (GUILayout.Button("Remove All Particles Attachments"))
-        {
-            addAttachments.RemoveAll();
-        }
+        if (GUI.changed) { serializedObject.ApplyModifiedProperties(); }
     }
 }
