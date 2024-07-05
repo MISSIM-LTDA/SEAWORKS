@@ -32,12 +32,13 @@ namespace SmartTrackSystem
             int particleCount = rope.activeParticleCount;
             float lenght = 0.0f;
 
-            if (rope.GetComponent<ObiRope>() != null)
-            {
+            if (rope.GetComponent<ObiRope>() != null) {
                 lenght = rope.GetComponent<ObiRope>().restLength;
             }
 
-            if(startOfRope != null) 
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
+            if (startOfRope != null) 
             {
                 if (startOfRope.tag == "EFL_Parent")
                 {
@@ -46,12 +47,12 @@ namespace SmartTrackSystem
 
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (initialIndex,start1.gameObject.activeSelf,
-                        start1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        start1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        start1.localPosition.ToString(decimalPlaces, formatProvider), 
+                        start1.localRotation.ToString(decimalPlaces, formatProvider)));
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,start2.gameObject.activeSelf,
-                        start2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        start2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        start2.localPosition.ToString(decimalPlaces, formatProvider), 
+                        start2.localRotation.ToString(decimalPlaces, formatProvider)));
 
                     initialIndex = false;
                 }
@@ -60,8 +61,8 @@ namespace SmartTrackSystem
                 {
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (initialIndex,startOfRope.gameObject.activeSelf,
-                        startOfRope.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        startOfRope.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        startOfRope.localPosition.ToString(decimalPlaces,formatProvider), 
+                        startOfRope.localRotation.ToString(decimalPlaces,formatProvider)));
 
                     initialIndex = false;
                 }
@@ -73,11 +74,11 @@ namespace SmartTrackSystem
             {
                 record.RecordRopeStore.Add(new RopeTransformToRecord
                 (initialIndex,gameObject.activeSelf,
-                rope.solver.positions[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                rope.solver.orientations[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                solver.invMasses[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                solver.invRotationalMasses[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                particleCount, lenght.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                rope.solver.positions[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
+                rope.solver.orientations[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
+                solver.invMasses[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
+                solver.invRotationalMasses[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
+                particleCount, lenght.ToString(decimalPlaces,formatProvider)));
 
                 if (i == 0) { initialIndex = false; }
             }
@@ -91,20 +92,20 @@ namespace SmartTrackSystem
 
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,end1.gameObject.activeSelf, 
-                        end1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                        end1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        end1.localPosition.ToString(decimalPlaces,formatProvider),
+                        end1.localRotation.ToString(decimalPlaces,formatProvider)));
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,end2.gameObject.activeSelf, 
-                        end2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                        end2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        end2.localPosition.ToString(decimalPlaces,formatProvider),
+                        end2.localRotation.ToString(decimalPlaces,formatProvider)));
                 }
 
                 else
                 {
                     record.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,endOfRope.gameObject.activeSelf,
-                        endOfRope.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        endOfRope.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                        endOfRope.localPosition.ToString(decimalPlaces,formatProvider), 
+                        endOfRope.localRotation.ToString(decimalPlaces,formatProvider)));
                 }
             }
         }
@@ -279,8 +280,12 @@ namespace SmartTrackSystem
         private float StringToFloat(string lenght) 
         {
             IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+            NumberStyles style = NumberStyles.Float;
+            float result;
 
-            return float.Parse(lenght.Trim(),formatProvider);
+            float.TryParse(lenght.Trim(), style, formatProvider,out result);
+
+            return result;
         }
         private Vector4 StringToVector4(string rotation)
         {

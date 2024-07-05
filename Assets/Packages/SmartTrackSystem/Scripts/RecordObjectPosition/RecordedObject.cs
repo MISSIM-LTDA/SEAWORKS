@@ -263,6 +263,9 @@ namespace SmartTrackSystem
         }
         public virtual void GetObjectPosition()
         {
+
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+
             if (transform.tag == "EFL_Parent")
             {
                 Transform eflConnector1 = transform.GetChild(0);
@@ -270,20 +273,20 @@ namespace SmartTrackSystem
 
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (eflConnector1.gameObject.activeSelf, 
-                    eflConnector1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    eflConnector1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                    eflConnector1.localPosition.ToString(decimalPlaces, formatProvider),
+                    eflConnector1.localRotation.ToString(decimalPlaces, formatProvider)));
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (eflConnector2.gameObject,
-                    eflConnector2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    eflConnector2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                    eflConnector2.localPosition.ToString(decimalPlaces, formatProvider),
+                    eflConnector2.localRotation.ToString(decimalPlaces, formatProvider)));
             }
 
             else
             {
                 record.RecordObjectStore.Add(new ObjectTransformToRecord
                     (gameObject.activeSelf,
-                    transform.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    transform.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+                    transform.localPosition.ToString(decimalPlaces, formatProvider),
+                    transform.localRotation.ToString(decimalPlaces, formatProvider)));
             }
         }
         protected void SavePositions()

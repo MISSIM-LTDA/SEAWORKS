@@ -370,6 +370,10 @@ namespace SmartTrackSystem
                         slideT = 0;
                     }
 
+                    else {
+                        slideT = (int)slider.value;
+                    }
+
                     playButton.image.sprite = pauseSprite;
                     replayCoroutine = StartCoroutine(Play());
                 }
