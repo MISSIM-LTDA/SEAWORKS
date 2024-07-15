@@ -9,6 +9,7 @@ using Obi;
 using SimpleFileBrowser;
 using TMPro;
 using System;
+using TMPro.Examples;
 
 namespace SmartTrackSystem
 {
@@ -16,6 +17,7 @@ namespace SmartTrackSystem
     {
         [SerializeField] private List<GameObject> gameObjectsToRecord = new List<GameObject>() { };
         [SerializeField, HideInInspector] private List<RecordedObject> objectsToRecord = new List<RecordedObject>() { };
+        [SerializeField, HideInInspector] private List<Button> objectsButtons = new List<Button>();
 
         [Serializable]
         public class RovItens 
@@ -50,7 +52,12 @@ namespace SmartTrackSystem
 
         [SerializeField] private List<Matrix> ropesInitialIndexes = new List<Matrix>();
 
-        //UI Elements
+        [SerializeField, HideInInspector] private Transform objectsUI;
+        private Transform contentPanel;
+
+        [SerializeField, HideInInspector] private GameObject selectedObject;
+        public GameObject SelectedObject { set { selectedObject = value; } }
+
         [SerializeField, HideInInspector] private Transform smartTrackUIConsole;
         private Transform console;
         private Transform loadAlert;
@@ -104,6 +111,7 @@ namespace SmartTrackSystem
                 FileBrowser.AddQuickLink("Users", "C:\\Users", null);
 
                 SetupUIButtons();
+                //SetButtonsEvents();
             }
         }
         public void Update()
@@ -142,16 +150,31 @@ namespace SmartTrackSystem
                 gameObjectsToRecord.Add(rovComponent);
             }
 
+            foreach (GameObject rovComponent in GameObject.FindGameObjectsWithTag("Connectors Cap")){
+                gameObjectsToRecord.Add(rovComponent);
+            }
+
             foreach (ObiActor ropes in GameObject.FindObjectsOfType<ObiActor>()){
                 gameObjectsToRecord.Add(ropes.gameObject);
             }
 
-            foreach (GameObject objectToRecord in gameObjectsToRecord) 
-            {
+            Transform canvas = GameObject.Find("Lateral UI Panel ").transform;
+            objectsUI = CreatePrefabOnScene("ObjectsOnScene", canvas, new Vector3(0, 185, 0));
+            if (objectsUI) {
+                contentPanel = objectsUI.transform.Find("Scroll Rect/Viewport/Content");
+            }
+
+            foreach (GameObject objectToRecord in gameObjectsToRecord) {
+
                 ObiActor rope = objectToRecord.GetComponent<ObiActor>();
 
-                if (rope) 
-                {
+                Button newRecordButton = null;
+                if (objectToRecord.CompareTag("Connectors Cap") || rope) {
+                    newRecordButton = CreateRecordButton(objectToRecord, objectsButtons.Count);
+                    objectsButtons.Add(newRecordButton);
+                }
+
+                if (rope) {
                     RecordedRope rr = objectToRecord.GetComponent<RecordedRope>();
                     if (!rr){
                         rr = objectToRecord.gameObject.AddComponent<RecordedRope>();
@@ -162,51 +185,57 @@ namespace SmartTrackSystem
                     Transform startOfRope = null;
                     Transform endOfRope = null;
 
-                    foreach (ObiParticleAttachment attach in rope.GetComponents<ObiParticleAttachment>())
-                    {
-                        if (attach.particleGroup == groups[0] && attach.target != rr.transform)
-                        {
+                    foreach (ObiParticleAttachment attach in rope.GetComponents<ObiParticleAttachment>()) {
+                        if (attach.particleGroup == groups[0] && attach.target != rr.transform) {
                             if (attach.target.name == "Cont (1)") { startOfRope = attach.target.parent; }
                             else { startOfRope = attach.target; }
+
+                            if (!startOfRope.GetComponent<RecordedObject>()) { startOfRope.gameObject.AddComponent<RecordedObject>(); }
                         }
-                        else if (attach.particleGroup == groups[groups.Count - 1] && attach.target != rr.transform)
-                        {
+                        else if (attach.particleGroup == groups[groups.Count - 1] && attach.target != rr.transform) {
                             if (attach.target.name == "Cont (1)") { endOfRope = attach.target.parent; }
                             else { endOfRope = attach.target; }
+
+                            if (!endOfRope.GetComponent<RecordedObject>()) { endOfRope.gameObject.AddComponent<RecordedObject>(); }
                         }
                     }
 
                     rr.startOfRope = startOfRope;
                     rr.endOfRope = endOfRope;
 
-                    objectsToRecord.Add(SetupRecordedObject(rr, rope, null));
+                    objectsToRecord.Add(SetupRecordedObject(rr, rope, null,newRecordButton));
+
+                    SetupRecordedObject(startOfRope.GetComponent<RecordedObject>(), rope, 
+                        endOfRope.GetComponent<RecordedObject>(), newRecordButton);
+                    SetupRecordedObject(endOfRope.GetComponent<RecordedObject>(), rope, 
+                        startOfRope.GetComponent<RecordedObject>(), newRecordButton);
+
                     rr.record.Name = rr.rope.sourceBlueprint.name;
                     rr.decimalPlaces = "F" + decimalPlaces;
+
+                    ropesInitialIndexes.Add(new Matrix(0));
                 }
 
-                else 
-                {
+                else {
                     RecordedObject rO = objectToRecord.GetComponent<RecordedObject>();
-                    if (!rO){
+                    if (!rO) {
                         rO = objectToRecord.AddComponent<RecordedObject>();
                     }
 
-                    objectsToRecord.Add(SetupRecordedObject(rO, null, null));
+                    objectsToRecord.Add(SetupRecordedObject(rO, null, null, newRecordButton));
                     rO.record.Name = rO.name;
                     rO.decimalPlaces = "F" + decimalPlaces;
                 }
             }
 
-            foreach(RecordedObject recordedObject in objectsToRecord) 
-            {
-                if(recordedObject.GetComponent<RecordedRope>()) {
-                    ropesInitialIndexes.Add(new Matrix(0));
-                }
-            }
-
             //Setup all UI elements
-            Transform canvas = GameObject.Find("Canvas Display 1").transform;
-            smartTrackUIConsole = CreatePrefabOnScene("SmartTrackConsole", canvas, new Vector3(0, 540, 0)).transform;
+            canvas = GameObject.Find("Canvas Display 1").transform;
+            smartTrackUIConsole = CreatePrefabOnScene("SmartTrackConsole", canvas, new Vector3(0, 540, 0));
+
+            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            if (!mainCamera.GetComponent<OutlineEffect>()){
+                mainCamera.AddComponent<OutlineEffect>();
+            }
 
             createdSetup = true;
 
@@ -226,6 +255,13 @@ namespace SmartTrackSystem
             if (smartTrackUIConsole) {
                 DestroyImmediate(smartTrackUIConsole.gameObject);
             }
+
+            contentPanel = null;
+            if (objectsUI) { 
+                DestroyImmediate(objectsUI.gameObject); 
+            }
+
+            objectsButtons.Clear();
 
             createdSetup = false;
 
@@ -476,7 +512,7 @@ namespace SmartTrackSystem
             {
                 isSaving = true;
 
-                yield return StartCoroutine(ChooseSaveDirectory());
+                yield return StartCoroutine(ChooseSaveFile());
 
                 if(!string.IsNullOrEmpty(folderPath)) 
                 {
@@ -500,7 +536,7 @@ namespace SmartTrackSystem
 
             else { Debug.Log("Can't save an empty recording"); }
         }
-        private IEnumerator ChooseSaveDirectory()
+        private IEnumerator ChooseSaveFile()
         {
             yield return FileBrowser.WaitForSaveDialog
                 (FileBrowser.PickMode.Files, false, null, null, "Save Files", "Save");
@@ -511,7 +547,13 @@ namespace SmartTrackSystem
 
             else {isSaving = false; }
         }
+        IEnumerator ChooseSaveDirectory()
+        {
+            yield return FileBrowser.WaitForSaveDialog
+                (FileBrowser.PickMode.Folders, false, null, null, "Save Files and Folders", "Save All");
 
+            if (FileBrowser.Success) { folderPath = FileBrowser.Result[0]; }
+        }
         #endregion
 
         #region Load Functions
@@ -612,28 +654,67 @@ namespace SmartTrackSystem
 
             else {isLoading = false; }
         }
+        IEnumerator ChooseLoadDirectory()
+        {
+            yield return FileBrowser.WaitForLoadDialog
+                (FileBrowser.PickMode.Folders, false, null, null, "Load Files and Folders", "Load All");
+
+            if (FileBrowser.Success) { 
+                folderPath = FileBrowser.Result[0]; 
+            }
+        }
 
         #endregion
 
         #region Support Functions
-        private GameObject CreatePrefabOnScene(string name,Transform parent,Vector3 pos)
+        private Transform CreatePrefabOnScene(string name, Transform parent, Vector3 pos = default(Vector3))
         {
             GameObject prefab = Resources.Load<GameObject>(name);
 
-            prefab = Instantiate(prefab, Vector3.zero, Quaternion.identity);
+            prefab = Instantiate(prefab, pos, Quaternion.identity);
 
             RectTransform rt = prefab.GetComponent<RectTransform>();
-            rt.SetParent(parent);
+            rt.SetParent(parent,false);
 
-            rt.anchoredPosition = pos;
+            return prefab.transform;
+        }
+        public Button CreateRecordButton(GameObject recordedObject, int offset)
+        {
+            contentPanel.GetComponent<RectTransform>().sizeDelta =
+                new Vector2(700, 140) + new Vector2(0, offset * 60);
 
-            return prefab;
+            Vector2 rectTransformOffset = new Vector2(360, -30);
+
+            GameObject objectButton = Resources.Load<GameObject>("ObjectButton");
+            GameObject newButton = Instantiate(objectButton, Vector3.zero, Quaternion.identity);
+            newButton.transform.SetParent(contentPanel.transform, false);
+
+            RectTransform rt = newButton.GetComponent<RectTransform>();
+            rt.anchoredPosition = rectTransformOffset - new Vector2(0, offset * 70);
+            rt.sizeDelta = new Vector2(700, 60);
+
+            TextMeshProUGUI buttonText = 
+                newButton.GetComponentInChildren<TextMeshProUGUI>();
+
+            string name = recordedObject.name;
+
+            if (recordedObject.GetComponent<ObiActor>()) {
+                name = recordedObject.
+                    GetComponent<ObiActor>().sourceBlueprint.name;
+            }
+
+            buttonText.text = name;
+            newButton.name = name;
+
+            return newButton.GetComponent<Button>();
         }
         private RecordedObject SetupRecordedObject(RecordedObject recordedObject, 
-            ObiActor rope, RecordedObject otherConnector)
+            ObiActor rope, RecordedObject otherConnector,Button objectButton)
         {
+            recordedObject.smartTrack = GetComponent<SmartTrack>();
             recordedObject.rope = rope;
             recordedObject.otherConnector = otherConnector;
+            recordedObject.button = objectButton;
 
             return recordedObject;
         }

@@ -180,7 +180,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 775ad4994fda946d1a5936c7e2dfc785, type: 3}
   m_Name: start2
   m_EditorClassIdentifier: 
-  particleIndices: bc000000
+  particleIndices: bb000000
   m_Blueprint: {fileID: 11400000}
 --- !u!114 &-3283380597928170052
 MonoBehaviour:
@@ -500,9 +500,9 @@ MonoBehaviour:
   - {x: 3.1748633, y: 0.7848876, z: 14.803071}
   - {x: 2.8492563, y: 0.51422477, z: 14.870841}
   - {x: 2.4997132, y: 0.26642978, z: 14.898578}
-  - {x: 2.26957, y: 0.115021795, z: 14.905414}
-  - {x: 2.0428734, y: -0.04157257, z: 14.907379}
-  - {x: 1.8445091, y: -0.16286469, z: 14.908478}
+  - {x: 2.1822777, y: 0.05596161, z: 14.907379}
+  - {x: 1.8800743, y: -0.12790473, z: 14.906932}
+  - {x: 1.5763206, y: -0.30917358, z: 14.908478}
   restPositions:
   - {x: 0.85094184, y: -16.532928, z: 16.408281, w: 1}
   - {x: 0.968448, y: -16.786469, z: 16.389389, w: 1}
@@ -691,9 +691,9 @@ MonoBehaviour:
   - {x: 3.1748633, y: 0.7848876, z: 14.803071, w: 1}
   - {x: 2.8492563, y: 0.51422477, z: 14.870841, w: 1}
   - {x: 2.4997132, y: 0.26642978, z: 14.898578, w: 1}
-  - {x: 2.26957, y: 0.115021795, z: 14.905414, w: 1}
-  - {x: 2.0428734, y: -0.04157257, z: 14.907379, w: 1}
-  - {x: 1.8445091, y: -0.16286469, z: 14.908478, w: 1}
+  - {x: 2.1822777, y: 0.05596161, z: 14.907379, w: 1}
+  - {x: 1.8800743, y: -0.12790473, z: 14.906932, w: 1}
+  - {x: 1.5763206, y: -0.30917358, z: 14.908478, w: 1}
   orientations:
   - {x: 0.7070377, y: 0.1839127, z: 0.12192277, w: 0.6718696}
   - {x: 0.72201777, y: 0.16103467, z: 0.08969418, w: 0.66686827}
@@ -881,10 +881,10 @@ MonoBehaviour:
   - {x: 0.31345588, y: -0.4752283, z: 0.14463444, w: 0.80931103}
   - {x: 0.28861046, y: -0.5811037, z: 0.17535728, w: 0.74045414}
   - {x: 0.25385824, y: -0.63502455, z: 0.17085934, w: 0.70930034}
-  - {x: 0.23861967, y: -0.65624475, z: 0.16538507, w: 0.6964562}
-  - {x: 0.24508192, y: -0.66058165, z: 0.17503734, w: 0.6876982}
-  - {x: 0.22453117, y: -0.6687475, z: 0.15805052, w: 0.6909288}
-  - {x: 0.22453117, y: -0.6687475, z: 0.15805052, w: 0.6909288}
+  - {x: 0.23982623, y: -0.65645415, z: 0.1666799, w: 0.6955351}
+  - {x: 0.22355641, y: -0.6713083, z: 0.15774441, w: 0.68882835}
+  - {x: 0.21797563, y: -0.6710451, z: 0.1573842, w: 0.6909525}
+  - {x: 0.21797563, y: -0.6710451, z: 0.1573842, w: 0.6909525}
   restOrientations:
   - {x: 0.7070377, y: 0.1839127, z: 0.12192277, w: 0.6718696}
   - {x: 0.72201777, y: 0.16103467, z: 0.08969418, w: 0.66686827}
@@ -1072,10 +1072,10 @@ MonoBehaviour:
   - {x: 0.31345588, y: -0.4752283, z: 0.14463444, w: 0.80931103}
   - {x: 0.28861046, y: -0.5811037, z: 0.17535728, w: 0.74045414}
   - {x: 0.25385824, y: -0.63502455, z: 0.17085934, w: 0.70930034}
-  - {x: 0.23861967, y: -0.65624475, z: 0.16538507, w: 0.6964562}
-  - {x: 0.24508192, y: -0.66058165, z: 0.17503734, w: 0.6876982}
-  - {x: 0.22453117, y: -0.6687475, z: 0.15805052, w: 0.6909288}
-  - {x: 0.22453117, y: -0.6687475, z: 0.15805052, w: 0.6909288}
+  - {x: 0.23982623, y: -0.65645415, z: 0.1666799, w: 0.6955351}
+  - {x: 0.22355641, y: -0.6713083, z: 0.15774441, w: 0.68882835}
+  - {x: 0.21797563, y: -0.6710451, z: 0.1573842, w: 0.6909525}
+  - {x: 0.21797563, y: -0.6710451, z: 0.1573842, w: 0.6909525}
   velocities:
   - {x: 0, y: 0, z: 0}
   - {x: 0, y: 0, z: 0}
@@ -1840,7 +1840,7 @@ MonoBehaviour:
   - 100
   - 100
   - 100.000015
-  filters: 010000000100000001000000010000000100000001000000010000000100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100000001000000
+  filters: 010000000100000001000000010000000100000001000000010000000100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff0100ffff010000000100000001000000
   principalRadii:
   - {x: 0.10000002, y: 0.10000002, z: 0.10000002}
   - {x: 0.10000002, y: 0.10000002, z: 0.10000002}
@@ -2345,8 +2345,8 @@ MonoBehaviour:
         - 0.4829434
         - 0.42170903
         - 0.42880195
-        - 0.27556658
-        - 0.232511
+        - 0.38097194
+        - 0.353733
         m_AlignBytes: 16
       restOrientations:
         serializedContents:
@@ -2653,7 +2653,7 @@ MonoBehaviour:
         - 0.48147497
         - 0.42795223
         - 0.4293624
-        - 0.27553052
+        - 0.35374275
         m_AlignBytes: 16
       restOrientations:
         serializedContents:
@@ -3483,7 +3483,7 @@ MonoBehaviour:
         m_AlignBytes: 16
       lengths:
         serializedContents:
-        - {x: 0.42920056, y: 0.42920056}
+        - {x: 0.4308133, y: 0.4308133}
         m_AlignBytes: 16
   volumeConstraintsData:
     batches: []
@@ -3774,11 +3774,11 @@ MonoBehaviour:
         outTangent: {x: -0.17100334, y: -0.1107647, z: 0.007338524}
       - tangentMode: 0
         inTangent: {x: 0.12773061, y: 0.09170973, z: -0.00018501282}
-        position: {x: 2.0428734, y: -0.04157257, z: 14.907379}
+        position: {x: 2.1822777, y: 0.05596161, z: 14.907379}
         outTangent: {x: -0.08751386, y: -0.062834375, z: 0.00012676042}
       - tangentMode: 0
         inTangent: {x: 0.05957055, y: 0.041732788, z: -0.0028076172}
-        position: {x: 1.8445091, y: -0.16286469, z: 14.908478}
+        position: {x: 1.5763206, y: -0.30917358, z: 14.908478}
         outTangent: {x: -0.02678188, y: -0.018762333, z: 0.0012622557}
     m_Normals:
       data:
@@ -4980,49 +4980,49 @@ MonoBehaviour:
     - 80.127846
     - 80.23054
     - 80.3351
-    - 80.36413
-    - 80.39295
-    - 80.42157
-    - 80.44996
-    - 80.47811
-    - 80.50601
-    - 80.53365
-    - 80.56102
-    - 80.5881
-    - 80.614876
-    - 80.64134
-    - 80.66749
-    - 80.6933
-    - 80.71876
-    - 80.74386
-    - 80.768585
-    - 80.79293
-    - 80.81688
-    - 80.840416
-    - 80.86353
-    - 80.886215
-    - 80.90123
-    - 80.915535
-    - 80.92918
-    - 80.942215
-    - 80.9547
-    - 80.96667
-    - 80.97819
-    - 80.9893
-    - 81.00006
-    - 81.01051
-    - 81.020706
-    - 81.030685
-    - 81.0405
-    - 81.05019
-    - 81.05982
-    - 81.06943
-    - 81.07906
-    - 81.088776
-    - 81.09862
-    - 81.10864
-    - 81.118904
-    m_TotalSplineLenght: 81.118904
+    - 80.36301
+    - 80.388626
+    - 80.412155
+    - 80.43381
+    - 80.45379
+    - 80.47231
+    - 80.48958
+    - 80.5058
+    - 80.52118
+    - 80.535934
+    - 80.55026
+    - 80.56438
+    - 80.57848
+    - 80.5928
+    - 80.60752
+    - 80.62286
+    - 80.63903
+    - 80.656235
+    - 80.67468
+    - 80.69459
+    - 80.71615
+    - 80.73428
+    - 80.75755
+    - 80.78539
+    - 80.817245
+    - 80.85255
+    - 80.890724
+    - 80.93122
+    - 80.973465
+    - 81.01689
+    - 81.06093
+    - 81.10501
+    - 81.148575
+    - 81.191055
+    - 81.23188
+    - 81.270485
+    - 81.3063
+    - 81.33875
+    - 81.36729
+    - 81.391335
+    - 81.41033
+    - 81.42371
+    m_TotalSplineLenght: 81.42371
     OnPathChanged:
       m_PersistentCalls:
         m_Calls: []
@@ -5037,9 +5037,9 @@ MonoBehaviour:
         m_Calls: []
   thickness: 0.1
   resolution: 0.2
-  m_InterParticleDistance: 0.42920056
+  m_InterParticleDistance: 0.4308133
   totalParticles: 190
-  m_RestLength: 80.808754
+  m_RestLength: 81.113594
   restLengths:
   - 0.28008422
   - 0.31463608
@@ -5227,9 +5227,9 @@ MonoBehaviour:
   - 0.42795223
   - 0.42880195
   - 0.4293624
-  - 0.27556658
-  - 0.27553052
-  - 0.232511
+  - 0.38097194
+  - 0.35374275
+  - 0.353733
   - 0
   keepInitialShape: 0
 --- !u!114 &896161629319930698

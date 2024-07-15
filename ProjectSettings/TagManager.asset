@@ -24,6 +24,7 @@ TagManager:
   - Interectable
   - SmartTrackConsole
   - Basket
+  - Connectors Cap
   layers:
   - Default
   - TransparentFX

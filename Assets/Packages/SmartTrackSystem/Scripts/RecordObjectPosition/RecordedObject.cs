@@ -13,7 +13,7 @@ namespace SmartTrackSystem
 {
     public class RecordedObject : MonoBehaviour
     {
-        [SerializeField, HideInInspector] public RecordObjectPositionHelper positionHelper;
+        [SerializeField, HideInInspector] public SmartTrack smartTrack;
         [SerializeField, HideInInspector] public ObiActor rope;
         [SerializeField, HideInInspector] public RecordedObject otherConnector;
 
@@ -68,11 +68,11 @@ namespace SmartTrackSystem
         {
             if (connectedToRope)
             {
-                positionHelper.SelectedObject = rope.gameObject;
+                smartTrack.SelectedObject = rope.gameObject;
             }
             else
             {
-                positionHelper.SelectedObject = gameObject;
+                smartTrack.SelectedObject = gameObject;
             }
 
             if (blinking || unselecting) { return; }

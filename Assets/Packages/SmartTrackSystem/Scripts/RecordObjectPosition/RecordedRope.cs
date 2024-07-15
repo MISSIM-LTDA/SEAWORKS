@@ -137,7 +137,7 @@ namespace SmartTrackSystem
 
                 else { LoadPositions(true); }
 
-                positionHelper.SelectedObject = null;
+                smartTrack.SelectedObject = null;
             }
         }
         public override void LoadPositions(bool makePhysic)

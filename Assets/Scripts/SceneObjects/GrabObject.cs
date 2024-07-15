@@ -14,6 +14,8 @@ public class GrabObject : MonoBehaviour
     private bool checkIn;
     private bool onBasket;
     private bool locked;
+
+    private bool config;
     void Start()
     {
         basketRigidbody = GameObject.Find("Basket").GetComponent<Rigidbody>();
@@ -21,11 +23,11 @@ public class GrabObject : MonoBehaviour
         grabObjectRigidbody = GetComponent<Rigidbody>();
 
         grabObjectJoint = GetComponent<Joint>();
-        grabObjectJoint.connectedBody = basketRigidbody;
 
         manipulator = GameObject.FindGameObjectWithTag("Jaw7");
         manipulatorRigidbody = manipulator.GetComponent<Rigidbody>();
 
+        config = true;
     }
     void FixedUpdate()
     {
@@ -62,7 +64,14 @@ public class GrabObject : MonoBehaviour
 
         if(obj.tag == "Jaw7finger") {checkIn = true;}
 
-        else if(obj.tag == "ROVComponents") { onBasket = true; }
+        else if(obj.tag == "ROVComponents") { 
+            onBasket = true;
+
+            if (config) { 
+                grabObjectJoint.connectedBody = basketRigidbody;
+                config = false;
+            }
+        }
     }
     private void OnTriggerExit(Collider collision)
     {
