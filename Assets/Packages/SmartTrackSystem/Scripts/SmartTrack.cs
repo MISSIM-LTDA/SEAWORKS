@@ -9,7 +9,6 @@ using Obi;
 using SimpleFileBrowser;
 using TMPro;
 using System;
-using TMPro.Examples;
 
 namespace SmartTrackSystem
 {
@@ -17,7 +16,11 @@ namespace SmartTrackSystem
     {
         [SerializeField] private List<GameObject> gameObjectsToRecord = new List<GameObject>() { };
         [SerializeField, HideInInspector] private List<RecordedObject> objectsToRecord = new List<RecordedObject>() { };
+
+        [SerializeField] private List<RecordedObject> recordPositionObjects = new List<RecordedObject>();
         [SerializeField, HideInInspector] private List<Button> objectsButtons = new List<Button>();
+
+        [SerializeField, HideInInspector] private Camera mainCamera;
 
         [Serializable]
         public class RovItens 
@@ -54,6 +57,11 @@ namespace SmartTrackSystem
 
         [SerializeField, HideInInspector] private Transform objectsUI;
         private Transform contentPanel;
+
+        [SerializeField, HideInInspector] private Button savePositionButton;
+        [SerializeField, HideInInspector] private Button loadPositionButton;
+        [SerializeField, HideInInspector] private Button saveAllPositionsButton;
+        [SerializeField, HideInInspector] private Button loadAllPositionsButton;
 
         [SerializeField, HideInInspector] private GameObject selectedObject;
         public GameObject SelectedObject { set { selectedObject = value; } }
@@ -95,15 +103,22 @@ namespace SmartTrackSystem
         private string folderPath;
 
         private bool isReplaying;
+        public bool IsReplaying {get { return isReplaying;}}
 
         private bool isSaving;
 
         private bool isLoading;
         private bool loadead;
+
+        private Transform hitBody;
+        private RecordedObject selectedBody;
+
         private void Start()
         {
             if (Application.isPlaying && createdSetup)
             {
+                mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
                 FileBrowser.SetFilters
                     (false, new FileBrowser.Filter("Text Files", ".txt", ".pdf"));
 
@@ -111,7 +126,6 @@ namespace SmartTrackSystem
                 FileBrowser.AddQuickLink("Users", "C:\\Users", null);
 
                 SetupUIButtons();
-                //SetButtonsEvents();
             }
         }
         public void Update()
@@ -122,6 +136,21 @@ namespace SmartTrackSystem
             if (isRecording) { recordingTime += Time.deltaTime; }
 
             if (createdSetup) { RefreshTimer(); }
+
+            RaycastHit hit;
+            Ray ray = mainCamera.ScreenPointToRay(Input.mousePosition);
+
+            if (Physics.Raycast(ray, out hit)) {
+
+                if(hitBody != hit.transform) {
+                    if (selectedBody) { selectedBody.MouseOver = false; }
+                }
+
+                hitBody = hit.transform;
+                selectedBody = hitBody.GetComponent<RecordedObject>();
+
+                if (selectedBody) { selectedBody.MouseOver = true; }
+            }
         }
 
         #region Setup Functions
@@ -154,22 +183,23 @@ namespace SmartTrackSystem
                 gameObjectsToRecord.Add(rovComponent);
             }
 
-            foreach (ObiActor ropes in GameObject.FindObjectsOfType<ObiActor>()){
+            foreach (ObiRopeBase ropes in FindObjectsOfType<ObiRopeBase>()){
                 gameObjectsToRecord.Add(ropes.gameObject);
             }
 
             Transform canvas = GameObject.Find("Lateral UI Panel ").transform;
-            objectsUI = CreatePrefabOnScene("ObjectsOnScene", canvas, new Vector3(0, 185, 0));
+            objectsUI = CreatePrefabOnScene("ObjectsOnScene", canvas, new Vector3(0, 225, 0));
             if (objectsUI) {
                 contentPanel = objectsUI.transform.Find("Scroll Rect/Viewport/Content");
             }
 
             foreach (GameObject objectToRecord in gameObjectsToRecord) {
 
-                ObiActor rope = objectToRecord.GetComponent<ObiActor>();
+                ObiRopeBase rope = objectToRecord.GetComponent<ObiRopeBase>();
 
                 Button newRecordButton = null;
-                if (objectToRecord.CompareTag("Connectors Cap") || rope) {
+                if (objectToRecord.CompareTag("Connectors Cap") || 
+                    (rope && rope.sourceBlueprint.name != "Crane")) {
                     newRecordButton = CreateRecordButton(objectToRecord, objectsButtons.Count);
                     objectsButtons.Add(newRecordButton);
                 }
@@ -184,19 +214,23 @@ namespace SmartTrackSystem
 
                     Transform startOfRope = null;
                     Transform endOfRope = null;
+                    RecordedObject startOfRopeRo = null;
+                    RecordedObject endOfRopeRo = null;
 
                     foreach (ObiParticleAttachment attach in rope.GetComponents<ObiParticleAttachment>()) {
                         if (attach.particleGroup == groups[0] && attach.target != rr.transform) {
-                            if (attach.target.name == "Cont (1)") { startOfRope = attach.target.parent; }
+                            if (attach.target.name == "Body") { startOfRope = attach.target.parent; }
                             else { startOfRope = attach.target; }
 
-                            if (!startOfRope.GetComponent<RecordedObject>()) { startOfRope.gameObject.AddComponent<RecordedObject>(); }
+                            startOfRopeRo = startOfRope.GetComponent<RecordedObject>();
+                            if (!startOfRopeRo) { startOfRopeRo = startOfRope.gameObject.AddComponent<RecordedObject>(); }
                         }
                         else if (attach.particleGroup == groups[groups.Count - 1] && attach.target != rr.transform) {
-                            if (attach.target.name == "Cont (1)") { endOfRope = attach.target.parent; }
+                            if (attach.target.name == "Body") { endOfRope = attach.target.parent; }
                             else { endOfRope = attach.target; }
 
-                            if (!endOfRope.GetComponent<RecordedObject>()) { endOfRope.gameObject.AddComponent<RecordedObject>(); }
+                            endOfRopeRo = endOfRope.GetComponent<RecordedObject>();
+                            if (!endOfRopeRo) { endOfRopeRo = endOfRope.gameObject.AddComponent<RecordedObject>(); }
                         }
                     }
 
@@ -204,11 +238,19 @@ namespace SmartTrackSystem
                     rr.endOfRope = endOfRope;
 
                     objectsToRecord.Add(SetupRecordedObject(rr, rope, null,newRecordButton));
+                    if(rope.sourceBlueprint.name != "Crane") {
+                        recordPositionObjects.Add(SetupRecordedObject(rr, rope, null, newRecordButton));
 
-                    SetupRecordedObject(startOfRope.GetComponent<RecordedObject>(), rope, 
-                        endOfRope.GetComponent<RecordedObject>(), newRecordButton);
-                    SetupRecordedObject(endOfRope.GetComponent<RecordedObject>(), rope, 
-                        startOfRope.GetComponent<RecordedObject>(), newRecordButton);
+                        if (startOfRopeRo){
+                            recordPositionObjects.Add(SetupRecordedObject
+                                (startOfRopeRo, rope, endOfRopeRo, newRecordButton));
+                        }
+
+                        if (endOfRopeRo){
+                            recordPositionObjects.Add(SetupRecordedObject
+                                (endOfRopeRo, rope, startOfRopeRo, newRecordButton));
+                        }
+                    }
 
                     rr.record.Name = rr.rope.sourceBlueprint.name;
                     rr.decimalPlaces = "F" + decimalPlaces;
@@ -223,6 +265,11 @@ namespace SmartTrackSystem
                     }
 
                     objectsToRecord.Add(SetupRecordedObject(rO, null, null, newRecordButton));
+
+                    if (rO.CompareTag("Connectors Cap")){
+                        recordPositionObjects.Add(SetupRecordedObject(rO, null, null, newRecordButton));
+                    }
+
                     rO.record.Name = rO.name;
                     rO.decimalPlaces = "F" + decimalPlaces;
                 }
@@ -232,10 +279,10 @@ namespace SmartTrackSystem
             canvas = GameObject.Find("Canvas Display 1").transform;
             smartTrackUIConsole = CreatePrefabOnScene("SmartTrackConsole", canvas, new Vector3(0, 540, 0));
 
-            GameObject mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
-            if (!mainCamera.GetComponent<OutlineEffect>()){
-                mainCamera.AddComponent<OutlineEffect>();
-            }
+            savePositionButton = CreatePositionFunctionButtons("SaveButton", 0);
+            loadPositionButton = CreatePositionFunctionButtons("LoadButton", 1);
+            saveAllPositionsButton = CreatePositionFunctionButtons("SaveAllButton", 2);
+            loadAllPositionsButton = CreatePositionFunctionButtons("LoadAllButton", 3);
 
             createdSetup = true;
 
@@ -250,6 +297,11 @@ namespace SmartTrackSystem
             }
             objectsToRecord.Clear();
 
+            foreach (RecordedObject recordedObject in recordPositionObjects){
+                DestroyImmediate(recordedObject);
+            }
+            recordPositionObjects.Clear();
+
             ropesInitialIndexes.Clear();
 
             if (smartTrackUIConsole) {
@@ -262,6 +314,11 @@ namespace SmartTrackSystem
             }
 
             objectsButtons.Clear();
+
+            savePositionButton = null;
+            loadPositionButton = null;
+            saveAllPositionsButton = null;
+            loadAllPositionsButton = null;
 
             createdSetup = false;
 
@@ -313,6 +370,17 @@ namespace SmartTrackSystem
 
             Button denyLoad = loadAlert.Find("DenyButton").GetComponentInChildren<Button>();
             denyLoad.onClick.AddListener(delegate { StartCoroutine(ConfirmLoad(false));});
+
+            for (int i = 0, j = 0; i < objectsButtons.Count; i++, j++)
+            {
+                if (recordPositionObjects[j].GetComponent<RecordedRope>() != null) { j += 2; }
+                objectsButtons[i].onClick.AddListener(recordPositionObjects[j].SelectObject);
+            }
+
+            savePositionButton.onClick.AddListener(SaveNewPosition);
+            loadPositionButton.onClick.AddListener(LoadNewPosition);
+            saveAllPositionsButton.onClick.AddListener(SaveAllNewPositions);
+            loadAllPositionsButton.onClick.AddListener(LoadAllNewPositions);
         }
         private void HideConsole() 
         { 
@@ -384,7 +452,7 @@ namespace SmartTrackSystem
             while (isRecording)
             {
                 foreach (RecordedObject recordedObject in objectsToRecord) {
-                    recordedObject.GetObjectPosition();
+                    recordedObject.GetObjectPosition(ref recordedObject.record);
                 }
 
                 recordedFrames = objectsToRecord[0].record.RecordObjectStore.Count;
@@ -472,7 +540,7 @@ namespace SmartTrackSystem
                     }
 
                     recordObject.index = index;
-                    recordObject.LoadPositions(false);
+                    recordObject.LoadPositions(ref recordObject.record,false);
                 }
             }
         }
@@ -553,6 +621,29 @@ namespace SmartTrackSystem
                 (FileBrowser.PickMode.Folders, false, null, null, "Save Files and Folders", "Save All");
 
             if (FileBrowser.Success) { folderPath = FileBrowser.Result[0]; }
+        }
+        public void SaveNewPosition()
+        {
+            if (selectedObject)
+            {
+                if (selectedObject.gameObject.GetComponent<RecordedObject>())
+                {
+                    selectedObject.GetComponent<RecordedObject>().SaveNewPosition(null);
+                }
+            }
+
+            else { Debug.Log("None object Selected!"); }
+        }
+        public void SaveAllNewPositions() { StartCoroutine(SaveAllPositionsCoroutine()); }
+        IEnumerator SaveAllPositionsCoroutine()
+        {
+            yield return StartCoroutine(ChooseSaveDirectory());
+
+            for (int i = 0; i < recordPositionObjects.Count; i++)
+            {
+                recordPositionObjects[i].SaveNewPosition(folderPath);
+                if (recordPositionObjects[i].GetComponent<RecordedRope>() != null) { i += 2; }
+            }
         }
         #endregion
 
@@ -663,6 +754,27 @@ namespace SmartTrackSystem
                 folderPath = FileBrowser.Result[0]; 
             }
         }
+        public void LoadNewPosition()
+        {
+            if (selectedObject){
+                if (selectedObject.gameObject.GetComponent<RecordedObject>()){
+                    selectedObject.GetComponent<RecordedObject>().LoadNewPosition(null);
+                }
+            }
+
+            else { Debug.Log("None object Selected!"); }
+        }
+        public void LoadAllNewPositions() { StartCoroutine(LoadAllPositionsCoroutine()); }
+        IEnumerator LoadAllPositionsCoroutine()
+        {
+            yield return StartCoroutine(ChooseLoadDirectory());
+
+            for (int i = 0; i < recordPositionObjects.Count; i++)
+            {
+                recordPositionObjects[i].LoadNewPosition(folderPath);
+                if (recordPositionObjects[i].GetComponent<RecordedRope>() != null) { i += 2; }
+            }
+        }
 
         #endregion
 
@@ -708,10 +820,32 @@ namespace SmartTrackSystem
 
             return newButton.GetComponent<Button>();
         }
+        public Button CreatePositionFunctionButtons(string name, int offset)
+        {
+            GameObject prefab = CreatePrefabOnScene(name, objectsUI.transform).gameObject;
+            Button button = null;
+
+            if (prefab){
+                button = prefab.GetComponent<Button>();
+                button.GetComponent<RectTransform>().anchoredPosition = 
+                    new Vector2(-290 + (offset * (190)), -300);
+            }
+
+            return button;
+        }
         private RecordedObject SetupRecordedObject(RecordedObject recordedObject, 
             ObiActor rope, RecordedObject otherConnector,Button objectButton)
         {
             recordedObject.smartTrack = GetComponent<SmartTrack>();
+
+            recordedObject.record.Name = recordedObject.gameObject.name;
+            recordedObject.recordPosition.Name = recordedObject.gameObject.name;
+
+            if (recordedObject.GetComponent<RecordedRope>()) {
+                recordedObject.record.Name = rope.sourceBlueprint.name;
+                recordedObject.recordPosition.Name = rope.sourceBlueprint.name;
+            }
+
             recordedObject.rope = rope;
             recordedObject.otherConnector = otherConnector;
             recordedObject.button = objectButton;
@@ -926,7 +1060,7 @@ namespace SmartTrackSystem
                         ropes++;
 
                         recordObject.index = index;
-                        recordObject.LoadPositions(true);
+                        recordObject.LoadPositions(ref recordObject.record,true);
                     }
                 }
 

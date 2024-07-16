@@ -25,7 +25,7 @@ namespace SmartTrackSystem
         List<Attachments> destroyedAttachments = new List<Attachments>();
 
         #region Save Functions
-        public override void GetObjectPosition()
+        public override void GetObjectPosition(ref RecordedObjectInfo rec)
         {
             bool initialIndex = true;
 
@@ -45,11 +45,11 @@ namespace SmartTrackSystem
                     Transform start1 = startOfRope.GetChild(0);
                     Transform start2 = startOfRope.GetChild(1);
 
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (initialIndex,start1.gameObject.activeSelf,
                         start1.localPosition.ToString(decimalPlaces, formatProvider), 
                         start1.localRotation.ToString(decimalPlaces, formatProvider)));
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,start2.gameObject.activeSelf,
                         start2.localPosition.ToString(decimalPlaces, formatProvider), 
                         start2.localRotation.ToString(decimalPlaces, formatProvider)));
@@ -59,7 +59,7 @@ namespace SmartTrackSystem
 
                 else
                 {
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (initialIndex,startOfRope.gameObject.activeSelf,
                         startOfRope.localPosition.ToString(decimalPlaces,formatProvider), 
                         startOfRope.localRotation.ToString(decimalPlaces,formatProvider)));
@@ -72,7 +72,7 @@ namespace SmartTrackSystem
 
             for (int i = 0; i < particleCount; i++)
             {
-                record.RecordRopeStore.Add(new RopeTransformToRecord
+                rec.RecordRopeStore.Add(new RopeTransformToRecord
                 (initialIndex,gameObject.activeSelf,
                 rope.solver.positions[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
                 rope.solver.orientations[rope.solverIndices[i]].ToString(decimalPlaces,formatProvider),
@@ -90,11 +90,11 @@ namespace SmartTrackSystem
                     Transform end1 = endOfRope.transform.GetChild(0);
                     Transform end2 = endOfRope.transform.GetChild(1);
 
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,end1.gameObject.activeSelf, 
                         end1.localPosition.ToString(decimalPlaces,formatProvider),
                         end1.localRotation.ToString(decimalPlaces,formatProvider)));
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,end2.gameObject.activeSelf, 
                         end2.localPosition.ToString(decimalPlaces,formatProvider),
                         end2.localRotation.ToString(decimalPlaces,formatProvider)));
@@ -102,7 +102,7 @@ namespace SmartTrackSystem
 
                 else
                 {
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
+                    rec.RecordRopeStore.Add(new RopeTransformToRecord
                         (false,endOfRope.gameObject.activeSelf,
                         endOfRope.localPosition.ToString(decimalPlaces,formatProvider), 
                         endOfRope.localRotation.ToString(decimalPlaces,formatProvider)));
@@ -113,7 +113,7 @@ namespace SmartTrackSystem
         #endregion
 
         #region Load Functions
-        protected override IEnumerator LoadNewPathCoroutine(string path)
+        protected override IEnumerator LoadNewPositionCoroutine(string path)
         {
             if (path == null) { yield return StartCoroutine(ChooseFile()); }
 
@@ -135,29 +135,33 @@ namespace SmartTrackSystem
                     loading = false;
                 }
 
-                else { LoadPositions(true); }
+                else { LoadPositions(ref recordPosition,true); }
 
                 smartTrack.SelectedObject = null;
             }
         }
-        public override void LoadPositions(bool makePhysic)
+        public override void LoadPositions(ref RecordedObjectInfo rec,bool makePhysic)
         {
+            int j = 0;
+            if(rec == record) {
+                j = index;
+            }
+
             ObiParticleAttachment[] attach = rope.GetComponents<ObiParticleAttachment>();
 
-            for (int i = 0; i < attach.Length; i++)
-            {
+            for (int i = 0; i < attach.Length; i++){
                 SaveAttach(attach[i]);
                 Destroy(attach[i]);
             }
 
-            float lenght = StringToFloat(record.RecordRopeStore[index].l);
+            float lenght = StringToFloat(rec.RecordRopeStore[j].l);
 
             ObiRope obiRope = rope.GetComponent<ObiRope>();
             if (obiRope != null && obiRope.restLength != lenght){
                 ExtendRope(obiRope,lenght);
             }
 
-            int particleCount = record.RecordRopeStore[index].pC;
+            int particleCount = rec.RecordRopeStore[j].pC;
 
             if (startOfRope != null)
             {
@@ -169,15 +173,17 @@ namespace SmartTrackSystem
                     start1.GetComponent<Rigidbody>().isKinematic = true;
                     start2.GetComponent<Rigidbody>().isKinematic = true;
 
-                    start1.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(start1,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
+                    start1.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    start2.gameObject.SetActive(record.RecordRopeStore[index + 1].e);
+                    SetLocalPositionAndRotation(start1,
+                        StringToVector3(rec.RecordRopeStore[j].p),
+                        StringToQuaternion(rec.RecordRopeStore[j].r));
+
+                    start2.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
+
                     SetLocalPositionAndRotation(start2,
-                    StringToVector3(record.RecordRopeStore[index + 1].p),
-                    StringToQuaternion(record.RecordRopeStore[index + 1].r));
+                        StringToVector3(rec.RecordRopeStore[j + 1].p),
+                        StringToQuaternion(rec.RecordRopeStore[j + 1].r));
 
                     if (makePhysic)
                     {
@@ -185,40 +191,43 @@ namespace SmartTrackSystem
                         start2.GetComponent<Rigidbody>().isKinematic = false;
                     }
 
-                    index += 2;
+                    j += 2;
                 }
 
                 else
                 {
-                    startOfRope.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(startOfRope,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
+                    startOfRope.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    index++;
+                    SetLocalPositionAndRotation(startOfRope,
+                        StringToVector3(rec.RecordRopeStore[j].p),
+                        StringToQuaternion(rec.RecordRopeStore[j].r));
+
+                    j++;
                 }
             }
 
-            rope.gameObject.SetActive(record.RecordRopeStore[index].e);
+            rope.gameObject.SetActive(rec.RecordRopeStore[j].e);
             for (int i = 0; i < particleCount; i++)
             {
                 rope.solver.invMasses[rope.solverIndices[i]] = 0;
 
                 rope.solver.positions[rope.solverIndices[i]] = 
-                    StringToVector4(record.RecordRopeStore[index + i].p);
+                    StringToVector4(rec.RecordRopeStore[index + i].p);
+
                 rope.solver.orientations[rope.solverIndices[i]] = 
-                   StringToQuaternion(record.RecordRopeStore[index + i].r);
+                   StringToQuaternion(rec.RecordRopeStore[index + i].r);
 
                 if (makePhysic)
                 {
                     rope.solver.invMasses[rope.solverIndices[i]] =
-                       StringToFloat(record.RecordRopeStore[index + i].iPM);
+                       StringToFloat(rec.RecordRopeStore[j + i].iPM);
+
                     rope.solver.invRotationalMasses[rope.solverIndices[i]] =
-                       StringToFloat(record.RecordRopeStore[index + i].iRM);
+                       StringToFloat(rec.RecordRopeStore[j + i].iRM);
                 }
             }
 
-            index += particleCount;
+            j += particleCount;
 
             if (endOfRope != null)
             {
@@ -230,15 +239,17 @@ namespace SmartTrackSystem
                     end1.GetComponent<Rigidbody>().isKinematic = true;
                     end2.GetComponent<Rigidbody>().isKinematic = true;
 
-                    end1.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(end1,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
+                    end1.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    end2.gameObject.SetActive(record.RecordRopeStore[index + 1].e);
+                    SetLocalPositionAndRotation(end1,
+                        StringToVector3(rec.RecordRopeStore[j].p),
+                        StringToQuaternion(rec.RecordRopeStore[j].r));
+
+                    end2.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
+
                     SetLocalPositionAndRotation(end2,
-                    StringToVector3(record.RecordRopeStore[index + 1].p),
-                    StringToQuaternion(record.RecordRopeStore[index + 1].r));
+                        StringToVector3(rec.RecordRopeStore[j + 1].p),
+                        StringToQuaternion(rec.RecordRopeStore[j + 1].r));
 
                     if (makePhysic)
                     {
@@ -246,19 +257,22 @@ namespace SmartTrackSystem
                         end2.GetComponent<Rigidbody>().isKinematic = false;
                     }
 
-                    index += 2;
+                    j += 2;
                 }
 
                 else
                 {
-                    endOfRope.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(endOfRope,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
+                    endOfRope.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    index++;
+                    SetLocalPositionAndRotation(endOfRope,
+                        StringToVector3(rec.RecordRopeStore[j].p),
+                        StringToQuaternion(rec.RecordRopeStore[j].r));
+
+                    j++;
                 }
             }
+
+            index = j;
 
             if (makePhysic) { ReturnAttachments(); }
 
