@@ -5,10 +5,8 @@ EditorBuildSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Scenes:
-  - enabled: 0
-    path: 
-    guid: 00000000000000000000000000000000
   - enabled: 1
-    path: Assets/Scenes/Default Scene.unity
-    guid: 7fd03fd896bcefb4f9cd2610619a929c
+    path: Assets/ANM_GFA-1/Scenes/Scene 1 - XT Installation Mode with TRT (HFL) -
+      XT with SCMMB.unity
+    guid: 1e62c305af7b2474b9b68ba1c122a598
   m_configObjects: {}

@@ -49,8 +49,6 @@ namespace SmartTrackSystem
         public int index;
 
         public string decimalPlaces;
-
-        public Transform hitBody;
         protected virtual void Start()
         {
             if (rope != null) { connectedToRope = true; }

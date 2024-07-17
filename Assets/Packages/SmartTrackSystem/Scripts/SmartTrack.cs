@@ -18,7 +18,7 @@ namespace SmartTrackSystem
         [SerializeField, HideInInspector] private List<RecordedObject> objectsToRecord = new List<RecordedObject>() { };
 
         [SerializeField] private List<RecordedObject> recordPositionObjects = new List<RecordedObject>();
-        [SerializeField, HideInInspector] private List<Button> objectsButtons = new List<Button>();
+        [SerializeField, HideInInspector] private List<Button> savePositionsButtons = new List<Button>();
 
         [SerializeField, HideInInspector] private Camera mainCamera;
 
@@ -200,8 +200,8 @@ namespace SmartTrackSystem
                 Button newRecordButton = null;
                 if (objectToRecord.CompareTag("Connectors Cap") || 
                     (rope && rope.sourceBlueprint.name != "Crane")) {
-                    newRecordButton = CreateRecordButton(objectToRecord, objectsButtons.Count);
-                    objectsButtons.Add(newRecordButton);
+                    newRecordButton = CreateSavePositionButton(objectToRecord, savePositionsButtons.Count);
+                    savePositionsButtons.Add(newRecordButton);
                 }
 
                 if (rope) {
@@ -313,7 +313,7 @@ namespace SmartTrackSystem
                 DestroyImmediate(objectsUI.gameObject); 
             }
 
-            objectsButtons.Clear();
+            savePositionsButtons.Clear();
 
             savePositionButton = null;
             loadPositionButton = null;
@@ -371,10 +371,10 @@ namespace SmartTrackSystem
             Button denyLoad = loadAlert.Find("DenyButton").GetComponentInChildren<Button>();
             denyLoad.onClick.AddListener(delegate { StartCoroutine(ConfirmLoad(false));});
 
-            for (int i = 0, j = 0; i < objectsButtons.Count; i++, j++)
+            for (int i = 0, j = 0; i < savePositionsButtons.Count; i++, j++)
             {
                 if (recordPositionObjects[j].GetComponent<RecordedRope>() != null) { j += 2; }
-                objectsButtons[i].onClick.AddListener(recordPositionObjects[j].SelectObject);
+                savePositionsButtons[i].onClick.AddListener(recordPositionObjects[j].SelectObject);
             }
 
             savePositionButton.onClick.AddListener(SaveNewPosition);
@@ -790,10 +790,12 @@ namespace SmartTrackSystem
 
             return prefab.transform;
         }
-        public Button CreateRecordButton(GameObject recordedObject, int offset)
+        public Button CreateSavePositionButton(GameObject recordedObject, int offset)
         {
+            offset++;
+
             contentPanel.GetComponent<RectTransform>().sizeDelta =
-                new Vector2(700, 140) + new Vector2(0, offset * 60);
+                new Vector2(713, 70) + new Vector2(0, offset * 70);
 
             Vector2 rectTransformOffset = new Vector2(360, -30);
 
