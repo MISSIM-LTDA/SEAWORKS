@@ -218,19 +218,24 @@ namespace SmartTrackSystem
                     RecordedObject endOfRopeRo = null;
 
                     foreach (ObiParticleAttachment attach in rope.GetComponents<ObiParticleAttachment>()) {
-                        if (attach.particleGroup == groups[0] && attach.target != rr.transform) {
-                            if (attach.target.name == "Body") { startOfRope = attach.target.parent; }
-                            else { startOfRope = attach.target; }
+                        if(attach.target != rr.transform && attach.target != gameObjectsToRecord[0].transform) 
+                        {
+                            if (attach.particleGroup == groups[0])
+                            {
+                                if (attach.target.name == "Body") { startOfRope = attach.target.parent; }
+                                else { startOfRope = attach.target; }
 
-                            startOfRopeRo = startOfRope.GetComponent<RecordedObject>();
-                            if (!startOfRopeRo) { startOfRopeRo = startOfRope.gameObject.AddComponent<RecordedObject>(); }
-                        }
-                        else if (attach.particleGroup == groups[groups.Count - 1] && attach.target != rr.transform) {
-                            if (attach.target.name == "Body") { endOfRope = attach.target.parent; }
-                            else { endOfRope = attach.target; }
+                                startOfRopeRo = startOfRope.GetComponent<RecordedObject>();
+                                if (!startOfRopeRo) { startOfRopeRo = startOfRope.gameObject.AddComponent<RecordedObject>(); }
+                            }
+                            else if (attach.particleGroup == groups[groups.Count - 1])
+                            {
+                                if (attach.target.name == "Body") { endOfRope = attach.target.parent; }
+                                else { endOfRope = attach.target; }
 
-                            endOfRopeRo = endOfRope.GetComponent<RecordedObject>();
-                            if (!endOfRopeRo) { endOfRopeRo = endOfRope.gameObject.AddComponent<RecordedObject>(); }
+                                endOfRopeRo = endOfRope.GetComponent<RecordedObject>();
+                                if (!endOfRopeRo) { endOfRopeRo = endOfRope.gameObject.AddComponent<RecordedObject>(); }
+                            }
                         }
                     }
 
@@ -373,7 +378,12 @@ namespace SmartTrackSystem
 
             for (int i = 0, j = 0; i < savePositionsButtons.Count; i++, j++)
             {
-                if (recordPositionObjects[j].GetComponent<RecordedRope>() != null) { j += 2; }
+                RecordedRope rr = recordPositionObjects[j].GetComponent<RecordedRope>();
+                if (rr) {
+                    if (rr.startOfRope) { j++; }
+                    if(rr.endOfRope) { j++; }
+                }
+
                 savePositionsButtons[i].onClick.AddListener(recordPositionObjects[j].SelectObject);
             }
 
