@@ -45,8 +45,7 @@ GameObject:
   - component: {fileID: 5516066603432217420}
   - component: {fileID: 1022949249794347284}
   - component: {fileID: 7286216869848023847}
-  - component: {fileID: 295702576393428043}
-  - component: {fileID: 4229571662811533390}
+  - component: {fileID: 9033480651942903241}
   - component: {fileID: 8207003820663210829}
   - component: {fileID: 2401769903393819524}
   - component: {fileID: 6642105386732380811}
@@ -349,7 +348,7 @@ MonoBehaviour:
   decimation: 0
   smoothing: 3
   twist: 0
---- !u!114 &295702576393428043
+--- !u!114 &9033480651942903241
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -364,30 +363,8 @@ MonoBehaviour:
   uvAnchor: 0
   uvScale: {x: 1, y: 1}
   normalizeV: 1
-  section: {fileID: 11400000, guid: 5c5822af4d815014bbf6179f96e07e49, type: 2}
+  section: {fileID: 11400000, guid: 54fe194f5340b6a47b0760abd0550e28, type: 2}
   thicknessScale: 0.8
---- !u!114 &4229571662811533390
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 296319650851982032}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ec7e70e3318044b69e11352b1f2136b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mesh: {fileID: -5963442920211976399, guid: 764b3a7d419733846859b3338408aa9d, type: 3}
-  axis: 1
-  volumeScaling: 0
-  stretchWithRope: 1
-  spanEntireLength: 1
-  instances: 65
-  instanceSpacing: 1
-  offset: 0
-  scale: {x: 30, y: 30, z: 30}
-  meshSizeAlongAxis: 6.5
 --- !u!114 &8207003820663210829
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2392,7 +2369,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulateWhenInvisible: 1
-  m_Backend: 1
+  m_Backend: 0
   parameters:
     mode: 0
     interpolation: 0
@@ -2638,9 +2615,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81667b3b32af8445a36ef02b82cbfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockKey: 335
-  leaveKey: 334
-  leaveOnWorldKey: 0
+  lockUnlockKey: 338
 --- !u!114 &5767639702611927004
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -11,8 +11,8 @@ namespace RenderHeads.Media.AVProMovieCapture
         private CaptureFromTexture movieCapture;
 
 		private Image recordingImage;
-		[SerializeField] private Sprite recOn;
-        [SerializeField] private Sprite recOff;
+		private Sprite recOn;
+        private Sprite recOff;
         private void Start()
         {
             FileBrowser.SetFilters(false, new FileBrowser.Filter("Text Files", ".txt", ".pdf"));

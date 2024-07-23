@@ -46,7 +46,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   simulateWhenInvisible: 1
-  m_Backend: 1
+  m_Backend: 0
   parameters:
     mode: 0
     interpolation: 0
@@ -157,8 +157,7 @@ GameObject:
   - component: {fileID: 768937065489548304}
   - component: {fileID: 2438428773357655937}
   - component: {fileID: 2320153498854739755}
-  - component: {fileID: 2367883685647980294}
-  - component: {fileID: 7944589927798402866}
+  - component: {fileID: 2671504091747281335}
   - component: {fileID: 153911259712281923}
   - component: {fileID: 1113521367644845929}
   - component: {fileID: 8896867148461243080}
@@ -197,11 +196,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8f2bc32c4faf04f039a86a6e3cea12a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  solverIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a000000
+  solverIndices: 000000000100000002000000030000000400000005000000060000000700000008000000090000000a0000000b0000000c0000000d0000000e0000000f000000100000001100000012000000130000001400000015000000160000001700000018000000190000001a0000001b0000001c0000001d0000001e0000001f0000002000000021000000
   m_CollisionMaterial: {fileID: 0}
   m_SurfaceCollisions: 1
   m_SelfCollisions: 1
-  restLength_: 10.858163
+  restLength_: 13.550181
   elements:
   - particle1: 0
     particle2: 1
@@ -215,122 +214,157 @@ MonoBehaviour:
     tearResistance: 0
   - particle1: 2
     particle2: 3
-    restLength: 0.3728024
+    restLength: 0.3160109
     constraintForce: 0
     tearResistance: 0
   - particle1: 3
     particle2: 4
-    restLength: 0.3683576
+    restLength: 0.31750667
     constraintForce: 0
     tearResistance: 0
   - particle1: 4
     particle2: 5
-    restLength: 0.46808907
+    restLength: 0.43599752
     constraintForce: 0
     tearResistance: 0
   - particle1: 5
     particle2: 6
-    restLength: 0.46902475
+    restLength: 0.43699688
     constraintForce: 0
     tearResistance: 0
   - particle1: 6
     particle2: 7
-    restLength: 0.46813586
+    restLength: 0.40737435
     constraintForce: 0
     tearResistance: 0
   - particle1: 7
     particle2: 8
-    restLength: 0.33028322
+    restLength: 0.40384564
     constraintForce: 0
     tearResistance: 0
   - particle1: 8
     particle2: 9
-    restLength: 0.34644896
+    restLength: 0.3992209
     constraintForce: 0
     tearResistance: 0
   - particle1: 9
     particle2: 10
-    restLength: 0.434579
+    restLength: 0.40652266
     constraintForce: 0
     tearResistance: 0
   - particle1: 10
     particle2: 11
-    restLength: 0.43478188
+    restLength: 0.4314764
     constraintForce: 0
     tearResistance: 0
   - particle1: 11
     particle2: 12
-    restLength: 0.43491736
+    restLength: 0.434431
     constraintForce: 0
     tearResistance: 0
   - particle1: 12
     particle2: 13
-    restLength: 0.43490493
+    restLength: 0.43387327
     constraintForce: 0
     tearResistance: 0
   - particle1: 13
     particle2: 14
-    restLength: 0.43461218
+    restLength: 0.43393764
     constraintForce: 0
     tearResistance: 0
   - particle1: 14
     particle2: 15
-    restLength: 0.45167986
+    restLength: 0.43191338
     constraintForce: 0
     tearResistance: 0
   - particle1: 15
     particle2: 16
-    restLength: 0.44925818
+    restLength: 0.4210556
     constraintForce: 0
     tearResistance: 0
   - particle1: 16
     particle2: 17
-    restLength: 0.45150185
+    restLength: 0.4284136
     constraintForce: 0
     tearResistance: 0
   - particle1: 17
     particle2: 18
-    restLength: 0.45271385
+    restLength: 0.41486406
     constraintForce: 0
     tearResistance: 0
   - particle1: 18
     particle2: 19
-    restLength: 0.45004338
+    restLength: 0.43935108
     constraintForce: 0
     tearResistance: 0
   - particle1: 19
     particle2: 20
-    restLength: 0.45110992
+    restLength: 0.44125706
     constraintForce: 0
     tearResistance: 0
   - particle1: 20
     particle2: 21
-    restLength: 0.45458546
+    restLength: 0.441671
     constraintForce: 0
     tearResistance: 0
   - particle1: 21
     particle2: 22
-    restLength: 0.42570704
+    restLength: 0.44163942
     constraintForce: 0
     tearResistance: 0
   - particle1: 22
     particle2: 23
-    restLength: 0.4275073
+    restLength: 0.4410225
     constraintForce: 0
     tearResistance: 0
   - particle1: 23
     particle2: 24
-    restLength: 0.42784753
+    restLength: 0.44109723
     constraintForce: 0
     tearResistance: 0
   - particle1: 24
     particle2: 25
-    restLength: 0.42709303
+    restLength: 0.42007524
     constraintForce: 0
     tearResistance: 0
   - particle1: 25
     particle2: 26
-    restLength: 0.31630623
+    restLength: 0.45033357
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 26
+    particle2: 27
+    restLength: 0.43798667
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 27
+    particle2: 28
+    restLength: 0.42571285
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 28
+    particle2: 29
+    restLength: 0.42979637
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 29
+    particle2: 30
+    restLength: 0.4154123
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 30
+    particle2: 31
+    restLength: 0.3666396
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 31
+    particle2: 32
+    restLength: 0.36606765
+    constraintForce: 0
+    tearResistance: 0
+  - particle1: 32
+    particle2: 33
+    restLength: 0.36280707
     constraintForce: 0
     tearResistance: 0
   m_RodBlueprint: {fileID: 11400000, guid: 2c2f0b0378263b5478a284d579a7e93e, type: 2}
@@ -411,7 +445,7 @@ MonoBehaviour:
   decimation: 0
   smoothing: 3
   twist: 0
---- !u!114 &2367883685647980294
+--- !u!114 &2671504091747281335
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -426,30 +460,8 @@ MonoBehaviour:
   uvAnchor: 0
   uvScale: {x: 1, y: 1}
   normalizeV: 1
-  section: {fileID: 11400000, guid: 5c5822af4d815014bbf6179f96e07e49, type: 2}
+  section: {fileID: 11400000, guid: 54fe194f5340b6a47b0760abd0550e28, type: 2}
   thicknessScale: 0.8
---- !u!114 &7944589927798402866
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1113521367644845928}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4ec7e70e3318044b69e11352b1f2136b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  mesh: {fileID: -5963442920211976399, guid: 764b3a7d419733846859b3338408aa9d, type: 3}
-  axis: 1
-  volumeScaling: 0
-  stretchWithRope: 1
-  spanEntireLength: 1
-  instances: 65
-  instanceSpacing: 1
-  offset: 0
-  scale: {x: 30, y: 30, z: 30}
-  meshSizeAlongAxis: 6.5
 --- !u!114 &153911259712281923
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -1,74 +1,51 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class Lock_LTPC : MonoBehaviour {
 
-    public GameObject ROV;
-    public GameObject Aker_struc;
-    public GameObject Trava2;
+    private Rigidbody rovRigidBody;
 
-    public GameObject LTPC_Render;
-    public GameObject LTPC_MeshCollider;
-    public GameObject LTPC_RigidBody;
+    private Rigidbody rigidBody;
+    [SerializeField] private MeshCollider meshCollider;
 
-    public Rigidbody ROVrigb;
-    public Rigidbody Akerrigb;
-    public Rigidbody TravaB2;
+    private FixedJoint joint;
 
-    bool locked;
+    [SerializeField] private KeyCode lockKey = KeyCode.JoystickButton4;
+    [SerializeField] private KeyCode releaseKey = KeyCode.JoystickButton5;
 
-    public KeyCode Trava1;
-    public KeyCode Solta;
-
-    public bool CheckIn;
-
-    // Use this for initialization
+    private bool checkIn;
+    private bool locked;
     void Start () {
-        ROV = GameObject.FindGameObjectWithTag("XLX");
-        ROVrigb = ROV.GetComponent<Rigidbody>();
-        locked = false;
-        CheckIn = false;
+        rovRigidBody = GameObject.FindGameObjectWithTag
+            ("XLX").GetComponent<Rigidbody>();
+
+        rigidBody = gameObject.GetComponent<Rigidbody>();
     }
 	
-	// Update is called once per frame
-	void Update () {
-        if (Input.GetKey(Trava1) && CheckIn)
+	void FixedUpdate () {
+        if (checkIn && Input.GetKey(lockKey))
         {
-            if (!locked)
-            {
-                LTPC_MeshCollider.SetActive(false);
+            if (!locked) {
+                meshCollider.enabled = false;
 
-                LTPC_RigidBody.GetComponent<Rigidbody>().mass = 2;
-                LTPC_RigidBody.GetComponent<Rigidbody>().isKinematic = false;
-                LTPC_RigidBody.AddComponent<FixedJoint>();
-                LTPC_RigidBody.GetComponent<FixedJoint>().connectedBody = ROV.GetComponent<Rigidbody>();
+                rigidBody.isKinematic = false;
+
+                joint = gameObject.AddComponent<FixedJoint>();
+                joint.connectedBody = rovRigidBody;
 
                 locked = true;
             }
-
         }
 
-        if (Input.GetKey(Solta) && locked)
-        {
-            Destroy(LTPC_RigidBody.GetComponent<FixedJoint>());
+        else if (locked && Input.GetKey(releaseKey)) {
+            DestroyImmediate(joint);
 
-            LTPC_RigidBody.GetComponent<Rigidbody>().isKinematic = true;
-            LTPC_MeshCollider.SetActive(true);
+            rigidBody.isKinematic = true;
+
+            meshCollider.enabled = true;
 
             locked = false;
         }
     }
-    private void OnTriggerEnter(Collider collision)
-    {
-        CheckIn = true;
-        GameObject obj1 = this.gameObject;
-        GameObject obj2 = collision.gameObject;
-    }
-    private void OnTriggerExit(Collider collision)
-    {
-        CheckIn = false;
-        GameObject obj1 = this.gameObject;
-        GameObject obj2 = collision.gameObject;
-    }
+    private void OnTriggerEnter(Collider collision){ checkIn = true; }
+    private void OnTriggerExit(Collider collision) { checkIn = false; }
 }

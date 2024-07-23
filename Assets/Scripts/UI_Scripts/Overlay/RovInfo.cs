@@ -23,6 +23,9 @@ public class RovInfo : MonoBehaviour
     private float lastAngle;
     private int turnsCounter;
     private float totalRotation;
+
+    private Text fpsText;
+    private float deltaTime;
     private void Start()
     {
         rov = GameObject.Find("FORUM XLX").transform;
@@ -40,6 +43,7 @@ public class RovInfo : MonoBehaviour
         hdgText = transform.GetChild(2).GetComponent<Text>();
         tmsText = transform.GetChild(3).GetComponent<Text>();
         turnsText = transform.GetChild(4).GetComponent<Text>();
+        fpsText = transform.GetChild(5).GetComponent<Text>();
     }
     private void Update()
     {
@@ -49,6 +53,7 @@ public class RovInfo : MonoBehaviour
             if(tmsRope) { TMS(); }
             Heading();
             Turn();
+            FPS();
         }
     }
     private void Depth() 
@@ -117,5 +122,11 @@ public class RovInfo : MonoBehaviour
 
         float turn = (totalRotation/360) + turnsCounter;
         turnsText.text = ("TRN: " + turn.ToString("f1")).Replace(",", ".");
+    }
+    private void FPS() 
+    {
+        deltaTime += (Time.deltaTime - deltaTime) * 0.1f;
+        float fps = 1.0f / deltaTime;
+        fpsText.text = "FPS: " + Mathf.Ceil(fps).ToString();
     }
 }

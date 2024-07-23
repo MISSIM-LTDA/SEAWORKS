@@ -1,4 +1,6 @@
+using Obi;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
@@ -11,6 +13,9 @@ public class RovToolingSelection : MonoBehaviour
         public string name;
 
         public List<GameObject> tools = new List<GameObject> ();
+
+        public List<ObiRopeMeshRenderer>  obiRopeMeshRenderers =
+            new List<ObiRopeMeshRenderer>();
 
         public Button[] toolButton;
 
@@ -64,16 +69,26 @@ public class RovToolingSelection : MonoBehaviour
                 selectionButton.GetComponentsInChildren<Toggle>());
         }
 
-        foreach(Transform tool in toolsPacks) {
+        foreach (Transform tool in toolsPacks) {
             foreach(SelectionButton toolSelectionButton in toolsSelectionButtons) {
                 if (tool.name.Contains(toolSelectionButton.name) && 
                     toolSelectionButton.tools.Count < 2) {
                     toolSelectionButton.tools.Add(tool.gameObject);
                 }
             }
-       }
+        }
 
-        foreach(SelectionButton selectionButton in toolsSelectionButtons) {
+        foreach (SelectionButton toolSelectionButton in toolsSelectionButtons){
+            foreach(GameObject tool in toolSelectionButton.tools) {
+                foreach(ObiRopeMeshRenderer obiRopeMeshRenderers in 
+                    tool.GetComponentsInChildren<ObiRopeMeshRenderer>()) {
+                    toolSelectionButton.obiRopeMeshRenderers.
+                        Add(obiRopeMeshRenderers);
+                }
+            }
+        }
+
+        foreach (SelectionButton selectionButton in toolsSelectionButtons) {
             if(selectionButton.name != "Flot") {
                 selectionButton.toolButton[0].onClick.AddListener
                 (() => TurnOnOffArmTool(selectionButton));
@@ -155,6 +170,11 @@ public class RovToolingSelection : MonoBehaviour
 
         toolSelection.tools[0].SetActive(true);
 
+        if (toolSelection.obiRopeMeshRenderers.Count > 0) {
+            StartCoroutine(FixObiRopeMesh
+                (toolSelection.obiRopeMeshRenderers[0]));
+        }
+
         onArmTool = toolSelection.tools[0];
         onArmToolButton = toolSelection.toolButton[0];
 
@@ -166,6 +186,11 @@ public class RovToolingSelection : MonoBehaviour
         {
             toolSelection.tools[1].SetActive
                 (!toolSelection.tools[1].activeInHierarchy);
+
+            StartCoroutine(FixObiRopeMesh
+               (toolSelection.obiRopeMeshRenderers[1]));
+            StartCoroutine(FixObiRopeMesh
+              (toolSelection.obiRopeMeshRenderers[2]));
 
             ChangeButtonColor(toolSelection.tools[1], 
                 toolSelection.toolButton[1]);
@@ -185,6 +210,11 @@ public class RovToolingSelection : MonoBehaviour
             }
 
             toolSelection.tools[1].SetActive(true);
+
+            if (toolSelection.obiRopeMeshRenderers.Count > 0){
+                StartCoroutine(FixObiRopeMesh
+                    (toolSelection.obiRopeMeshRenderers[1]));
+            }
 
             onBasketTool = toolSelection.tools[1];
             onBasketToolButton = toolSelection.toolButton[1];
@@ -219,5 +249,11 @@ public class RovToolingSelection : MonoBehaviour
             toolButton.image.color = Color.cyan; }
 
         else { toolButton.image.color = Color.white; }
+    }
+    public IEnumerator FixObiRopeMesh(ObiRopeMeshRenderer obiRopeMeshRenderer) 
+    {
+        obiRopeMeshRenderer.enabled = false;
+        yield return new WaitForEndOfFrame();
+        obiRopeMeshRenderer.enabled = true;
     }
 }

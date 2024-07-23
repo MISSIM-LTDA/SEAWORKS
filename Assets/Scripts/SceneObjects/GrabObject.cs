@@ -9,12 +9,13 @@ public class GrabObject : MonoBehaviour
     private GameObject manipulator;
     private Rigidbody manipulatorRigidbody;
 
-    [SerializeField] private KeyCode lockKey = KeyCode.JoystickButton5;
-    [SerializeField] private KeyCode leaveKey = KeyCode.JoystickButton4;
+    [SerializeField] private KeyCode lockUnlockKey = KeyCode.JoystickButton8;
 
     private bool checkIn;
     private bool onBasket;
     private bool locked;
+
+    private bool config;
     void Start()
     {
         basketRigidbody = GameObject.Find("Basket").GetComponent<Rigidbody>();
@@ -22,43 +23,38 @@ public class GrabObject : MonoBehaviour
         grabObjectRigidbody = GetComponent<Rigidbody>();
 
         grabObjectJoint = GetComponent<Joint>();
-        grabObjectJoint.connectedBody = basketRigidbody;
 
         manipulator = GameObject.FindGameObjectWithTag("Jaw7");
         manipulatorRigidbody = manipulator.GetComponent<Rigidbody>();
 
+        config = true;
     }
-    void Update()
+    void FixedUpdate()
     {
-        if (Input.GetKey(lockKey) && checkIn && !locked){
+        if (Input.GetKeyDown(lockUnlockKey) && checkIn && !locked){
             if (!grabObjectJoint) {
                 grabObjectJoint = gameObject.AddComponent<HingeJoint>();
             }
+
+            grabObjectRigidbody.isKinematic = false;
 
             grabObjectJoint.connectedBody = manipulatorRigidbody;
 
             locked = true;
         }
 
-        else if (Input.GetKey(leaveKey) && locked){
+        else if (Input.GetKeyDown(lockUnlockKey) && locked){
             if (onBasket) {
-                if (!grabObjectJoint){
-                    grabObjectJoint = gameObject.AddComponent<HingeJoint>();
-                }
-
                 grabObjectJoint.connectedBody = basketRigidbody;
-
-                grabObjectRigidbody.isKinematic = true;
-                grabObjectRigidbody.useGravity = false;
             }
 
             else {
-                Destroy(grabObjectJoint);
+                grabObjectJoint.connectedBody = null;
 
-                grabObjectRigidbody.isKinematic = false;
-                grabObjectRigidbody.useGravity = true;
+                grabObjectRigidbody.isKinematic = true;
             }
 
+            grabObjectRigidbody.useGravity = false;
             locked = false;
         }
     }
@@ -68,7 +64,14 @@ public class GrabObject : MonoBehaviour
 
         if(obj.tag == "Jaw7finger") {checkIn = true;}
 
-        else if(obj.tag == "ROVComponents") { onBasket = true; }
+        else if(obj.tag == "ROVComponents") { 
+            onBasket = true;
+
+            if (config) { 
+                grabObjectJoint.connectedBody = basketRigidbody;
+                config = false;
+            }
+        }
     }
     private void OnTriggerExit(Collider collision)
     {

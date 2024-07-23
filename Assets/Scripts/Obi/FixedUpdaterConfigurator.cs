@@ -16,7 +16,14 @@ public class FixedUpdaterConfigurator : MonoBehaviour
         ObiSolver[] solvers = FindObjectsOfType<ObiSolver>(true);
 
         fixedUpdater.solvers.Clear();
-        foreach (ObiSolver solver in solvers) {
+        foreach (ObiSolver solver in solvers) { 
+            ObiFixedUpdater obiFixedUpdater = 
+                solver.GetComponent<ObiFixedUpdater>();
+
+            if (obiFixedUpdater && solver != m_Solver) {
+                Destroy(obiFixedUpdater); 
+            }
+          
            fixedUpdater.solvers.Add(solver);
         }
     }
