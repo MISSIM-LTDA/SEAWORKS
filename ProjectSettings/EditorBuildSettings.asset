@@ -6,7 +6,6 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/ANM_GFA-1/Scenes/Scene 1 - XT Installation Mode with TRT (HFL) -
-      XT with SCMMB.unity
-    guid: 1e62c305af7b2474b9b68ba1c122a598
+    path: Assets/ANM_GFA-1/Scenes/Scene 6 - Valves and Interfaces acess.unity
+    guid: 6c9beeb474df7b04a9daacd62e41541c
   m_configObjects: {}
