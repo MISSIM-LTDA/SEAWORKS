@@ -354,7 +354,6 @@ namespace SmartTrackSystem
             int i = 0;
 
             if (rec == record) {
-                Debug.Log("btuh");
                 i = index;
                 index++;
             }

@@ -700,8 +700,6 @@ namespace SmartTrackSystem
                     List<RecordedObjectInfo> records = 
                         JsonHelper.FromJson<RecordedObjectInfo>(jsonString);
 
-                    Debug.Log(records.Count);
-
                     int i = 0;
                     if (objectsToRecord.Count == records.Count) {
                         for (int j = 0; j < objectsToRecord.Count; j++){

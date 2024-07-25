@@ -161,8 +161,6 @@ namespace SmartTrackSystem
                 ExtendRope(obiRope,lenght);
             }
 
-            int particleCount = rec.RecordRopeStore[j].pC;
-
             if (startOfRope != null)
             {
                 if (startOfRope.tag == "EFL_Parent")
@@ -206,16 +204,18 @@ namespace SmartTrackSystem
                 }
             }
 
+            int particleCount = rec.RecordRopeStore[j].pC;
+
             rope.gameObject.SetActive(rec.RecordRopeStore[j].e);
             for (int i = 0; i < particleCount; i++)
             {
                 rope.solver.invMasses[rope.solverIndices[i]] = 0;
 
                 rope.solver.positions[rope.solverIndices[i]] = 
-                    StringToVector4(rec.RecordRopeStore[index + i].p);
+                    StringToVector4(rec.RecordRopeStore[j + i].p);
 
                 rope.solver.orientations[rope.solverIndices[i]] = 
-                   StringToQuaternion(rec.RecordRopeStore[index + i].r);
+                   StringToQuaternion(rec.RecordRopeStore[j + i].r);
 
                 if (makePhysic)
                 {
