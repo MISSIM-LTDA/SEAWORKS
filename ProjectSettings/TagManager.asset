@@ -23,6 +23,7 @@ TagManager:
   - SonarCamera
   - Interectable
   - SmartTrackConsole
+  - Connectors Cap
   layers:
   - Default
   - TransparentFX

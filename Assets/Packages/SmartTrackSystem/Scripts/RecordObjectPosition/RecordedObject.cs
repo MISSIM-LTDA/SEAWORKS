@@ -1,4 +1,3 @@
-using Obi;
 using SimpleFileBrowser;
 using System;
 using System.Collections;
@@ -11,78 +10,56 @@ using UnityEngine.UI;
 
 namespace SmartTrackSystem
 {
-    public class RecordedObject : MonoBehaviour
+    public class RecordedObject : MonoBehaviour, ISelectable, IRecorded
     {
-        [SerializeField, HideInInspector] public RecordObjectPositionHelper positionHelper;
-        [SerializeField, HideInInspector] public ObiActor rope;
-        [SerializeField, HideInInspector] public RecordedObject otherConnector;
+        //ISelectable
+        public Camera mainCamera { get; set; }
+        public OutlineEffect outEffect { get; set; }
+        public EventSystem eventSystem { get; set; }
+        public Button button { get; set; }
+        public List<Outline> outlines { get; set; }
+        public bool mouseOver { get; set; }
+        public bool blinking { get; set; }
+        public bool unselecting { get; set; }
 
-        private bool connectedToRope;
+        //IRecorded
+        public bool saving { get; set; }
+        public bool loading { get; set; }
+        public string folderPath { get; set; }
+        public int index { get; set; }
+        public string decimalPlaces { get; set; }
 
-        protected GameObject mainCamera;
-        protected OutlineEffect outEffect;
-        protected EventSystem eventSystem;
+        public RecordedInfo<ObjectTransformToRecord> record = 
+            new RecordedInfo<ObjectTransformToRecord>("", new List<ObjectTransformToRecord>() { });
+        public RecordedInfo<ObjectTransformToRecord> recordPosition = 
+            new RecordedInfo<ObjectTransformToRecord>("", new List<ObjectTransformToRecord>() { });
 
-        [SerializeField, HideInInspector] public Button button;
-
-        protected List<Outline> outlines = new List<Outline>();
-
-        private bool mouseOver;
-        protected bool blinking = false;
-        protected bool unselecting = false;
-
-        protected bool saving;
-        protected bool loading;
-
-        protected string folderPath;
-
-        public RecordedObjectInfo record = new RecordedObjectInfo("", new List<ObjectTransformToRecord>() { });
-
-        public int index;
-
-        public string decimalPlaces;
-        protected virtual void Start()
+        protected void Start()
         {
-            if (rope != null) { connectedToRope = true; }
-
-            mainCamera = GameObject.FindGameObjectWithTag("MainCamera");
+            mainCamera = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
             outEffect = mainCamera.GetComponent<OutlineEffect>();
 
             eventSystem = FindObjectOfType<EventSystem>();
+
+            decimalPlaces = "F" + SmartTrack.smartTrack.decimalPlaces;
+        }
+        public virtual void Update()
+        {
+            if (mouseOver && Input.GetMouseButtonDown(0)) { 
+                SelectObject(gameObject); 
+            }
         }
 
-        #region Select Functions
-        //-------------------------------- Select Functions -----------------------------------------------//
-        private void OnMouseOver()
+        #region Select
+        public virtual void SelectObject(GameObject selectedObject)
         {
-            mouseOver = true;
-
-            if (Input.GetMouseButtonDown(0)) { SelectObject(); }
-
-        }
-        private void OnMouseExit() { mouseOver = false; }
-        public void SelectObject()
-        {
-            if (connectedToRope)
-            {
-                positionHelper.SelectedObject = rope.gameObject;
-            }
-            else
-            {
-                positionHelper.SelectedObject = gameObject;
-            }
-
+            SmartTrack.smartTrack.SelectedObject = selectedObject;
+            
             if (blinking || unselecting) { return; }
 
             blinking = true;
 
             eventSystem.SetSelectedGameObject(button.gameObject);
-
-            if (connectedToRope)
-            {
-                PlaceOutlineOnMesh(rope.transform);
-                PlaceOutlineOnMesh(otherConnector.transform);
-            }
 
             PlaceOutlineOnMesh(transform);
 
@@ -91,20 +68,20 @@ namespace SmartTrackSystem
 
             if (!unselecting) { StartCoroutine(Unselect()); }
         }
-        private void PlaceOutlineOnMesh(Transform meshTransform)
+        public void PlaceOutlineOnMesh(Transform meshTransform)
         {
             foreach (MeshRenderer meshRenderer in meshTransform.GetComponentsInChildren<MeshRenderer>())
             {
                 Outline outline = meshRenderer.gameObject.GetComponent<Outline>();
 
-                if (outline == null && meshRenderer.enabled) { outline = meshRenderer.gameObject.AddComponent<Outline>(); }
+                if (!outline && meshRenderer.enabled) { outline = meshRenderer.gameObject.AddComponent<Outline>(); }
 
                 int i = 0;
                 for (; i < outlines.Count; i++) { if (outline == outlines[i]) { break; } }
                 if (i == outlines.Count) { outlines.Add(outline); }
             }
         }
-        private void SnapRopeButtonsPanel()
+        public void SnapRopeButtonsPanel()
         {
             Transform contentPanel = button.transform.parent;
             ScrollRect scrollRect = contentPanel.transform.parent.parent.GetComponent<ScrollRect>();
@@ -120,7 +97,7 @@ namespace SmartTrackSystem
 
             contentPanel.transform.localPosition = snapPosition;
         }
-        private IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating, Button m_button)
+        public IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating, Button m_button)
         {
             Color c = GetColor(outEffect, color);
             Color buttonColor = m_button.gameObject.GetComponent<Image>().color;
@@ -146,7 +123,7 @@ namespace SmartTrackSystem
 
             else { StartCoroutine(BlinkColor(outEffect, outlines, 0, repeating, m_button)); }
         }
-        private Color GetColor(OutlineEffect outEffect, int color)
+        public Color GetColor(OutlineEffect outEffect, int color)
         {
             Color m_Color = Color.clear;
 
@@ -174,7 +151,7 @@ namespace SmartTrackSystem
 
             return m_Color;
         }
-        private void ChangeColor(OutlineEffect outEffect, int color, Color newColor)
+        public void ChangeColor(OutlineEffect outEffect, int color, Color newColor)
         {
             switch (color)
             {
@@ -199,93 +176,74 @@ namespace SmartTrackSystem
 
             outEffect.UpdateMaterialsPublicProperties();
         }
-        private IEnumerator Unselect()
+        public virtual IEnumerator Unselect()
         {
             unselecting = true;
 
-            if (connectedToRope)
-            {
-                yield return new WaitUntil(() => Input.GetMouseButton(0) && !mouseOver && !otherConnector.mouseOver && !DetectButtonOver());
-            }
-            else
-            {
-                yield return new WaitUntil(() => Input.GetMouseButton(0) && !mouseOver && !DetectButtonOver());
-            }
-
+            yield return new WaitUntil(() => Input.GetMouseButton(0) && !mouseOver && !DetectButtonOver());
+            
             foreach (Outline outline in outlines) { Destroy(outline); }
 
-            button.image.color = Color.white;
+            button.image.color = Color.cyan;
 
             unselecting = false;
         }
-        private bool DetectButtonOver()
+        public bool DetectButtonOver()
         {
             return eventSystem.currentSelectedGameObject == button.gameObject;
         }
         #endregion
 
-        #region Save Functions
-        //-------------------------------- Save Functions -----------------------------------------------//
-        public void SaveNewPath(string path)
+        #region Save
+        public void SaveNewPosition(string path)
         {
+            if (SmartTrack.smartTrack.IsReplaying) { 
+                Debug.Log("Cant't save a object position while SmartTrack is replaying"); 
+                return; 
+            }
+
             SaveOrLoadSetup();
 
             if (!saving)
             {
-                StartCoroutine(SaveNewPathCoroutine(path));
+                StartCoroutine(SaveNewPositionCoroutine(path));
                 saving = true;
             }
 
             else { Debug.Log(record.Name + " is already saving this object position"); }
         }
-        protected IEnumerator SaveNewPathCoroutine(string path)
+        public IEnumerator SaveNewPositionCoroutine(string path)
         {
-            if (path == null) { yield return StartCoroutine(ChooseDirectory()); }
+            if (string.IsNullOrEmpty(path)) { 
+                yield return StartCoroutine(ChooseDirectory()); 
+            }
 
-            else
-            {
+            else {
                 path = CreateDirectoryToSaveAll(path);
                 folderPath = FixFolderPath(path);
             }
 
-            GetObjectPosition();
+            GetObjectPosition(ref recordPosition);
 
-            if (record.RecordObjectStore.Count == 0)
-            {
+            if (recordPosition.RecordObjectStore.Count == 0) {
                 Debug.Log("Problem Getting object position");
                 saving = false;
             }
 
             else { SavePositions(); }
         }
-        public virtual void GetObjectPosition()
+        public virtual void GetObjectPosition(ref RecordedInfo<ObjectTransformToRecord> rec)
         {
-            if (transform.tag == "EFL_Parent")
-            {
-                Transform eflConnector1 = transform.GetChild(0);
-                Transform eflConnector2 = transform.GetChild(1);
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
 
-                record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (eflConnector1.gameObject.activeSelf, 
-                    eflConnector1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    eflConnector1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-                record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (eflConnector2.gameObject,
-                    eflConnector2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    eflConnector2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-            }
-
-            else
-            {
-                record.RecordObjectStore.Add(new ObjectTransformToRecord
-                    (gameObject.activeSelf,
-                    transform.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                    transform.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-            }
+            rec.RecordObjectStore.Add(new ObjectTransformToRecord
+                (gameObject.activeSelf,
+                transform.localPosition.ToString(decimalPlaces, formatProvider),
+                transform.localRotation.ToString(decimalPlaces, formatProvider)));
         }
-        protected void SavePositions()
+        public void SavePositions()
         {
-            string jsonString = JsonUtility.ToJson(record);
+            string jsonString = JsonUtility.ToJson(recordPosition);
             File.WriteAllText(folderPath, jsonString);
 
             folderPath = null;
@@ -295,53 +253,56 @@ namespace SmartTrackSystem
         #endregion
 
         #region Load Functions
-        //-------------------------------- Load Functions -----------------------------------------------//
-        public void LoadNewPath(string path)
+        public void LoadNewPosition(string path)
         {
             SaveOrLoadSetup();
 
-            if (!loading)
-            {
-                StartCoroutine(LoadNewPathCoroutine(path));
+            if (!loading) {
+                StartCoroutine(LoadNewPositionCoroutine(path));
                 loading = true;
             }
 
             else { Debug.Log(record.Name + " is already loading this object position"); }
         }
-        protected virtual IEnumerator LoadNewPathCoroutine(string path)
+        public virtual IEnumerator LoadNewPositionCoroutine(string path)
         {
-            if (path == null) { yield return StartCoroutine(ChooseFile()); }
+            if (string.IsNullOrEmpty(path)) { yield return StartCoroutine(ChooseFile()); }
 
             else { folderPath = FindCorrectFileOnFolder(path); }
 
             yield return StartCoroutine(ReadPathFromFile());
 
-            if (record.Name != gameObject.name)
-            {
+            if (recordPosition.Name != gameObject.name) {
                 Debug.Log("Tried to load a wrong file to this object");
                 loading = false;
             }
 
-            else
-            {
-                if (record.RecordObjectStore.Count == 0)
-                {
+            else{
+                if (recordPosition.RecordObjectStore.Count == 0) {
                     Debug.Log("Problem Loading object position from File");
                     loading = false;
                 }
 
-                else { LoadPositions(true); }
+                else { LoadPositions(ref recordPosition,true); }
+
+                SmartTrack.smartTrack.SelectedObject = null;
             }
         }
-        public virtual void LoadPositions(bool makePhysics)
+        public virtual void LoadPositions(ref RecordedInfo<ObjectTransformToRecord> rec,bool makePhysics)
         {
-            gameObject.SetActive((record.RecordObjectStore[index].e));
-            SetLocalPositionAndRotation(transform,
-            StringToVector3(record.RecordObjectStore[index].p),
-            StringToQuaternion(record.RecordObjectStore[index].r));
+            int i = 0;
 
-            index++;
-            
+            if (rec == record) {
+                i = index;
+                index++;
+            }
+
+            gameObject.SetActive((rec.RecordObjectStore[i].e));
+
+            SetLocalPositionAndRotation(transform,
+                StringToVector3(rec.RecordObjectStore[i].p),
+                StringToQuaternion(rec.RecordObjectStore[i].r));
+
             folderPath = null;
             loading = false;
         }
@@ -380,16 +341,15 @@ namespace SmartTrackSystem
 
             return new Quaternion(x, y, z, w);
         }
-        protected virtual void SaveOrLoadSetup()
+        public virtual void SaveOrLoadSetup()
         {
             saving = false;
             loading = false;
             folderPath = null;
 
-            record.Name = gameObject.name;
-            record.RecordObjectStore.Clear();
+            recordPosition.RecordObjectStore.Clear();
         }
-        protected string CreateDirectoryToSaveAll(string path)
+        public string CreateDirectoryToSaveAll(string path)
         {
             DateTime myTime = DateTime.Now;
             string time = myTime.ToString("HH:mm:ss");
@@ -401,20 +361,18 @@ namespace SmartTrackSystem
 
             return newFolder;
         }
-        protected virtual string FindCorrectFileOnFolder(string path)
+        public virtual string FindCorrectFileOnFolder(string path)
         {
             DirectoryInfo info = new DirectoryInfo(path);
             FileInfo[] fileInfos = info.GetFiles();
 
-            foreach (FileInfo fileInfo in fileInfos)
-            {
+            foreach (FileInfo fileInfo in fileInfos){
                 StreamReader sr = new StreamReader(fileInfo.FullName);
                 string jsonstring = sr.ReadToEnd();
                 sr.Close();
 
-                record = JsonUtility.FromJson<RecordedObjectInfo>(jsonstring);
-                if (record.Name == gameObject.name)
-                {
+                record = JsonUtility.FromJson<RecordedInfo<ObjectTransformToRecord>>(jsonstring);
+                if (record.Name == gameObject.name) {
                     path = fileInfo.FullName;
                     return path;
                 }
@@ -422,40 +380,36 @@ namespace SmartTrackSystem
 
             return null;
         }
-        protected string FixFolderPath(string path)
+        public string FixFolderPath(string path)
         {
             path = path + @"\" + record.Name + ".txt";
-            Debug.Log(path);
             return path;
         }
-        protected IEnumerator ReadPathFromFile()
+        public virtual IEnumerator ReadPathFromFile()
         {
-            if (File.Exists(folderPath))
-            {
+            if (File.Exists(folderPath)) {
                 StreamReader sr = new StreamReader(folderPath);
                 string jsonstring = sr.ReadToEnd();
                 sr.Close();
 
-                record = JsonUtility.FromJson<RecordedObjectInfo>(jsonstring);
+                recordPosition = JsonUtility.FromJson<RecordedInfo<ObjectTransformToRecord>>(jsonstring);
             }
 
             yield return null;
         }
-        protected IEnumerator ChooseDirectory()
+        public IEnumerator ChooseDirectory()
         {
             yield return FileBrowser.WaitForSaveDialog(FileBrowser.PickMode.Files, false, null, record.Name, "Save Files and Folders", "Save");
 
-            if (FileBrowser.Success)
-            {
+            if (FileBrowser.Success) {
                 folderPath = FileBrowser.Result[0];
             }
         }
-        protected IEnumerator ChooseFile()
+        public IEnumerator ChooseFile()
         {
             yield return FileBrowser.WaitForLoadDialog(FileBrowser.PickMode.Files, false, null, null, "Load Files and Folders", "Load");
 
-            if (FileBrowser.Success)
-            {
+            if (FileBrowser.Success){
                 folderPath = FileBrowser.Result[0];
             }
         }

@@ -4,15 +4,48 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using UnityEditor;
 using UnityEngine;
 
 namespace SmartTrackSystem
 {
-    [RequireComponent(typeof(ObiActor))]
+    [CustomEditor(typeof(RecordedRope))]
+    public class RecordedRopeInspector : Editor 
+    {
+        SerializedProperty recordRope;
+        SerializedProperty recordRopePosition;
+
+        RecordedRope recordedRope;
+
+        private void OnEnable()
+        {
+            recordedRope = target as RecordedRope;
+
+            recordRope = serializedObject.FindProperty("recordRope");
+
+            recordRopePosition = serializedObject.FindProperty("recordRopePosition");
+        }
+        public override void OnInspectorGUI() 
+        {
+            serializedObject.UpdateIfRequiredOrScript();
+
+            EditorGUILayout.PropertyField(recordRope, new GUIContent("Record Rope"));
+
+            EditorGUILayout.PropertyField(recordRopePosition, new GUIContent("Record Rope Position"));
+
+            if (GUI.changed) { serializedObject.ApplyModifiedProperties(); }
+        }
+    }
+
+   [RequireComponent(typeof(ObiActor))]
     public class RecordedRope : RecordedObject
     {
-        public Transform startOfRope;
-        public Transform endOfRope;
+        public RecordedInfo<RopeTransformToRecord> recordRope = 
+            new RecordedInfo<RopeTransformToRecord>("", new List<RopeTransformToRecord>() { });
+        public RecordedInfo<RopeTransformToRecord> recordRopePosition = 
+            new RecordedInfo<RopeTransformToRecord>("", new List<RopeTransformToRecord>() { });
+
+        [SerializeField, HideInInspector] public ObiRopeBase rope;
         public class Attachments
         {
             public Transform target = null;
@@ -25,237 +58,72 @@ namespace SmartTrackSystem
         List<Attachments> destroyedAttachments = new List<Attachments>();
 
         #region Save Functions
-        public override void GetObjectPosition()
+        public void GetObjectPosition(ref RecordedInfo<RopeTransformToRecord> rec)
         {
             bool initialIndex = true;
 
             int particleCount = rope.activeParticleCount;
-            float lenght = 0.0f;
+            float lenght = rope.restLength;
 
-            if (rope.GetComponent<ObiRope>() != null)
-            {
-                lenght = rope.GetComponent<ObiRope>().restLength;
-            }
-
-            if(startOfRope != null) 
-            {
-                if (startOfRope.tag == "EFL_Parent")
-                {
-                    Transform start1 = startOfRope.GetChild(0);
-                    Transform start2 = startOfRope.GetChild(1);
-
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (initialIndex,start1.gameObject.activeSelf,
-                        start1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        start1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (false,start2.gameObject.activeSelf,
-                        start2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        start2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-
-                    initialIndex = false;
-                }
-
-                else
-                {
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (initialIndex,startOfRope.gameObject.activeSelf,
-                        startOfRope.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        startOfRope.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-
-                    initialIndex = false;
-                }
-            }
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
 
             ObiSolver solver = rope.solver;
 
-            for (int i = 0; i < particleCount; i++)
-            {
-                record.RecordRopeStore.Add(new RopeTransformToRecord
-                (initialIndex,gameObject.activeSelf,
-                rope.solver.positions[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                rope.solver.orientations[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                solver.invMasses[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                solver.invRotationalMasses[rope.solverIndices[i]].ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                particleCount, lenght.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
+            for (int i = 0; i < particleCount; i++) {
+
+                rec.RecordObjectStore.Add(new RopeTransformToRecord
+                (initialIndex, gameObject.activeSelf,
+                rope.solver.positions[rope.solverIndices[i]].ToString(decimalPlaces, formatProvider),
+                rope.solver.orientations[rope.solverIndices[i]].ToString(decimalPlaces, formatProvider),
+                solver.invMasses[rope.solverIndices[i]].ToString(decimalPlaces, formatProvider),
+                solver.invRotationalMasses[rope.solverIndices[i]].ToString(decimalPlaces, formatProvider),
+                particleCount, lenght.ToString(decimalPlaces, formatProvider)));
 
                 if (i == 0) { initialIndex = false; }
             }
-
-            if(endOfRope != null) 
-            {
-                if (endOfRope.tag == "EFL_Parent")
-                {
-                    Transform end1 = endOfRope.transform.GetChild(0);
-                    Transform end2 = endOfRope.transform.GetChild(1);
-
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (false,end1.gameObject.activeSelf, 
-                        end1.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                        end1.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (false,end2.gameObject.activeSelf, 
-                        end2.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture),
-                        end2.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-                }
-
-                else
-                {
-                    record.RecordRopeStore.Add(new RopeTransformToRecord
-                        (false,endOfRope.gameObject.activeSelf,
-                        endOfRope.localPosition.ToString(decimalPlaces,CultureInfo.InvariantCulture), 
-                        endOfRope.localRotation.ToString(decimalPlaces,CultureInfo.InvariantCulture)));
-                }
-            }
         }
-
         #endregion
 
         #region Load Functions
-        protected override IEnumerator LoadNewPathCoroutine(string path)
+        public void LoadPositions(ref RecordedInfo<RopeTransformToRecord> rec,bool makePhysic)
         {
-            if (path == null) { yield return StartCoroutine(ChooseFile()); }
-
-            else { folderPath = FindCorrectFileOnFolder(path); }
-
-            yield return StartCoroutine(ReadPathFromFile());
-
-            if (record.Name != rope.sourceBlueprint.name)
-            {
-                Debug.Log("Tried to load a wrong file to this object");
-                loading = false;
+            int j = 0;
+            if (rec == recordRope) {
+                j = index;
             }
 
-            else
-            {
-                if (record.RecordObjectStore.Count == 0)
-                {
-                    Debug.Log("Problem Loading object position from File");
-                    loading = false;
-                }
-
-                else { LoadPositions(true); }
-
-                positionHelper.SelectedObject = null;
-            }
-        }
-        public override void LoadPositions(bool makePhysic)
-        {
             ObiParticleAttachment[] attach = rope.GetComponents<ObiParticleAttachment>();
 
-            for (int i = 0; i < attach.Length; i++)
-            {
+            for (int i = 0; i < attach.Length; i++) {
                 SaveAttach(attach[i]);
                 Destroy(attach[i]);
             }
 
-            float lenght = StringToFloat(record.RecordRopeStore[index].l);
+            float lenght = StringToFloat(rec.RecordObjectStore[j].l);
 
-            ObiRope obiRope = rope.GetComponent<ObiRope>();
-            if (obiRope != null && obiRope.restLength != lenght){
-                ExtendRope(obiRope,lenght);
+            if (rope && rope.restLength != lenght) {
+                ExtendRope(rope as ObiRope,lenght);
             }
 
-            int particleCount = record.RecordRopeStore[index].pC;
+            int particleCount = rec.RecordObjectStore[j].pC;
+            index += particleCount;
 
-            if (startOfRope != null)
-            {
-                if (startOfRope.tag == "EFL_Parent")
-                {
-                    Transform start1 = startOfRope.GetChild(0);
-                    Transform start2 = startOfRope.GetChild(1);
-
-                    start1.GetComponent<Rigidbody>().isKinematic = true;
-                    start2.GetComponent<Rigidbody>().isKinematic = true;
-
-                    start1.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(start1,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
-
-                    start2.gameObject.SetActive(record.RecordRopeStore[index + 1].e);
-                    SetLocalPositionAndRotation(start2,
-                    StringToVector3(record.RecordRopeStore[index + 1].p),
-                    StringToQuaternion(record.RecordRopeStore[index + 1].r));
-
-                    if (makePhysic)
-                    {
-                        start1.GetComponent<Rigidbody>().isKinematic = false;
-                        start2.GetComponent<Rigidbody>().isKinematic = false;
-                    }
-
-                    index += 2;
-                }
-
-                else
-                {
-                    startOfRope.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(startOfRope,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
-
-                    index++;
-                }
-            }
-
-            rope.gameObject.SetActive(record.RecordRopeStore[index].e);
-            for (int i = 0; i < particleCount; i++)
-            {
+            rope.gameObject.SetActive(rec.RecordObjectStore[j].e);
+            for (int i = 0; i < particleCount; i++) {
                 rope.solver.invMasses[rope.solverIndices[i]] = 0;
 
                 rope.solver.positions[rope.solverIndices[i]] = 
-                    StringToVector4(record.RecordRopeStore[index + i].p);
+                    StringToVector4(rec.RecordObjectStore[j + i].p);
+
                 rope.solver.orientations[rope.solverIndices[i]] = 
-                   StringToQuaternion(record.RecordRopeStore[index + i].r);
+                   StringToQuaternion(rec.RecordObjectStore[j + i].r);
 
-                if (makePhysic)
-                {
+                if (makePhysic) {
                     rope.solver.invMasses[rope.solverIndices[i]] =
-                       StringToFloat(record.RecordRopeStore[index + i].iPM);
+                       StringToFloat(rec.RecordObjectStore[j + i].iPM);
+
                     rope.solver.invRotationalMasses[rope.solverIndices[i]] =
-                       StringToFloat(record.RecordRopeStore[index + i].iRM);
-                }
-            }
-
-            index += particleCount;
-
-            if (endOfRope != null)
-            {
-                if (endOfRope.tag == "EFL_Parent")
-                {
-                    Transform end1 = endOfRope.GetChild(0);
-                    Transform end2 = endOfRope.GetChild(1);
-
-                    end1.GetComponent<Rigidbody>().isKinematic = true;
-                    end2.GetComponent<Rigidbody>().isKinematic = true;
-
-                    end1.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(end1,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
-
-                    end2.gameObject.SetActive(record.RecordRopeStore[index + 1].e);
-                    SetLocalPositionAndRotation(end2,
-                    StringToVector3(record.RecordRopeStore[index + 1].p),
-                    StringToQuaternion(record.RecordRopeStore[index + 1].r));
-
-                    if (makePhysic)
-                    {
-                        end1.GetComponent<Rigidbody>().isKinematic = false;
-                        end2.GetComponent<Rigidbody>().isKinematic = false;
-                    }
-
-                    index += 2;
-                }
-
-                else
-                {
-                    endOfRope.gameObject.SetActive(record.RecordRopeStore[index].e);
-                    SetLocalPositionAndRotation(endOfRope,
-                    StringToVector3(record.RecordRopeStore[index].p),
-                    StringToQuaternion(record.RecordRopeStore[index].r));
-
-                    index++;
+                       StringToFloat(rec.RecordObjectStore[j + i].iRM);
                 }
             }
 
@@ -264,24 +132,9 @@ namespace SmartTrackSystem
             folderPath = null;
             loading = false;
         }
-
         #endregion
 
         #region Support Functions
-        private void ExtendRope(ObiRope rope,float lenght)
-        {
-            ObiRopeCursor cursor = rope.GetComponent<ObiRopeCursor>();
-
-            if (cursor != null){
-                cursor.ChangeLength(lenght);
-            }
-        }
-        private float StringToFloat(string lenght) 
-        {
-            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
-
-            return float.Parse(lenght.Trim(),formatProvider);
-        }
         private Vector4 StringToVector4(string rotation)
         {
             IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
@@ -295,6 +148,24 @@ namespace SmartTrackSystem
 
             return new Vector4(x, y, z, w);
         }
+        private void ExtendRope(ObiRope rope,float lenght)
+        {
+            ObiRopeCursor cursor = rope.GetComponent<ObiRopeCursor>();
+
+            if (cursor != null) {
+                cursor.ChangeLength(lenght);
+            }
+        }
+        private float StringToFloat(string lenght) 
+        {
+            IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
+            NumberStyles style = NumberStyles.Float;
+            float result;
+
+            float.TryParse(lenght.Trim(), style, formatProvider,out result);
+
+            return result;
+        }
         private void SaveAttach(ObiParticleAttachment attach)
         {
             Attachments saveAttach = new Attachments();
@@ -303,8 +174,7 @@ namespace SmartTrackSystem
             saveAttach.particleGroup = attach.particleGroup;
             saveAttach.attachmentType = attach.attachmentType;
 
-            if (saveAttach.attachmentType == ObiParticleAttachment.AttachmentType.Dynamic)
-            {
+            if (saveAttach.attachmentType == ObiParticleAttachment.AttachmentType.Dynamic) {
                 saveAttach.compliance = attach.compliance;
                 saveAttach.breakThreshold = attach.breakThreshold;
             }
@@ -328,12 +198,12 @@ namespace SmartTrackSystem
                 }
             }
         }
-        protected override void SaveOrLoadSetup()
+        public override void SaveOrLoadSetup()
         {
-            base.SaveOrLoadSetup();
-            record.Name = rope.sourceBlueprint.name;
+           base.SaveOrLoadSetup();
+           recordRope.Name = rope.sourceBlueprint.name;
         }
-        protected override string FindCorrectFileOnFolder(string path)
+        public override string FindCorrectFileOnFolder(string path)
         {
             DirectoryInfo info = new DirectoryInfo(path);
             FileInfo[] fileInfos = info.GetFiles();
@@ -344,8 +214,8 @@ namespace SmartTrackSystem
                 string jsonstring = sr.ReadToEnd();
                 sr.Close();
 
-                record = JsonUtility.FromJson<RecordedObjectInfo>(jsonstring);
-                if (record.Name == rope.sourceBlueprint.name)
+                recordRope = JsonUtility.FromJson<RecordedInfo<RopeTransformToRecord>>(jsonstring);
+                if (recordRope.Name == rope.sourceBlueprint.name)
                 {
                     path = fileInfo.FullName;
                     return path;
@@ -354,7 +224,19 @@ namespace SmartTrackSystem
 
             return null;
         }
+        public override IEnumerator ReadPathFromFile()
+        {
+            if (File.Exists(folderPath))
+            {
+                StreamReader sr = new StreamReader(folderPath);
+                string jsonstring = sr.ReadToEnd();
+                sr.Close();
 
+                recordRopePosition = JsonUtility.FromJson<RecordedInfo<RopeTransformToRecord>>(jsonstring);
+            }
+
+            yield return null;
+        }
         #endregion
     }
 }
