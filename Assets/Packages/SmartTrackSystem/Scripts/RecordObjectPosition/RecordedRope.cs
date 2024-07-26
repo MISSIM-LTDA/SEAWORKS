@@ -30,11 +30,7 @@ namespace SmartTrackSystem
             bool initialIndex = true;
 
             int particleCount = rope.activeParticleCount;
-            float lenght = 0.0f;
-
-            if (rope.GetComponent<ObiRope>() != null) {
-                lenght = rope.GetComponent<ObiRope>().restLength;
-            }
+            float lenght = rope.GetComponent<ObiRopeBase>().restLength;
 
             IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
 
@@ -154,7 +150,7 @@ namespace SmartTrackSystem
                 Destroy(attach[i]);
             }
 
-            float lenght = StringToFloat(rec.RecordRopeStore[j].l);
+            float lenght = StringToFloat(rec.RecordRopeStore[j+1].l);
 
             ObiRope obiRope = rope.GetComponent<ObiRope>();
             if (obiRope != null && obiRope.restLength != lenght){
@@ -295,9 +291,8 @@ namespace SmartTrackSystem
         {
             IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
             NumberStyles style = NumberStyles.Float;
-            float result;
 
-            float.TryParse(lenght.Trim(), style, formatProvider,out result);
+            float.TryParse(lenght.Trim(), style, formatProvider,out float result);
 
             return result;
         }

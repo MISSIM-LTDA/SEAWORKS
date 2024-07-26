@@ -104,6 +104,7 @@ namespace SmartTrackSystem
 
         private bool isReplaying;
         public bool IsReplaying {get { return isReplaying;}}
+        private bool paused;
 
         private bool isSaving;
 
@@ -412,23 +413,28 @@ namespace SmartTrackSystem
 
                     if (recordedFrames > 0)
                     {
-                        FixTimer();
-
-                        int index = (int)slider.value;
-                        int count = recordedFrames - index;
-                        int rope = 0;
-
-                        foreach (RecordedObject recordedObject in objectsToRecord)
+                        if (isReplaying) 
                         {
-                            RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
-                            if (rr) {
-                                int ropeIndex = ropesInitialIndexes[rope].array[index]; 
-                                int ropeCount = rr.record.RecordObjectStore.Count - ropeIndex;
+                            FixTimer();
 
-                                rr.record.RecordObjectStore.RemoveRange(ropeIndex,ropeCount);
-                            }
-                            else {
-                                recordedObject.record.RecordObjectStore.RemoveRange(index, count);
+                            int index = (int)slider.value;
+                            int count = recordedFrames - index;
+                            int rope = 0;
+
+                            foreach (RecordedObject recordedObject in objectsToRecord)
+                            {
+                                RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
+                                if (rr) {
+                                    int ropeIndex = ropesInitialIndexes[rope].array[index];
+                                    ropeIndex += rr.record.RecordRopeStore[ropeIndex].pC;
+
+                                    int ropeCount = rr.record.RecordRopeStore.Count - ropeIndex;
+
+                                    rr.record.RecordRopeStore.RemoveRange(ropeIndex, ropeCount);
+                                }
+                                else {
+                                    recordedObject.record.RecordObjectStore.RemoveRange(index, count);
+                                }
                             }
 
                             slider.value = 0;
@@ -495,8 +501,8 @@ namespace SmartTrackSystem
                 else
                 {
                     playButton.image.sprite = playSprite;
+                    paused = true;
                     StopCoroutine(replayCoroutine);
-                    isReplaying = false;
                 }
             }
 
@@ -513,6 +519,7 @@ namespace SmartTrackSystem
             if (!preparedToReplay) { PrepareToReplay(); }
 
             isReplaying = true;
+            paused = false;
 
             slider.interactable = true;
             for (slider.value = slideT; slider.value < slider.maxValue; slider.value+=multiplier) {
@@ -532,10 +539,11 @@ namespace SmartTrackSystem
             StopCoroutine(replayCoroutine);
 
             isReplaying = false;
+            paused = false;
         }
         private void OnSliderValueChange(float frame)
         {
-            if (preparedToReplay && isReplaying) 
+            if (preparedToReplay) 
             {
                 slideT = (int)frame;
 
@@ -868,9 +876,9 @@ namespace SmartTrackSystem
                 int rope = 0;
                 foreach (RecordedObject recordedObject in objectsToRecord){
                     RecordedRope rr = recordedObject.GetComponent<RecordedRope>();
-                    if (rr){
+                    if (rr && rope<ropesInitialIndexes.Count){
                         ropesInitialIndexes[rope].array = new int[lenght];
-                        for (int i = 0,j=0; i < rr.record.RecordRopeStore.Count; i++){
+                        for (int i = 0,j=0; i < rr.record.RecordRopeStore.Count && j<lenght; i++){
                             if (rr.record.RecordRopeStore[i].i){
                                 ropesInitialIndexes[rope].array[j] = i;
                                 j++;
@@ -889,7 +897,8 @@ namespace SmartTrackSystem
         }
         private void FixTimer() 
         {
-            string currentTime = timeStamp.text.Split("/")[0];
+            string currentTime = timeStamp.text.Split("/")[1];
+
             currentTime = currentTime.Trim();
 
             string[] splitTime = currentTime.Split(":");
@@ -907,7 +916,6 @@ namespace SmartTrackSystem
             string totalHours = Mathf.Floor(total / 3600).ToString("00");
             string totalMinutes = Mathf.Floor(total / 60).ToString("00");
             string totalSeconds = (total % 60).ToString("00");
-
 
             float current = recordedFrames != 0 ? 
                 (slider.value / recordedFrames) * recordingTime : 0.0f; 
@@ -1030,7 +1038,7 @@ namespace SmartTrackSystem
         {
             if (preparedToReplay)
             {
-                if (isReplaying) { PlayOrPause(); }
+                if (isReplaying && !paused) { PlayOrPause(); }
 
                 foreach (FlyingDroneScript fds in rovItens.flyingDroneScripts){
                     fds.enabled = true;
