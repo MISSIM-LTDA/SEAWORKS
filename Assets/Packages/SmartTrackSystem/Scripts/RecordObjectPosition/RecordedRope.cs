@@ -144,7 +144,7 @@ namespace SmartTrackSystem
 
             else
             {
-                if (record.RecordObjectStore.Count == 0)
+                if (record.RecordRopeStore.Count == 0)
                 {
                     Debug.Log("Problem Loading object position from File");
                     loading = false;

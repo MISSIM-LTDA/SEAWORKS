@@ -237,7 +237,7 @@ namespace SmartTrackSystem
         //-------------------------------- Save Functions -----------------------------------------------//
         public void SaveNewPosition(string path)
         {
-            if (smartTrack.IsReplaying) { 
+            if (smartTrack.IsReplaying && !smartTrack.Paused) { 
                 Debug.Log("Cant't save a object position while SmartTrack is replaying"); 
                 return; 
             }

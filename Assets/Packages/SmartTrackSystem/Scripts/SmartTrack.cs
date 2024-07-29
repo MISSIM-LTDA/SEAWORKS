@@ -104,7 +104,9 @@ namespace SmartTrackSystem
 
         private bool isReplaying;
         public bool IsReplaying {get { return isReplaying;}}
+
         private bool paused;
+        public bool Paused { get { return paused; } }
 
         private bool isSaving;
 
