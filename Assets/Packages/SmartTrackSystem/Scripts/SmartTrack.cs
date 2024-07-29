@@ -660,7 +660,7 @@ namespace SmartTrackSystem
             for (int i = 0; i < recordPositionObjects.Count; i++)
             {
                 recordPositionObjects[i].SaveNewPosition(folderPath);
-                if (recordPositionObjects[i].GetComponent<RecordedRope>() != null) { i += 2; }
+                if (recordPositionObjects[i].GetComponent<RecordedRope>()) { i += 2; }
             }
         }
         #endregion

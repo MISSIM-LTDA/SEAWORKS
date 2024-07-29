@@ -105,7 +105,26 @@ namespace SmartTrackSystem
                 }
             }
         }
+        protected override IEnumerator SaveNewPositionCoroutine(string path)
+        {
+            if (path == null) { yield return StartCoroutine(ChooseDirectory()); }
 
+            else
+            {
+                path = CreateDirectoryToSaveAll(path);
+                folderPath = FixFolderPath(path);
+            }
+
+            GetObjectPosition(ref recordPosition);
+
+            if (recordPosition.RecordRopeStore.Count == 0)
+            {
+                Debug.Log("Problem Getting object position");
+                saving = false;
+            }
+
+            else { SavePositions(); }
+        }
         #endregion
 
         #region Load Functions

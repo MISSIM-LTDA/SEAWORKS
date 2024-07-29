@@ -252,7 +252,7 @@ namespace SmartTrackSystem
 
             else { Debug.Log(record.Name + " is already saving this object position"); }
         }
-        protected IEnumerator SaveNewPositionCoroutine(string path)
+        protected virtual IEnumerator SaveNewPositionCoroutine(string path)
         {
             if (path == null) { yield return StartCoroutine(ChooseDirectory()); }
 
