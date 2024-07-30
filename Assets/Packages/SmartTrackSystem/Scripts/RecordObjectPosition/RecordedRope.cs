@@ -136,7 +136,7 @@ namespace SmartTrackSystem
 
             yield return StartCoroutine(ReadPathFromFile());
 
-            if (record.Name != rope.sourceBlueprint.name)
+            if (recordPosition.Name != rope.sourceBlueprint.name)
             {
                 Debug.Log("Tried to load a wrong file to this object");
                 loading = false;
@@ -144,7 +144,7 @@ namespace SmartTrackSystem
 
             else
             {
-                if (record.RecordRopeStore.Count == 0)
+                if (recordPosition.RecordRopeStore.Count == 0)
                 {
                     Debug.Log("Problem Loading object position from File");
                     loading = false;
