@@ -16,7 +16,7 @@ public interface ISelectable
     void SelectObject(GameObject selectedObject);
     void PlaceOutlineOnMesh(Transform meshRenderer);
     void SnapRopeButtonsPanel();
-    IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating, Button m_button);
+    IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating);
     Color GetColor(OutlineEffect outEffect, int color);
     void ChangeColor(OutlineEffect outEffect, int color, Color newColor);
     IEnumerator Unselect();

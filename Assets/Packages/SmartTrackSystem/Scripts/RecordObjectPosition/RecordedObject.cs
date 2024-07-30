@@ -64,7 +64,7 @@ namespace SmartTrackSystem
             PlaceOutlineOnMesh(transform);
 
             SnapRopeButtonsPanel();
-            StartCoroutine(BlinkColor(outEffect, outlines, 0, 10, button));
+            StartCoroutine(BlinkColor(outEffect, outlines, 0, 10));
 
             if (!unselecting) { StartCoroutine(Unselect()); }
         }
@@ -97,10 +97,10 @@ namespace SmartTrackSystem
 
             contentPanel.transform.localPosition = snapPosition;
         }
-        public IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating, Button m_button)
+        public IEnumerator BlinkColor(OutlineEffect outEffect, List<Outline> outlines, int color, int repeating)
         {
             Color c = GetColor(outEffect, color);
-            Color buttonColor = m_button.gameObject.GetComponent<Image>().color;
+            Color buttonColor = button.gameObject.GetComponent<Image>().color;
 
             if (c.a == 1) { c.a = 0; }
             else { c.a = 1; }
@@ -108,7 +108,7 @@ namespace SmartTrackSystem
             if (buttonColor.a == 1) { buttonColor.a = 0; }
             else { buttonColor.a = 1; }
 
-            m_button.image.color = buttonColor;
+            button.image.color = buttonColor;
             ChangeColor(outEffect, color, c);
 
             yield return new WaitForSeconds(0.1f);
@@ -118,10 +118,10 @@ namespace SmartTrackSystem
             if (repeating == 0)
             {
                 blinking = false;
-                m_button.image.color = new Color(0.8f, 0.8f, 0.8f, 1);
+                button.image.color = new Color(0.8f, 0.8f, 0.8f, 1);
             }
 
-            else { StartCoroutine(BlinkColor(outEffect, outlines, 0, repeating, m_button)); }
+            else { StartCoroutine(BlinkColor(outEffect, outlines, 0, repeating)); }
         }
         public Color GetColor(OutlineEffect outEffect, int color)
         {
