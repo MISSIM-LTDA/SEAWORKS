@@ -289,7 +289,7 @@ namespace SmartTrackSystem
 
             index = j;
 
-            //if (makePhysic) { ReturnAttachments(); }
+            if (makePhysic) { ReturnAttachments(); }
 
             folderPath = null;
             loading = false;
@@ -346,18 +346,28 @@ namespace SmartTrackSystem
         }
         public void ReturnAttachments()
         {
+            List<ObiParticleGroup> groups = rope.sourceBlueprint.groups;
+
             foreach (Attachments attach in destroyedAttachments)
             {
-                ObiParticleAttachment newAttach = rope.gameObject.AddComponent<ObiParticleAttachment>();
-
-                newAttach.target = attach.target;
-                newAttach.particleGroup = attach.particleGroup;
-                newAttach.attachmentType = attach.attachmentType;
-
-                if (newAttach.attachmentType == ObiParticleAttachment.AttachmentType.Dynamic)
+                if (attach.particleGroup == groups[0] || 
+                    attach.particleGroup == groups[1] || 
+                    attach.particleGroup == groups[groups.Count-1] || 
+                    attach.particleGroup == groups[groups.Count-2]) 
                 {
-                    newAttach.compliance = attach.compliance;
-                    newAttach.breakThreshold = attach.breakThreshold;
+                    ObiParticleAttachment newAttach = rope.gameObject.AddComponent<ObiParticleAttachment>();
+
+
+
+                    newAttach.target = attach.target;
+                    newAttach.particleGroup = attach.particleGroup;
+                    newAttach.attachmentType = attach.attachmentType;
+
+                    if (newAttach.attachmentType == ObiParticleAttachment.AttachmentType.Dynamic)
+                    {
+                        newAttach.compliance = attach.compliance;
+                        newAttach.breakThreshold = attach.breakThreshold;
+                    }
                 }
             }
         }
