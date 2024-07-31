@@ -9,9 +9,9 @@ public class CraneController : MonoBehaviour
 	public KeyCode payOut = KeyCode.JoystickButton11;
 	public KeyCode reelIn = KeyCode.JoystickButton10;
 
-    public float minLenght;
+	public float minLenght = 6.5f;
 
-	public float speed;
+	public float speed = 2.0f;
 	void Start()
 	{
         rope = GetComponent<ObiRope>();

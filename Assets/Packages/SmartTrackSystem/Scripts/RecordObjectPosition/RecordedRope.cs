@@ -101,7 +101,7 @@ namespace SmartTrackSystem
 
             float lenght = StringToFloat(rec.RecordObjectStore[j].l);
 
-            if (rope && rope.restLength != lenght) {
+            if ((rope as ObiRope) && rope.restLength != lenght) {
                 ExtendRope(rope as ObiRope,lenght);
             }
 
@@ -152,7 +152,7 @@ namespace SmartTrackSystem
         {
             ObiRopeCursor cursor = rope.GetComponent<ObiRopeCursor>();
 
-            if (cursor != null) {
+            if (cursor) {
                 cursor.ChangeLength(lenght);
             }
         }

@@ -1068,20 +1068,10 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1104883039811073804}
     m_Modifications:
-    - target: {fileID: 908608502726192910, guid: 15c3fa6e8a764a74b94189a4f0763255,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 1964582310275608067, guid: 15c3fa6e8a764a74b94189a4f0763255,
         type: 3}
       propertyPath: m_Name
       value: Baked Mesh
-      objectReference: {fileID: 0}
-    - target: {fileID: 1964582310275608067, guid: 15c3fa6e8a764a74b94189a4f0763255,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3466252123194283771, guid: 15c3fa6e8a764a74b94189a4f0763255,
         type: 3}
