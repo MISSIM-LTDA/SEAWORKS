@@ -289,7 +289,7 @@ namespace SmartTrackSystem
 
             index = j;
 
-            if (makePhysic) { ReturnAttachments(); }
+            //if (makePhysic) { ReturnAttachments(); }
 
             folderPath = null;
             loading = false;
