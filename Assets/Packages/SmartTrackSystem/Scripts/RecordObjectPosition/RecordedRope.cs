@@ -169,12 +169,7 @@ namespace SmartTrackSystem
                 Destroy(attach[i]);
             }
 
-            float lenght = 0;
-            if(startOfRope && startOfRope.tag == "EFL_Parent") {
-                StringToFloat(rec.RecordRopeStore[j + 2].l);
-            }
-
-            else { StringToFloat(rec.RecordRopeStore[j + 1].l); }
+            float lenght = StringToFloat(rec.RecordRopeStore[j+1].l);
 
             ObiRope obiRope = rope.GetComponent<ObiRope>();
             if (obiRope != null && obiRope.restLength != lenght){
@@ -185,28 +180,28 @@ namespace SmartTrackSystem
             {
                 if (startOfRope.tag == "EFL_Parent")
                 {
-                    Transform handle = startOfRope.GetChild(0);
-                    Transform body = startOfRope.GetChild(1);
+                    Transform start1 = startOfRope.GetChild(0);
+                    Transform start2 = startOfRope.GetChild(1);
 
-                    handle.GetComponent<Rigidbody>().isKinematic = true;
+                    start1.GetComponent<Rigidbody>().isKinematic = true;
+                    start2.GetComponent<Rigidbody>().isKinematic = true;
 
-                    handle.gameObject.SetActive(rec.RecordRopeStore[j].e);
+                    start1.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    SetLocalPositionAndRotation(handle,
+                    SetLocalPositionAndRotation(start1,
                         StringToVector3(rec.RecordRopeStore[j].p),
                         StringToQuaternion(rec.RecordRopeStore[j].r));
 
-                    body.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
+                    start2.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
 
-                    SetLocalPositionAndRotation(body,
+                    SetLocalPositionAndRotation(start2,
                         StringToVector3(rec.RecordRopeStore[j + 1].p),
                         StringToQuaternion(rec.RecordRopeStore[j + 1].r));
 
                     if (makePhysic)
                     {
-                        DestroyImmediate(handle.GetComponent<FixedJoint>());
-                        handle.GetComponent<Rigidbody>().isKinematic = false;
-                        handle.gameObject.AddComponent<FixedJoint>();
+                        start1.GetComponent<Rigidbody>().isKinematic = false;
+                        start2.GetComponent<Rigidbody>().isKinematic = false;
                     }
 
                     j += 2;
@@ -253,28 +248,28 @@ namespace SmartTrackSystem
             {
                 if (endOfRope.tag == "EFL_Parent")
                 {
-                    Transform handle = endOfRope.GetChild(0);
-                    Transform body = endOfRope.GetChild(1);
+                    Transform end1 = endOfRope.GetChild(0);
+                    Transform end2 = endOfRope.GetChild(1);
 
-                    handle.GetComponent<Rigidbody>().isKinematic = true;
+                    end1.GetComponent<Rigidbody>().isKinematic = true;
+                    end2.GetComponent<Rigidbody>().isKinematic = true;
 
-                    handle.gameObject.SetActive(rec.RecordRopeStore[j].e);
+                    end1.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
-                    SetLocalPositionAndRotation(handle,
+                    SetLocalPositionAndRotation(end1,
                         StringToVector3(rec.RecordRopeStore[j].p),
                         StringToQuaternion(rec.RecordRopeStore[j].r));
 
-                    body.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
+                    end2.gameObject.SetActive(rec.RecordRopeStore[j + 1].e);
 
-                    SetLocalPositionAndRotation(body,
+                    SetLocalPositionAndRotation(end2,
                         StringToVector3(rec.RecordRopeStore[j + 1].p),
                         StringToQuaternion(rec.RecordRopeStore[j + 1].r));
 
                     if (makePhysic)
                     {
-                        DestroyImmediate(handle.GetComponent<FixedJoint>());
-                        handle.GetComponent<Rigidbody>().isKinematic = false;
-                        handle.gameObject.AddComponent<FixedJoint>();
+                        end1.GetComponent<Rigidbody>().isKinematic = false;
+                        end2.GetComponent<Rigidbody>().isKinematic = false;
                     }
 
                     j += 2;
