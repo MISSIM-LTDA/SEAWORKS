@@ -169,7 +169,13 @@ namespace SmartTrackSystem
                 Destroy(attach[i]);
             }
 
-            float lenght = StringToFloat(rec.RecordRopeStore[j+1].l);
+            float lenght = 0;
+            if (startOfRope && startOfRope.tag == "EFL_Parent") {
+                lenght = StringToFloat(rec.RecordRopeStore[j + 2].l);
+            }
+            else {
+                lenght = StringToFloat(rec.RecordRopeStore[j + 1].l);
+            }
 
             ObiRope obiRope = rope.GetComponent<ObiRope>();
             if (obiRope != null && obiRope.restLength != lenght){
@@ -200,8 +206,9 @@ namespace SmartTrackSystem
 
                     if (makePhysic)
                     {
+                        DestroyImmediate(start1.GetComponent<FixedJoint>());
                         start1.GetComponent<Rigidbody>().isKinematic = false;
-                        start2.GetComponent<Rigidbody>().isKinematic = false;
+                        start1.gameObject.AddComponent<FixedJoint>();
                     }
 
                     j += 2;
@@ -252,7 +259,6 @@ namespace SmartTrackSystem
                     Transform end2 = endOfRope.GetChild(1);
 
                     end1.GetComponent<Rigidbody>().isKinematic = true;
-                    end2.GetComponent<Rigidbody>().isKinematic = true;
 
                     end1.gameObject.SetActive(rec.RecordRopeStore[j].e);
 
@@ -268,8 +274,9 @@ namespace SmartTrackSystem
 
                     if (makePhysic)
                     {
+                        DestroyImmediate(end1.GetComponent<FixedJoint>());
                         end1.GetComponent<Rigidbody>().isKinematic = false;
-                        end2.GetComponent<Rigidbody>().isKinematic = false;
+                        end1.gameObject.AddComponent<FixedJoint>();
                     }
 
                     j += 2;
