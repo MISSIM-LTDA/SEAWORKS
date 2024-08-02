@@ -291,17 +291,14 @@ namespace SmartTrackSystem
         public virtual void LoadPositions(ref RecordedInfo<ObjectTransformToRecord> rec,bool makePhysics)
         {
             int i = 0;
-
-            if (rec == record) {
-                i = index;
-                index++;
-            }
+            if (rec == record) {i = index;}
 
             gameObject.SetActive((rec.RecordObjectStore[i].e));
 
             SetLocalPositionAndRotation(transform,
                 StringToVector3(rec.RecordObjectStore[i].p),
                 StringToQuaternion(rec.RecordObjectStore[i].r));
+
 
             folderPath = null;
             loading = false;

@@ -88,9 +88,7 @@ namespace SmartTrackSystem
         public void LoadPositions(ref RecordedInfo<RopeTransformToRecord> rec,bool makePhysic)
         {
             int j = 0;
-            if (rec == recordRope) {
-                j = index;
-            }
+            if (rec == recordRope) {j = index;}
 
             ObiParticleAttachment[] attach = rope.GetComponents<ObiParticleAttachment>();
 
@@ -106,7 +104,6 @@ namespace SmartTrackSystem
             }
 
             int particleCount = rec.RecordObjectStore[j].pC;
-            index += particleCount;
 
             rope.gameObject.SetActive(rec.RecordObjectStore[j].e);
             for (int i = 0; i < particleCount; i++) {

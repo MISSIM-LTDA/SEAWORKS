@@ -115,7 +115,6 @@ namespace SmartTrackSystem
 
         private Transform hitBody;
         private RecordedObject selectedBody;
-
         private void Awake()
         {
             if (smartTrack && smartTrack != this) { Destroy(this); }
@@ -392,7 +391,7 @@ namespace SmartTrackSystem
             denyLoad.onClick.AddListener(delegate { StartCoroutine(LoadFromDirectory(false)); });
 
             dropdown = console.GetComponentInChildren<TMP_Dropdown>();
-            dropdown.onValueChanged.AddListener(delegate { StartCoroutine(ChooseFile()); });
+            dropdown.onValueChanged.AddListener(delegate { StartCoroutine(ChooseReplayFile()); });
 
             savePositionButton.onClick.AddListener(SaveNewPosition);
             loadPositionButton.onClick.AddListener(LoadNewPosition);
@@ -404,7 +403,6 @@ namespace SmartTrackSystem
             console.gameObject.SetActive
                 (!console.gameObject.activeSelf);
         }
-
         #endregion
 
         #region Record Functions
@@ -439,7 +437,7 @@ namespace SmartTrackSystem
                                 }
                             }
 
-                            slider.value = 0;
+                            slider.value = -1;
                             slider.maxValue = count;
 
                             slideT = 0;
@@ -454,7 +452,7 @@ namespace SmartTrackSystem
                     recordButton.image.sprite = recordOffSprite;
                     isRecording = false;
 
-                    slider.value = 0;
+                    slider.value = -1;
                     slider.maxValue = recordedFrames - 1;
 
                     slideT = 0;
@@ -489,7 +487,7 @@ namespace SmartTrackSystem
                 if (playButton.image.sprite == playSprite)
                 {
                     if (slider.value == slider.maxValue) {
-                        slider.value = 0;
+                        slider.value = -1;
                         slideT = 0;
                     }
 
@@ -536,7 +534,7 @@ namespace SmartTrackSystem
         {
             playButton.image.sprite = playSprite;
 
-            slider.value = 0;
+            slider.value = -1;
             slideT = 0;
 
             if(replayCoroutine != null) {
@@ -548,15 +546,15 @@ namespace SmartTrackSystem
         }
         private void OnSliderValueChange(float frame)
         {
+            if(frame < 0) { frame = 0; }
+
             if (preparedToReplay && isReplaying) {
                 slideT = (int)frame;
 
                 int ropes = 0;
-                foreach (RecordedObject recordObject in recordedObjects)
-                {
+                foreach (RecordedObject recordObject in recordedObjects) {
                     RecordedRope rr = recordObject as RecordedRope;
-                    if (rr)
-                    {
+                    if (rr) {
                         int ropePosition = ropesInitialIndexes[ropes].array[slideT];
                         ropes++;
 
@@ -564,8 +562,7 @@ namespace SmartTrackSystem
                         rr.LoadPositions(ref rr.recordRope, false);
                     }
 
-                    else
-                    {
+                    else {
                         recordObject.index = slideT;
                         recordObject.LoadPositions(ref recordObject.record, false);
                     }
@@ -759,7 +756,7 @@ namespace SmartTrackSystem
 
                         isLoading = false;
 
-                        StartCoroutine(ChooseFile());
+                        StartCoroutine(ChooseReplayFile());
                     }
 
                     else { Debug.Log("No files Found"); }
@@ -771,7 +768,7 @@ namespace SmartTrackSystem
                 StartCoroutine(LoadFromDirectory(true));
             }
         }
-        private IEnumerator ChooseFile() 
+        private IEnumerator ChooseReplayFile() 
         {
             Stop();
 
@@ -839,7 +836,7 @@ namespace SmartTrackSystem
                 recordedFrames = 
                     recordedObjects[0].record.RecordObjectStore.Count;
 
-                slider.value = 0;
+                slider.value = -1;
                 slider.maxValue = recordedFrames - 1;
 
                 slideT = 0;
@@ -1061,7 +1058,7 @@ namespace SmartTrackSystem
 
                 ArrangeRopeIndexes(0);
 
-                slider.value = 0;
+                slider.value = -1;
                 slider.maxValue = 0;
 
                 slideT = 0;

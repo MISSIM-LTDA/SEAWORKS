@@ -71,14 +71,12 @@ public class RecordedConnector : RecordedObject
     public override void LoadPositions(ref RecordedInfo<ObjectTransformToRecord> rec, bool makePhysics)
     {
         int i = 0;
+        if (rec == record) {i = index;}
 
-        if (rec == record) {
-            i = index;
-            index++;
-        }
+        if (transform.tag == "EFL_Parent") {
 
-        if (transform.tag == "EFL_Parent")
-        {
+            if(i%2 != 0) { i++; }
+
             Transform handle = transform.GetChild(0);
             Transform body = transform.GetChild(1);
 
