@@ -14,8 +14,6 @@ public class GrabObject : MonoBehaviour
     private bool checkIn;
     private bool onBasket;
     private bool locked;
-
-    private bool config;
     void Start()
     {
         basketRigidbody = GameObject.Find("Basket").GetComponent<Rigidbody>();
@@ -26,10 +24,8 @@ public class GrabObject : MonoBehaviour
 
         manipulator = GameObject.FindGameObjectWithTag("Jaw7");
         manipulatorRigidbody = manipulator.GetComponent<Rigidbody>();
-
-        config = true;
     }
-    void FixedUpdate()
+    void Update()
     {
         if (Input.GetKeyDown(lockUnlockKey) && checkIn && !locked){
             grabObjectJoint = GetComponent<Joint>();
@@ -46,12 +42,11 @@ public class GrabObject : MonoBehaviour
 
         else if (Input.GetKeyDown(lockUnlockKey) && locked){
             if (onBasket) {
-                //grabObjectJoint.connectedBody = basketRigidbody;
+                grabObjectJoint.connectedBody = basketRigidbody;
             }
 
             else {
                 grabObjectJoint.connectedBody = null;
-
                 grabObjectRigidbody.isKinematic = true;
             }
 
@@ -63,9 +58,9 @@ public class GrabObject : MonoBehaviour
     { 
         Transform obj = collision.transform;
 
-        if(obj.tag == "Jaw7finger") {checkIn = true;}
+        if(obj.tag == "Jaw7finger") {checkIn = true;}  
 
-       
+        else if(obj.tag == "Basket") { onBasket = true;}
     }
     private void OnTriggerExit(Collider collision)
     {
@@ -73,6 +68,6 @@ public class GrabObject : MonoBehaviour
 
         if (obj.tag == "Jaw7finger") { checkIn = false; }
 
-       
+        else if (obj.tag == "Basket") { onBasket = false; }
     }
 }

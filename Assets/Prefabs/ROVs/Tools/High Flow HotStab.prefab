@@ -88,7 +88,7 @@ MonoBehaviour:
   m_CollisionMaterial: {fileID: 0}
   m_SurfaceCollisions: 1
   m_SelfCollisions: 1
-  restLength_: 15.57769
+  restLength_: 15.326705
   elements:
   - particle1: 0
     particle2: 1
@@ -197,77 +197,77 @@ MonoBehaviour:
     tearResistance: 0
   - particle1: 21
     particle2: 22
-    restLength: 0.4477519
+    restLength: 0.4203785
     constraintForce: 0
     tearResistance: 0
   - particle1: 22
     particle2: 23
-    restLength: 0.4455197
+    restLength: 0.4185552
     constraintForce: 0
     tearResistance: 0
   - particle1: 23
     particle2: 24
-    restLength: 0.44500405
+    restLength: 0.41754377
     constraintForce: 0
     tearResistance: 0
   - particle1: 24
     particle2: 25
-    restLength: 0.44666326
+    restLength: 0.41884014
     constraintForce: 0
     tearResistance: 0
   - particle1: 25
     particle2: 26
-    restLength: 0.43607536
+    restLength: 0.39021724
     constraintForce: 0
     tearResistance: 0
   - particle1: 26
     particle2: 27
-    restLength: 0.43540394
+    restLength: 0.38974628
     constraintForce: 0
     tearResistance: 0
   - particle1: 27
     particle2: 28
-    restLength: 0.43544543
+    restLength: 0.38952535
     constraintForce: 0
     tearResistance: 0
   - particle1: 28
     particle2: 29
-    restLength: 0.43531153
+    restLength: 0.39001697
     constraintForce: 0
     tearResistance: 0
   - particle1: 29
     particle2: 30
-    restLength: 0.4230103
+    restLength: 0.43150923
     constraintForce: 0
     tearResistance: 0
   - particle1: 30
     particle2: 31
-    restLength: 0.41772375
+    restLength: 0.42952353
     constraintForce: 0
     tearResistance: 0
   - particle1: 31
     particle2: 32
-    restLength: 0.42206156
+    restLength: 0.4295604
     constraintForce: 0
     tearResistance: 0
   - particle1: 32
     particle2: 33
-    restLength: 0.42567533
+    restLength: 0.42488047
     constraintForce: 0
     tearResistance: 0
   - particle1: 33
     particle2: 34
-    restLength: 0.4230159
+    restLength: 0.42440075
     constraintForce: 0
     tearResistance: 0
   - particle1: 34
     particle2: 35
-    restLength: 0.42309776
+    restLength: 0.4161883
     constraintForce: 0
     tearResistance: 0
   - particle1: 35
     particle2: 36
-    restLength: 0.4045424
+    restLength: 0.4244312
     constraintForce: 0
     tearResistance: 0
   m_RodBlueprint: {fileID: 11400000, guid: 1efadcdb6019c8e43bf8c4cb5a306b5a, type: 2}
@@ -1580,7 +1580,7 @@ GameObject:
   - component: {fileID: 4364727559627821090}
   m_Layer: 0
   m_Name: Capsule (2)
-  m_TagString: Untagged
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

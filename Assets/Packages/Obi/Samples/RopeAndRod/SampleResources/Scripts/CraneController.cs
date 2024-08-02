@@ -1,40 +1,27 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using Obi;
 
 public class CraneController : MonoBehaviour
 {
+    ObiRope rope;
+    ObiRopeCursor cursor;
 
-	ObiRopeCursor cursor;
-	ObiRope rope;
-	public KeyCode Pagar;
-	public KeyCode Recolher;
-	public float speed1;
+	public KeyCode payUp = KeyCode.JoystickButton11;
+	public KeyCode retrive = KeyCode.JoystickButton10;
 
-
-	// Use this for initialization
+	public float minLimitLenght = 6.5f;
+	public float speed;
 	void Start()
 	{
-		cursor = GetComponentInChildren<ObiRopeCursor>();
-		rope = cursor.GetComponent<ObiRope>();
+        rope = GetComponent<ObiRope>();
+        cursor = GetComponent<ObiRopeCursor>();
 	}
-
-	// Update is called once per frame
-	void Update()
-	{
-		if (Input.GetKey(Recolher))
-		{
-			if (rope.restLength > 6.5f)
-				cursor.ChangeLength(rope.restLength - speed1 * Time.deltaTime);
+	void Update() {
+        if (Input.GetKey(payUp)){
+            cursor.ChangeLength(rope.restLength + speed * Time.deltaTime);
+        }
+        else if (Input.GetKey(retrive) && rope.restLength > minLimitLenght) {
+			cursor.ChangeLength(rope.restLength - speed * Time.deltaTime);
 		}
-
-		if (Input.GetKey(Pagar))
-		{
-			
-			cursor.ChangeLength(rope.restLength + speed1 * Time.deltaTime);
-		}
-
-
 	}
 }

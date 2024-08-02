@@ -686,7 +686,7 @@ GameObject:
   - component: {fileID: 7401690680150665585}
   m_Layer: 2
   m_Name: Capsule (2)
-  m_TagString: Untagged
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -725,9 +725,9 @@ CapsuleCollider:
   m_IsTrigger: 0
   m_Enabled: 1
   m_Radius: 2.0046456
-  m_Height: 2.685739
+  m_Height: 5.9713526
   m_Direction: 1
-  m_Center: {x: -0.014036477, y: 0.13688996, z: -0.18113334}
+  m_Center: {x: -0.01403672, y: -1.5059097, z: -0.18113251}
 --- !u!23 &7401690680150665585
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -1234,9 +1234,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81667b3b32af8445a36ef02b82cbfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockKey: 335
-  leaveKey: 334
-  leaveOnWorldKey: 0
+  lockUnlockKey: 338
 --- !u!59 &7401690681299741669
 HingeJoint:
   m_ObjectHideFlags: 0

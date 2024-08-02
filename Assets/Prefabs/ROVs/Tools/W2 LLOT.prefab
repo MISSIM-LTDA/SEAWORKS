@@ -4056,9 +4056,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f81667b3b32af8445a36ef02b82cbfde, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  lockKey: 335
-  leaveKey: 334
-  leaveOnWorldKey: 0
+  lockUnlockKey: 338
 --- !u!1 &2584593059635099643
 GameObject:
   m_ObjectHideFlags: 0
@@ -5245,7 +5243,7 @@ GameObject:
   - component: {fileID: 2584593061002111088}
   m_Layer: 0
   m_Name: Cube (5)
-  m_TagString: Untagged
+  m_TagString: Trigger
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -5280,7 +5278,7 @@ BoxCollider:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2584593061002111090}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: e888059ad9f170047a41f599100af647, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
