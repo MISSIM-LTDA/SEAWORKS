@@ -1,0 +1,849 @@
+fileFormatVersion: 2
+guid: 40a55963c11abe348b2a06180950cdc7
+ModelImporter:
+  serializedVersion: 22
+  fileIDToRecycleName:
+    100000: //RootNode
+    100002: SK-131037-04_Capa Metal x Metal
+    100004: SK-131037-04_Capa Metal x Metal.001
+    100006: SK-131037-04_Capa Metal x Metal.002
+    100008: SK-131037-04_Capa Metal x Metal.003
+    100010: SK-131037-04_Capa Metal x Metal.004
+    100012: SK-131037-04_Capa Metal x Metal.005
+    100014: SK-131037-04_Capa Metal x Metal.006
+    100016: SK-131037-04_Capa Metal x Metal.007
+    100018: SK-131037-04_Capa Metal x Metal.008
+    100020: SK-131037-04_Capa Metal x Metal.009
+    100022: SK-131037-04_Capa Metal x Metal.010
+    100024: SK-131037-04_Capa Metal x Metal.011
+    100026: SK-131037-04_Capa Metal x Metal.012
+    100028: SK-131037-04_Capa Metal x Metal.013
+    100030: SK-131037-04_Capa Metal x Metal.014
+    100032: SK-131037-04_Capa Metal x Metal.015
+    100034: SK-131037-04_Capa Metal x Metal.016
+    100036: SK-131037-04_Capa Metal x Metal.017
+    100038: SK-131037-04_Capa Metal x Metal.018
+    100040: SK-131037-04_Capa Metal x Metal.019
+    100042: SK-131037-04_Capa Metal x Metal.020
+    100044: SK-131037-04_Capa Metal x Metal.021
+    100046: SK-131037-04_Capa Metal x Metal.022
+    100048: SK-131037-04_Capa Metal x Metal.023
+    100050: SK-131037-04_Capa Metal x Metal.024
+    100052: SK-131037-04_Capa Metal x Metal.025
+    100054: SK-131037-04_Capa Metal x Metal.026
+    100056: SK-131037-04_Capa Metal x Metal.027
+    100058: SK-131037-04_Capa Metal x Metal.028
+    100060: SK-131037-04_Capa Metal x Metal.029
+    100062: SK-131037-04_Capa Metal x Metal.030
+    100064: SK-131037-04_Capa Metal x Metal.031
+    100066: SK-131037-04_Capa Metal x Metal.032
+    100068: SK-131037-04_Capa Metal x Metal.033
+    100070: SK-131037-04_Capa Metal x Metal.034
+    100072: SK-131037-04_Capa Metal x Metal.035
+    100074: SK-131037-04_Capa Metal x Metal.036
+    100076: SK-131037-04_Capa Metal x Metal.037
+    100078: SK-131037-04_Capa Metal x Metal.038
+    100080: SK-131037-04_Capa Metal x Metal.039
+    100082: SK-131037-04_Capa Metal x Metal.040
+    100084: SK-131037-04_Capa Metal x Metal.041
+    100086: SK-131037-04_Capa Metal x Metal.042
+    100088: SK-131037-04_Capa Metal x Metal.043
+    100090: SK-131037-04_Capa Metal x Metal.044
+    100092: SK-131037-04_Capa Metal x Metal.045
+    100094: SK-131037-04_Capa Metal x Metal.046
+    100096: SK-131037-04_Capa Metal x Metal.047
+    100098: SK-131037-04_Capa Metal x Metal.048
+    100100: SK-131037-04_Capa Metal x Metal.049
+    100102: SK-131037-04_Capa Metal x Metal.050
+    100104: SK-131037-04_Capa Metal x Metal.051
+    100106: SK-131037-04_Capa Metal x Metal.052
+    100108: SK-131037-04_Capa Metal x Metal.053
+    100110: SK-131037-04_Capa Metal x Metal.054
+    100112: SK-131037-04_Capa Metal x Metal.055
+    100114: SK-131037-04_Capa Metal x Metal.056
+    100116: SK-131037-04_Capa Metal x Metal.057
+    100118: SK-131037-04_Capa Metal x Metal.058
+    100120: SK-131037-04_Capa Metal x Metal.059
+    100122: SK-131037-04_Capa Metal x Metal.060
+    100124: SK-131037-04_Capa Metal x Metal.061
+    100126: SK-131037-04_Capa Metal x Metal.062
+    100128: SK-131037-04_Capa Metal x Metal.063
+    100130: SK-131037-04_Capa Metal x Metal.064
+    100132: SK-131037-04_Capa Metal x Metal.065
+    100134: SK-131037-04_Capa Metal x Metal.066
+    100136: SK-131037-04_Capa Metal x Metal.067
+    100138: SK-131037-04_Capa Metal x Metal.068
+    100140: SK-131037-04_Capa Metal x Metal.069
+    100142: SK-131037-04_Capa Metal x Metal.070
+    100144: SK-131037-04_Capa Metal x Metal.071
+    100146: SK-131037-04_Capa Metal x Metal.072
+    100148: SK-131037-04_Capa Metal x Metal.073
+    100150: SK-131037-04_Capa Metal x Metal.074
+    100152: SK-131037-04_Capa Metal x Metal.075
+    100154: SK-131037-04_Capa Metal x Metal.076
+    100156: SK-131037-04_Capa Metal x Metal.077
+    100158: SK-131037-04_Capa Metal x Metal.078
+    100160: SK-131037-04_Capa Metal x Metal.079
+    100162: SK-131037-04_Capa Metal x Metal.080
+    100164: SK-131037-04_Capa Metal x Metal.081
+    100166: SK-131037-04_Capa Metal x Metal.082
+    100168: SK-131037-04_Capa Metal x Metal.083
+    100170: SK-131037-04_Capa Metal x Metal.084
+    100172: SK-131037-04_Capa Metal x Metal.085
+    100174: SK-131037-04_Capa Metal x Metal.086
+    100176: SK-131037-04_Capa Metal x Metal.087
+    100178: SK-131037-04_Capa Metal x Metal.088
+    100180: SK-131037-04_Capa Metal x Metal.089
+    100182: SK-131037-04_Capa Metal x Metal.090
+    100184: SK-131037-04_Capa Metal x Metal.091
+    100186: SK-131037-04_Capa Metal x Metal.092
+    100188: SK-131037-04_Capa Metal x Metal.093
+    100190: SK-131037-04_Capa Metal x Metal.094
+    100192: SK-131037-04_Capa Metal x Metal.095
+    100194: SK-131037-04_Capa Metal x Metal.096
+    100196: SK-131037-04_Capa Metal x Metal.097
+    100198: SK-131037-04_Capa Metal x Metal.098
+    100200: SK-131037-04_Capa Metal x Metal.099
+    100202: SK-131037-04_Capa Metal x Metal.100
+    100204: SK-131037-04_Capa Metal x Metal.101
+    100206: SK-131037-04_Capa Metal x Metal.102
+    100208: SK-131037-04_Capa Metal x Metal.103
+    100210: SK-131037-04_Capa Metal x Metal.104
+    100212: SK-131037-04_Capa Metal x Metal.105
+    100214: SK-131037-04_Capa Metal x Metal.106
+    100216: SK-131037-04_Capa Metal x Metal.107
+    100218: SK-131037-04_Capa Metal x Metal.108
+    100220: SK-131037-04_Capa Metal x Metal.109
+    100222: SK-131037-04_Capa Metal x Metal.110
+    100224: SK-131037-04_Capa Metal x Metal.111
+    100226: SK-131037-04_Capa Metal x Metal.112
+    100228: SK-131037-04_Capa Metal x Metal.113
+    100230: SK-131037-04_Capa Metal x Metal.114
+    100232: SK-131037-04_Capa Metal x Metal.115
+    100234: SK-131037-04_Capa Metal x Metal.116
+    100236: SK-131037-04_Capa Metal x Metal.117
+    100238: SK-131037-04_Capa Metal x Metal.118
+    100240: SK-131037-04_Capa Metal x Metal.119
+    100242: SK-131037-04_Capa Metal x Metal.120
+    100244: SK-131037-04_Capa Metal x Metal.121
+    100246: SK-131037-04_Capa Metal x Metal.122
+    100248: SK-131037-04_Capa Metal x Metal.123
+    100250: SK-131037-04_Capa Metal x Metal.124
+    100252: SK-131037-04_Capa Metal x Metal.125
+    100254: SK-131037-04_Capa Metal x Metal.126
+    100256: SK-131037-04_Capa Metal x Metal.127
+    100258: SK-131037-04_Capa Metal x Metal.128
+    100260: SK-131037-04_Capa Metal x Metal.129
+    100262: SK-131037-04_Capa Metal x Metal.130
+    100264: SK-131037-04_Capa Metal x Metal.131
+    100266: SK-131037-04_Capa Metal x Metal.132
+    100268: SK-131037-04_Capa Metal x Metal.133
+    100270: SK-131037-04_Capa Metal x Metal.134
+    100272: SK-131037-04_Capa Metal x Metal.135
+    100274: SK-131037-04_Capa Metal x Metal.136
+    100276: SK-131037-04_Capa Metal x Metal.137
+    100278: SK-131037-04_Capa Metal x Metal.138
+    100280: SK-131037-04_Capa Metal x Metal.139
+    100282: SK-131037-04_Capa Metal x Metal.140
+    100284: SK-131037-04_Capa Metal x Metal.141
+    100286: SK-131037-04_Capa Metal x Metal.142
+    100288: SK-131037-04_Capa Metal x Metal.143
+    100290: SK-131037-04_Capa Metal x Metal.144
+    400000: //RootNode
+    400002: SK-131037-04_Capa Metal x Metal
+    400004: SK-131037-04_Capa Metal x Metal.001
+    400006: SK-131037-04_Capa Metal x Metal.002
+    400008: SK-131037-04_Capa Metal x Metal.003
+    400010: SK-131037-04_Capa Metal x Metal.004
+    400012: SK-131037-04_Capa Metal x Metal.005
+    400014: SK-131037-04_Capa Metal x Metal.006
+    400016: SK-131037-04_Capa Metal x Metal.007
+    400018: SK-131037-04_Capa Metal x Metal.008
+    400020: SK-131037-04_Capa Metal x Metal.009
+    400022: SK-131037-04_Capa Metal x Metal.010
+    400024: SK-131037-04_Capa Metal x Metal.011
+    400026: SK-131037-04_Capa Metal x Metal.012
+    400028: SK-131037-04_Capa Metal x Metal.013
+    400030: SK-131037-04_Capa Metal x Metal.014
+    400032: SK-131037-04_Capa Metal x Metal.015
+    400034: SK-131037-04_Capa Metal x Metal.016
+    400036: SK-131037-04_Capa Metal x Metal.017
+    400038: SK-131037-04_Capa Metal x Metal.018
+    400040: SK-131037-04_Capa Metal x Metal.019
+    400042: SK-131037-04_Capa Metal x Metal.020
+    400044: SK-131037-04_Capa Metal x Metal.021
+    400046: SK-131037-04_Capa Metal x Metal.022
+    400048: SK-131037-04_Capa Metal x Metal.023
+    400050: SK-131037-04_Capa Metal x Metal.024
+    400052: SK-131037-04_Capa Metal x Metal.025
+    400054: SK-131037-04_Capa Metal x Metal.026
+    400056: SK-131037-04_Capa Metal x Metal.027
+    400058: SK-131037-04_Capa Metal x Metal.028
+    400060: SK-131037-04_Capa Metal x Metal.029
+    400062: SK-131037-04_Capa Metal x Metal.030
+    400064: SK-131037-04_Capa Metal x Metal.031
+    400066: SK-131037-04_Capa Metal x Metal.032
+    400068: SK-131037-04_Capa Metal x Metal.033
+    400070: SK-131037-04_Capa Metal x Metal.034
+    400072: SK-131037-04_Capa Metal x Metal.035
+    400074: SK-131037-04_Capa Metal x Metal.036
+    400076: SK-131037-04_Capa Metal x Metal.037
+    400078: SK-131037-04_Capa Metal x Metal.038
+    400080: SK-131037-04_Capa Metal x Metal.039
+    400082: SK-131037-04_Capa Metal x Metal.040
+    400084: SK-131037-04_Capa Metal x Metal.041
+    400086: SK-131037-04_Capa Metal x Metal.042
+    400088: SK-131037-04_Capa Metal x Metal.043
+    400090: SK-131037-04_Capa Metal x Metal.044
+    400092: SK-131037-04_Capa Metal x Metal.045
+    400094: SK-131037-04_Capa Metal x Metal.046
+    400096: SK-131037-04_Capa Metal x Metal.047
+    400098: SK-131037-04_Capa Metal x Metal.048
+    400100: SK-131037-04_Capa Metal x Metal.049
+    400102: SK-131037-04_Capa Metal x Metal.050
+    400104: SK-131037-04_Capa Metal x Metal.051
+    400106: SK-131037-04_Capa Metal x Metal.052
+    400108: SK-131037-04_Capa Metal x Metal.053
+    400110: SK-131037-04_Capa Metal x Metal.054
+    400112: SK-131037-04_Capa Metal x Metal.055
+    400114: SK-131037-04_Capa Metal x Metal.056
+    400116: SK-131037-04_Capa Metal x Metal.057
+    400118: SK-131037-04_Capa Metal x Metal.058
+    400120: SK-131037-04_Capa Metal x Metal.059
+    400122: SK-131037-04_Capa Metal x Metal.060
+    400124: SK-131037-04_Capa Metal x Metal.061
+    400126: SK-131037-04_Capa Metal x Metal.062
+    400128: SK-131037-04_Capa Metal x Metal.063
+    400130: SK-131037-04_Capa Metal x Metal.064
+    400132: SK-131037-04_Capa Metal x Metal.065
+    400134: SK-131037-04_Capa Metal x Metal.066
+    400136: SK-131037-04_Capa Metal x Metal.067
+    400138: SK-131037-04_Capa Metal x Metal.068
+    400140: SK-131037-04_Capa Metal x Metal.069
+    400142: SK-131037-04_Capa Metal x Metal.070
+    400144: SK-131037-04_Capa Metal x Metal.071
+    400146: SK-131037-04_Capa Metal x Metal.072
+    400148: SK-131037-04_Capa Metal x Metal.073
+    400150: SK-131037-04_Capa Metal x Metal.074
+    400152: SK-131037-04_Capa Metal x Metal.075
+    400154: SK-131037-04_Capa Metal x Metal.076
+    400156: SK-131037-04_Capa Metal x Metal.077
+    400158: SK-131037-04_Capa Metal x Metal.078
+    400160: SK-131037-04_Capa Metal x Metal.079
+    400162: SK-131037-04_Capa Metal x Metal.080
+    400164: SK-131037-04_Capa Metal x Metal.081
+    400166: SK-131037-04_Capa Metal x Metal.082
+    400168: SK-131037-04_Capa Metal x Metal.083
+    400170: SK-131037-04_Capa Metal x Metal.084
+    400172: SK-131037-04_Capa Metal x Metal.085
+    400174: SK-131037-04_Capa Metal x Metal.086
+    400176: SK-131037-04_Capa Metal x Metal.087
+    400178: SK-131037-04_Capa Metal x Metal.088
+    400180: SK-131037-04_Capa Metal x Metal.089
+    400182: SK-131037-04_Capa Metal x Metal.090
+    400184: SK-131037-04_Capa Metal x Metal.091
+    400186: SK-131037-04_Capa Metal x Metal.092
+    400188: SK-131037-04_Capa Metal x Metal.093
+    400190: SK-131037-04_Capa Metal x Metal.094
+    400192: SK-131037-04_Capa Metal x Metal.095
+    400194: SK-131037-04_Capa Metal x Metal.096
+    400196: SK-131037-04_Capa Metal x Metal.097
+    400198: SK-131037-04_Capa Metal x Metal.098
+    400200: SK-131037-04_Capa Metal x Metal.099
+    400202: SK-131037-04_Capa Metal x Metal.100
+    400204: SK-131037-04_Capa Metal x Metal.101
+    400206: SK-131037-04_Capa Metal x Metal.102
+    400208: SK-131037-04_Capa Metal x Metal.103
+    400210: SK-131037-04_Capa Metal x Metal.104
+    400212: SK-131037-04_Capa Metal x Metal.105
+    400214: SK-131037-04_Capa Metal x Metal.106
+    400216: SK-131037-04_Capa Metal x Metal.107
+    400218: SK-131037-04_Capa Metal x Metal.108
+    400220: SK-131037-04_Capa Metal x Metal.109
+    400222: SK-131037-04_Capa Metal x Metal.110
+    400224: SK-131037-04_Capa Metal x Metal.111
+    400226: SK-131037-04_Capa Metal x Metal.112
+    400228: SK-131037-04_Capa Metal x Metal.113
+    400230: SK-131037-04_Capa Metal x Metal.114
+    400232: SK-131037-04_Capa Metal x Metal.115
+    400234: SK-131037-04_Capa Metal x Metal.116
+    400236: SK-131037-04_Capa Metal x Metal.117
+    400238: SK-131037-04_Capa Metal x Metal.118
+    400240: SK-131037-04_Capa Metal x Metal.119
+    400242: SK-131037-04_Capa Metal x Metal.120
+    400244: SK-131037-04_Capa Metal x Metal.121
+    400246: SK-131037-04_Capa Metal x Metal.122
+    400248: SK-131037-04_Capa Metal x Metal.123
+    400250: SK-131037-04_Capa Metal x Metal.124
+    400252: SK-131037-04_Capa Metal x Metal.125
+    400254: SK-131037-04_Capa Metal x Metal.126
+    400256: SK-131037-04_Capa Metal x Metal.127
+    400258: SK-131037-04_Capa Metal x Metal.128
+    400260: SK-131037-04_Capa Metal x Metal.129
+    400262: SK-131037-04_Capa Metal x Metal.130
+    400264: SK-131037-04_Capa Metal x Metal.131
+    400266: SK-131037-04_Capa Metal x Metal.132
+    400268: SK-131037-04_Capa Metal x Metal.133
+    400270: SK-131037-04_Capa Metal x Metal.134
+    400272: SK-131037-04_Capa Metal x Metal.135
+    400274: SK-131037-04_Capa Metal x Metal.136
+    400276: SK-131037-04_Capa Metal x Metal.137
+    400278: SK-131037-04_Capa Metal x Metal.138
+    400280: SK-131037-04_Capa Metal x Metal.139
+    400282: SK-131037-04_Capa Metal x Metal.140
+    400284: SK-131037-04_Capa Metal x Metal.141
+    400286: SK-131037-04_Capa Metal x Metal.142
+    400288: SK-131037-04_Capa Metal x Metal.143
+    400290: SK-131037-04_Capa Metal x Metal.144
+    2100000: 205,164,52.003
+    2100002: 241,242,248.002
+    2100004: 178,0,0.002
+    2100006: 80,179,194.001
+    2100008: 179,141,1
+    2100010: 244,180,100.001
+    2100012: 224,223,219_1.003
+    2100014: 207,79,0
+    2100016: 91,98,106
+    2100018: 172,203,188
+    2100020: 254,0,0
+    2100022: 224,223,219.003
+    2100024: 64,64,64.001
+    2100026: 148,166,184
+    2100028: 191,191,191.003
+    2100030: 255,255,0.003
+    2100032: 237,255,168.003
+    2100034: 192,192,192.003
+    2100036: 149,127,12
+    2100038: 244,244,244.003
+    2100040: 47,47,47
+    2100042: 203,154,59.003
+    2100044: 244,244,244_1.003
+    2100046: 221,124,15.002
+    2100048: 106,243,216
+    2100050: 182,18,12
+    2100052: 212,194,153.003
+    2100054: 229,31,31.002
+    2100056: 235,235,235.001
+    2100058: 128,128,64.001
+    2100060: 226,220,42.002
+    2100062: 1,62,241
+    2100064: 128,128,64_1.001
+    2100066: 0,0,0.003
+    2100068: 66,66,66
+    2100070: 244,244,244_2.003
+    2100072: 213,28,24.001
+    2300000: SK-131037-04_Capa Metal x Metal
+    2300002: SK-131037-04_Capa Metal x Metal.001
+    2300004: SK-131037-04_Capa Metal x Metal.002
+    2300006: SK-131037-04_Capa Metal x Metal.003
+    2300008: SK-131037-04_Capa Metal x Metal.004
+    2300010: SK-131037-04_Capa Metal x Metal.005
+    2300012: SK-131037-04_Capa Metal x Metal.006
+    2300014: SK-131037-04_Capa Metal x Metal.007
+    2300016: SK-131037-04_Capa Metal x Metal.008
+    2300018: SK-131037-04_Capa Metal x Metal.009
+    2300020: SK-131037-04_Capa Metal x Metal.010
+    2300022: SK-131037-04_Capa Metal x Metal.011
+    2300024: SK-131037-04_Capa Metal x Metal.012
+    2300026: SK-131037-04_Capa Metal x Metal.013
+    2300028: SK-131037-04_Capa Metal x Metal.014
+    2300030: SK-131037-04_Capa Metal x Metal.015
+    2300032: SK-131037-04_Capa Metal x Metal.016
+    2300034: SK-131037-04_Capa Metal x Metal.017
+    2300036: SK-131037-04_Capa Metal x Metal.018
+    2300038: SK-131037-04_Capa Metal x Metal.019
+    2300040: SK-131037-04_Capa Metal x Metal.020
+    2300042: SK-131037-04_Capa Metal x Metal.021
+    2300044: SK-131037-04_Capa Metal x Metal.022
+    2300046: SK-131037-04_Capa Metal x Metal.023
+    2300048: SK-131037-04_Capa Metal x Metal.024
+    2300050: SK-131037-04_Capa Metal x Metal.025
+    2300052: SK-131037-04_Capa Metal x Metal.026
+    2300054: SK-131037-04_Capa Metal x Metal.027
+    2300056: SK-131037-04_Capa Metal x Metal.028
+    2300058: SK-131037-04_Capa Metal x Metal.029
+    2300060: SK-131037-04_Capa Metal x Metal.030
+    2300062: SK-131037-04_Capa Metal x Metal.031
+    2300064: SK-131037-04_Capa Metal x Metal.032
+    2300066: SK-131037-04_Capa Metal x Metal.033
+    2300068: SK-131037-04_Capa Metal x Metal.034
+    2300070: SK-131037-04_Capa Metal x Metal.035
+    2300072: SK-131037-04_Capa Metal x Metal.036
+    2300074: SK-131037-04_Capa Metal x Metal.037
+    2300076: SK-131037-04_Capa Metal x Metal.038
+    2300078: SK-131037-04_Capa Metal x Metal.039
+    2300080: SK-131037-04_Capa Metal x Metal.040
+    2300082: SK-131037-04_Capa Metal x Metal.041
+    2300084: SK-131037-04_Capa Metal x Metal.042
+    2300086: SK-131037-04_Capa Metal x Metal.043
+    2300088: SK-131037-04_Capa Metal x Metal.044
+    2300090: SK-131037-04_Capa Metal x Metal.045
+    2300092: SK-131037-04_Capa Metal x Metal.046
+    2300094: SK-131037-04_Capa Metal x Metal.047
+    2300096: SK-131037-04_Capa Metal x Metal.048
+    2300098: SK-131037-04_Capa Metal x Metal.049
+    2300100: SK-131037-04_Capa Metal x Metal.050
+    2300102: SK-131037-04_Capa Metal x Metal.051
+    2300104: SK-131037-04_Capa Metal x Metal.052
+    2300106: SK-131037-04_Capa Metal x Metal.053
+    2300108: SK-131037-04_Capa Metal x Metal.054
+    2300110: SK-131037-04_Capa Metal x Metal.055
+    2300112: SK-131037-04_Capa Metal x Metal.056
+    2300114: SK-131037-04_Capa Metal x Metal.057
+    2300116: SK-131037-04_Capa Metal x Metal.058
+    2300118: SK-131037-04_Capa Metal x Metal.059
+    2300120: SK-131037-04_Capa Metal x Metal.060
+    2300122: SK-131037-04_Capa Metal x Metal.061
+    2300124: SK-131037-04_Capa Metal x Metal.062
+    2300126: SK-131037-04_Capa Metal x Metal.063
+    2300128: SK-131037-04_Capa Metal x Metal.064
+    2300130: SK-131037-04_Capa Metal x Metal.065
+    2300132: SK-131037-04_Capa Metal x Metal.066
+    2300134: SK-131037-04_Capa Metal x Metal.067
+    2300136: SK-131037-04_Capa Metal x Metal.068
+    2300138: SK-131037-04_Capa Metal x Metal.069
+    2300140: SK-131037-04_Capa Metal x Metal.070
+    2300142: SK-131037-04_Capa Metal x Metal.071
+    2300144: SK-131037-04_Capa Metal x Metal.072
+    2300146: SK-131037-04_Capa Metal x Metal.073
+    2300148: SK-131037-04_Capa Metal x Metal.074
+    2300150: SK-131037-04_Capa Metal x Metal.075
+    2300152: SK-131037-04_Capa Metal x Metal.076
+    2300154: SK-131037-04_Capa Metal x Metal.077
+    2300156: SK-131037-04_Capa Metal x Metal.078
+    2300158: SK-131037-04_Capa Metal x Metal.079
+    2300160: SK-131037-04_Capa Metal x Metal.080
+    2300162: SK-131037-04_Capa Metal x Metal.081
+    2300164: SK-131037-04_Capa Metal x Metal.082
+    2300166: SK-131037-04_Capa Metal x Metal.083
+    2300168: SK-131037-04_Capa Metal x Metal.084
+    2300170: SK-131037-04_Capa Metal x Metal.085
+    2300172: SK-131037-04_Capa Metal x Metal.086
+    2300174: SK-131037-04_Capa Metal x Metal.087
+    2300176: SK-131037-04_Capa Metal x Metal.088
+    2300178: SK-131037-04_Capa Metal x Metal.089
+    2300180: SK-131037-04_Capa Metal x Metal.090
+    2300182: SK-131037-04_Capa Metal x Metal.091
+    2300184: SK-131037-04_Capa Metal x Metal.092
+    2300186: SK-131037-04_Capa Metal x Metal.093
+    2300188: SK-131037-04_Capa Metal x Metal.094
+    2300190: SK-131037-04_Capa Metal x Metal.095
+    2300192: SK-131037-04_Capa Metal x Metal.096
+    2300194: SK-131037-04_Capa Metal x Metal.097
+    2300196: SK-131037-04_Capa Metal x Metal.098
+    2300198: SK-131037-04_Capa Metal x Metal.099
+    2300200: SK-131037-04_Capa Metal x Metal.100
+    2300202: SK-131037-04_Capa Metal x Metal.101
+    2300204: SK-131037-04_Capa Metal x Metal.102
+    2300206: SK-131037-04_Capa Metal x Metal.103
+    2300208: SK-131037-04_Capa Metal x Metal.104
+    2300210: SK-131037-04_Capa Metal x Metal.105
+    2300212: SK-131037-04_Capa Metal x Metal.106
+    2300214: SK-131037-04_Capa Metal x Metal.107
+    2300216: SK-131037-04_Capa Metal x Metal.108
+    2300218: SK-131037-04_Capa Metal x Metal.109
+    2300220: SK-131037-04_Capa Metal x Metal.110
+    2300222: SK-131037-04_Capa Metal x Metal.111
+    2300224: SK-131037-04_Capa Metal x Metal.112
+    2300226: SK-131037-04_Capa Metal x Metal.113
+    2300228: SK-131037-04_Capa Metal x Metal.114
+    2300230: SK-131037-04_Capa Metal x Metal.115
+    2300232: SK-131037-04_Capa Metal x Metal.116
+    2300234: SK-131037-04_Capa Metal x Metal.117
+    2300236: SK-131037-04_Capa Metal x Metal.118
+    2300238: SK-131037-04_Capa Metal x Metal.119
+    2300240: SK-131037-04_Capa Metal x Metal.120
+    2300242: SK-131037-04_Capa Metal x Metal.121
+    2300244: SK-131037-04_Capa Metal x Metal.122
+    2300246: SK-131037-04_Capa Metal x Metal.123
+    2300248: SK-131037-04_Capa Metal x Metal.124
+    2300250: SK-131037-04_Capa Metal x Metal.125
+    2300252: SK-131037-04_Capa Metal x Metal.126
+    2300254: SK-131037-04_Capa Metal x Metal.127
+    2300256: SK-131037-04_Capa Metal x Metal.128
+    2300258: SK-131037-04_Capa Metal x Metal.129
+    2300260: SK-131037-04_Capa Metal x Metal.130
+    2300262: SK-131037-04_Capa Metal x Metal.131
+    2300264: SK-131037-04_Capa Metal x Metal.132
+    2300266: SK-131037-04_Capa Metal x Metal.133
+    2300268: SK-131037-04_Capa Metal x Metal.134
+    2300270: SK-131037-04_Capa Metal x Metal.135
+    2300272: SK-131037-04_Capa Metal x Metal.136
+    2300274: SK-131037-04_Capa Metal x Metal.137
+    2300276: SK-131037-04_Capa Metal x Metal.138
+    2300278: SK-131037-04_Capa Metal x Metal.139
+    2300280: SK-131037-04_Capa Metal x Metal.140
+    2300282: SK-131037-04_Capa Metal x Metal.141
+    2300284: SK-131037-04_Capa Metal x Metal.142
+    2300286: SK-131037-04_Capa Metal x Metal.143
+    2300288: SK-131037-04_Capa Metal x Metal.144
+    3300000: SK-131037-04_Capa Metal x Metal
+    3300002: SK-131037-04_Capa Metal x Metal.001
+    3300004: SK-131037-04_Capa Metal x Metal.002
+    3300006: SK-131037-04_Capa Metal x Metal.003
+    3300008: SK-131037-04_Capa Metal x Metal.004
+    3300010: SK-131037-04_Capa Metal x Metal.005
+    3300012: SK-131037-04_Capa Metal x Metal.006
+    3300014: SK-131037-04_Capa Metal x Metal.007
+    3300016: SK-131037-04_Capa Metal x Metal.008
+    3300018: SK-131037-04_Capa Metal x Metal.009
+    3300020: SK-131037-04_Capa Metal x Metal.010
+    3300022: SK-131037-04_Capa Metal x Metal.011
+    3300024: SK-131037-04_Capa Metal x Metal.012
+    3300026: SK-131037-04_Capa Metal x Metal.013
+    3300028: SK-131037-04_Capa Metal x Metal.014
+    3300030: SK-131037-04_Capa Metal x Metal.015
+    3300032: SK-131037-04_Capa Metal x Metal.016
+    3300034: SK-131037-04_Capa Metal x Metal.017
+    3300036: SK-131037-04_Capa Metal x Metal.018
+    3300038: SK-131037-04_Capa Metal x Metal.019
+    3300040: SK-131037-04_Capa Metal x Metal.020
+    3300042: SK-131037-04_Capa Metal x Metal.021
+    3300044: SK-131037-04_Capa Metal x Metal.022
+    3300046: SK-131037-04_Capa Metal x Metal.023
+    3300048: SK-131037-04_Capa Metal x Metal.024
+    3300050: SK-131037-04_Capa Metal x Metal.025
+    3300052: SK-131037-04_Capa Metal x Metal.026
+    3300054: SK-131037-04_Capa Metal x Metal.027
+    3300056: SK-131037-04_Capa Metal x Metal.028
+    3300058: SK-131037-04_Capa Metal x Metal.029
+    3300060: SK-131037-04_Capa Metal x Metal.030
+    3300062: SK-131037-04_Capa Metal x Metal.031
+    3300064: SK-131037-04_Capa Metal x Metal.032
+    3300066: SK-131037-04_Capa Metal x Metal.033
+    3300068: SK-131037-04_Capa Metal x Metal.034
+    3300070: SK-131037-04_Capa Metal x Metal.035
+    3300072: SK-131037-04_Capa Metal x Metal.036
+    3300074: SK-131037-04_Capa Metal x Metal.037
+    3300076: SK-131037-04_Capa Metal x Metal.038
+    3300078: SK-131037-04_Capa Metal x Metal.039
+    3300080: SK-131037-04_Capa Metal x Metal.040
+    3300082: SK-131037-04_Capa Metal x Metal.041
+    3300084: SK-131037-04_Capa Metal x Metal.042
+    3300086: SK-131037-04_Capa Metal x Metal.043
+    3300088: SK-131037-04_Capa Metal x Metal.044
+    3300090: SK-131037-04_Capa Metal x Metal.045
+    3300092: SK-131037-04_Capa Metal x Metal.046
+    3300094: SK-131037-04_Capa Metal x Metal.047
+    3300096: SK-131037-04_Capa Metal x Metal.048
+    3300098: SK-131037-04_Capa Metal x Metal.049
+    3300100: SK-131037-04_Capa Metal x Metal.050
+    3300102: SK-131037-04_Capa Metal x Metal.051
+    3300104: SK-131037-04_Capa Metal x Metal.052
+    3300106: SK-131037-04_Capa Metal x Metal.053
+    3300108: SK-131037-04_Capa Metal x Metal.054
+    3300110: SK-131037-04_Capa Metal x Metal.055
+    3300112: SK-131037-04_Capa Metal x Metal.056
+    3300114: SK-131037-04_Capa Metal x Metal.057
+    3300116: SK-131037-04_Capa Metal x Metal.058
+    3300118: SK-131037-04_Capa Metal x Metal.059
+    3300120: SK-131037-04_Capa Metal x Metal.060
+    3300122: SK-131037-04_Capa Metal x Metal.061
+    3300124: SK-131037-04_Capa Metal x Metal.062
+    3300126: SK-131037-04_Capa Metal x Metal.063
+    3300128: SK-131037-04_Capa Metal x Metal.064
+    3300130: SK-131037-04_Capa Metal x Metal.065
+    3300132: SK-131037-04_Capa Metal x Metal.066
+    3300134: SK-131037-04_Capa Metal x Metal.067
+    3300136: SK-131037-04_Capa Metal x Metal.068
+    3300138: SK-131037-04_Capa Metal x Metal.069
+    3300140: SK-131037-04_Capa Metal x Metal.070
+    3300142: SK-131037-04_Capa Metal x Metal.071
+    3300144: SK-131037-04_Capa Metal x Metal.072
+    3300146: SK-131037-04_Capa Metal x Metal.073
+    3300148: SK-131037-04_Capa Metal x Metal.074
+    3300150: SK-131037-04_Capa Metal x Metal.075
+    3300152: SK-131037-04_Capa Metal x Metal.076
+    3300154: SK-131037-04_Capa Metal x Metal.077
+    3300156: SK-131037-04_Capa Metal x Metal.078
+    3300158: SK-131037-04_Capa Metal x Metal.079
+    3300160: SK-131037-04_Capa Metal x Metal.080
+    3300162: SK-131037-04_Capa Metal x Metal.081
+    3300164: SK-131037-04_Capa Metal x Metal.082
+    3300166: SK-131037-04_Capa Metal x Metal.083
+    3300168: SK-131037-04_Capa Metal x Metal.084
+    3300170: SK-131037-04_Capa Metal x Metal.085
+    3300172: SK-131037-04_Capa Metal x Metal.086
+    3300174: SK-131037-04_Capa Metal x Metal.087
+    3300176: SK-131037-04_Capa Metal x Metal.088
+    3300178: SK-131037-04_Capa Metal x Metal.089
+    3300180: SK-131037-04_Capa Metal x Metal.090
+    3300182: SK-131037-04_Capa Metal x Metal.091
+    3300184: SK-131037-04_Capa Metal x Metal.092
+    3300186: SK-131037-04_Capa Metal x Metal.093
+    3300188: SK-131037-04_Capa Metal x Metal.094
+    3300190: SK-131037-04_Capa Metal x Metal.095
+    3300192: SK-131037-04_Capa Metal x Metal.096
+    3300194: SK-131037-04_Capa Metal x Metal.097
+    3300196: SK-131037-04_Capa Metal x Metal.098
+    3300198: SK-131037-04_Capa Metal x Metal.099
+    3300200: SK-131037-04_Capa Metal x Metal.100
+    3300202: SK-131037-04_Capa Metal x Metal.101
+    3300204: SK-131037-04_Capa Metal x Metal.102
+    3300206: SK-131037-04_Capa Metal x Metal.103
+    3300208: SK-131037-04_Capa Metal x Metal.104
+    3300210: SK-131037-04_Capa Metal x Metal.105
+    3300212: SK-131037-04_Capa Metal x Metal.106
+    3300214: SK-131037-04_Capa Metal x Metal.107
+    3300216: SK-131037-04_Capa Metal x Metal.108
+    3300218: SK-131037-04_Capa Metal x Metal.109
+    3300220: SK-131037-04_Capa Metal x Metal.110
+    3300222: SK-131037-04_Capa Metal x Metal.111
+    3300224: SK-131037-04_Capa Metal x Metal.112
+    3300226: SK-131037-04_Capa Metal x Metal.113
+    3300228: SK-131037-04_Capa Metal x Metal.114
+    3300230: SK-131037-04_Capa Metal x Metal.115
+    3300232: SK-131037-04_Capa Metal x Metal.116
+    3300234: SK-131037-04_Capa Metal x Metal.117
+    3300236: SK-131037-04_Capa Metal x Metal.118
+    3300238: SK-131037-04_Capa Metal x Metal.119
+    3300240: SK-131037-04_Capa Metal x Metal.120
+    3300242: SK-131037-04_Capa Metal x Metal.121
+    3300244: SK-131037-04_Capa Metal x Metal.122
+    3300246: SK-131037-04_Capa Metal x Metal.123
+    3300248: SK-131037-04_Capa Metal x Metal.124
+    3300250: SK-131037-04_Capa Metal x Metal.125
+    3300252: SK-131037-04_Capa Metal x Metal.126
+    3300254: SK-131037-04_Capa Metal x Metal.127
+    3300256: SK-131037-04_Capa Metal x Metal.128
+    3300258: SK-131037-04_Capa Metal x Metal.129
+    3300260: SK-131037-04_Capa Metal x Metal.130
+    3300262: SK-131037-04_Capa Metal x Metal.131
+    3300264: SK-131037-04_Capa Metal x Metal.132
+    3300266: SK-131037-04_Capa Metal x Metal.133
+    3300268: SK-131037-04_Capa Metal x Metal.134
+    3300270: SK-131037-04_Capa Metal x Metal.135
+    3300272: SK-131037-04_Capa Metal x Metal.136
+    3300274: SK-131037-04_Capa Metal x Metal.137
+    3300276: SK-131037-04_Capa Metal x Metal.138
+    3300278: SK-131037-04_Capa Metal x Metal.139
+    3300280: SK-131037-04_Capa Metal x Metal.140
+    3300282: SK-131037-04_Capa Metal x Metal.141
+    3300284: SK-131037-04_Capa Metal x Metal.142
+    3300286: SK-131037-04_Capa Metal x Metal.143
+    3300288: SK-131037-04_Capa Metal x Metal.144
+    4300000: SK-131037-04_Capa Metal x Metal
+    4300002: SK-131037-04_Capa Metal x Metal.001
+    4300004: SK-131037-04_Capa Metal x Metal.002
+    4300006: SK-131037-04_Capa Metal x Metal.003
+    4300008: SK-131037-04_Capa Metal x Metal.004
+    4300010: SK-131037-04_Capa Metal x Metal.005
+    4300012: SK-131037-04_Capa Metal x Metal.006
+    4300014: SK-131037-04_Capa Metal x Metal.007
+    4300016: SK-131037-04_Capa Metal x Metal.008
+    4300018: SK-131037-04_Capa Metal x Metal.009
+    4300020: SK-131037-04_Capa Metal x Metal.010
+    4300022: SK-131037-04_Capa Metal x Metal.011
+    4300024: SK-131037-04_Capa Metal x Metal.012
+    4300026: SK-131037-04_Capa Metal x Metal.013
+    4300028: SK-131037-04_Capa Metal x Metal.014
+    4300030: SK-131037-04_Capa Metal x Metal.015
+    4300032: SK-131037-04_Capa Metal x Metal.016
+    4300034: SK-131037-04_Capa Metal x Metal.017
+    4300036: SK-131037-04_Capa Metal x Metal.018
+    4300038: SK-131037-04_Capa Metal x Metal.019
+    4300040: SK-131037-04_Capa Metal x Metal.020
+    4300042: SK-131037-04_Capa Metal x Metal.021
+    4300044: SK-131037-04_Capa Metal x Metal.022
+    4300046: SK-131037-04_Capa Metal x Metal.023
+    4300048: SK-131037-04_Capa Metal x Metal.024
+    4300050: SK-131037-04_Capa Metal x Metal.025
+    4300052: SK-131037-04_Capa Metal x Metal.026
+    4300054: SK-131037-04_Capa Metal x Metal.027
+    4300056: SK-131037-04_Capa Metal x Metal.028
+    4300058: SK-131037-04_Capa Metal x Metal.029
+    4300060: SK-131037-04_Capa Metal x Metal.030
+    4300062: SK-131037-04_Capa Metal x Metal.031
+    4300064: SK-131037-04_Capa Metal x Metal.032
+    4300066: SK-131037-04_Capa Metal x Metal.033
+    4300068: SK-131037-04_Capa Metal x Metal.034
+    4300070: SK-131037-04_Capa Metal x Metal.035
+    4300072: SK-131037-04_Capa Metal x Metal.036
+    4300074: SK-131037-04_Capa Metal x Metal.037
+    4300076: SK-131037-04_Capa Metal x Metal.038
+    4300078: SK-131037-04_Capa Metal x Metal.039
+    4300080: SK-131037-04_Capa Metal x Metal.040
+    4300082: SK-131037-04_Capa Metal x Metal.041
+    4300084: SK-131037-04_Capa Metal x Metal.042
+    4300086: SK-131037-04_Capa Metal x Metal.043
+    4300088: SK-131037-04_Capa Metal x Metal.044
+    4300090: SK-131037-04_Capa Metal x Metal.045
+    4300092: SK-131037-04_Capa Metal x Metal.046
+    4300094: SK-131037-04_Capa Metal x Metal.047
+    4300096: SK-131037-04_Capa Metal x Metal.048
+    4300098: SK-131037-04_Capa Metal x Metal.049
+    4300100: SK-131037-04_Capa Metal x Metal.050
+    4300102: SK-131037-04_Capa Metal x Metal.051
+    4300104: SK-131037-04_Capa Metal x Metal.052
+    4300106: SK-131037-04_Capa Metal x Metal.053
+    4300108: SK-131037-04_Capa Metal x Metal.054
+    4300110: SK-131037-04_Capa Metal x Metal.055
+    4300112: SK-131037-04_Capa Metal x Metal.056
+    4300114: SK-131037-04_Capa Metal x Metal.057
+    4300116: SK-131037-04_Capa Metal x Metal.058
+    4300118: SK-131037-04_Capa Metal x Metal.059
+    4300120: SK-131037-04_Capa Metal x Metal.060
+    4300122: SK-131037-04_Capa Metal x Metal.061
+    4300124: SK-131037-04_Capa Metal x Metal.062
+    4300126: SK-131037-04_Capa Metal x Metal.063
+    4300128: SK-131037-04_Capa Metal x Metal.064
+    4300130: SK-131037-04_Capa Metal x Metal.065
+    4300132: SK-131037-04_Capa Metal x Metal.066
+    4300134: SK-131037-04_Capa Metal x Metal.067
+    4300136: SK-131037-04_Capa Metal x Metal.068
+    4300138: SK-131037-04_Capa Metal x Metal.069
+    4300140: SK-131037-04_Capa Metal x Metal.070
+    4300142: SK-131037-04_Capa Metal x Metal.071
+    4300144: SK-131037-04_Capa Metal x Metal.072
+    4300146: SK-131037-04_Capa Metal x Metal.073
+    4300148: SK-131037-04_Capa Metal x Metal.074
+    4300150: SK-131037-04_Capa Metal x Metal.075
+    4300152: SK-131037-04_Capa Metal x Metal.076
+    4300154: SK-131037-04_Capa Metal x Metal.077
+    4300156: SK-131037-04_Capa Metal x Metal.078
+    4300158: SK-131037-04_Capa Metal x Metal.079
+    4300160: SK-131037-04_Capa Metal x Metal.080
+    4300162: SK-131037-04_Capa Metal x Metal.081
+    4300164: SK-131037-04_Capa Metal x Metal.082
+    4300166: SK-131037-04_Capa Metal x Metal.083
+    4300168: SK-131037-04_Capa Metal x Metal.084
+    4300170: SK-131037-04_Capa Metal x Metal.085
+    4300172: SK-131037-04_Capa Metal x Metal.086
+    4300174: SK-131037-04_Capa Metal x Metal.087
+    4300176: SK-131037-04_Capa Metal x Metal.088
+    4300178: SK-131037-04_Capa Metal x Metal.089
+    4300180: SK-131037-04_Capa Metal x Metal.090
+    4300182: SK-131037-04_Capa Metal x Metal.091
+    4300184: SK-131037-04_Capa Metal x Metal.092
+    4300186: SK-131037-04_Capa Metal x Metal.093
+    4300188: SK-131037-04_Capa Metal x Metal.094
+    4300190: SK-131037-04_Capa Metal x Metal.095
+    4300192: SK-131037-04_Capa Metal x Metal.096
+    4300194: SK-131037-04_Capa Metal x Metal.097
+    4300196: SK-131037-04_Capa Metal x Metal.098
+    4300198: SK-131037-04_Capa Metal x Metal.099
+    4300200: SK-131037-04_Capa Metal x Metal.100
+    4300202: SK-131037-04_Capa Metal x Metal.101
+    4300204: SK-131037-04_Capa Metal x Metal.102
+    4300206: SK-131037-04_Capa Metal x Metal.103
+    4300208: SK-131037-04_Capa Metal x Metal.104
+    4300210: SK-131037-04_Capa Metal x Metal.105
+    4300212: SK-131037-04_Capa Metal x Metal.106
+    4300214: SK-131037-04_Capa Metal x Metal.107
+    4300216: SK-131037-04_Capa Metal x Metal.108
+    4300218: SK-131037-04_Capa Metal x Metal.109
+    4300220: SK-131037-04_Capa Metal x Metal.110
+    4300222: SK-131037-04_Capa Metal x Metal.111
+    4300224: SK-131037-04_Capa Metal x Metal.112
+    4300226: SK-131037-04_Capa Metal x Metal.113
+    4300228: SK-131037-04_Capa Metal x Metal.114
+    4300230: SK-131037-04_Capa Metal x Metal.115
+    4300232: SK-131037-04_Capa Metal x Metal.116
+    4300234: SK-131037-04_Capa Metal x Metal.117
+    4300236: SK-131037-04_Capa Metal x Metal.118
+    4300238: SK-131037-04_Capa Metal x Metal.119
+    4300240: SK-131037-04_Capa Metal x Metal.120
+    4300242: SK-131037-04_Capa Metal x Metal.121
+    4300244: SK-131037-04_Capa Metal x Metal.122
+    4300246: SK-131037-04_Capa Metal x Metal.123
+    4300248: SK-131037-04_Capa Metal x Metal.124
+    4300250: SK-131037-04_Capa Metal x Metal.125
+    4300252: SK-131037-04_Capa Metal x Metal.126
+    4300254: SK-131037-04_Capa Metal x Metal.127
+    4300256: SK-131037-04_Capa Metal x Metal.128
+    4300258: SK-131037-04_Capa Metal x Metal.129
+    4300260: SK-131037-04_Capa Metal x Metal.130
+    4300262: SK-131037-04_Capa Metal x Metal.131
+    4300264: SK-131037-04_Capa Metal x Metal.132
+    4300266: SK-131037-04_Capa Metal x Metal.133
+    4300268: SK-131037-04_Capa Metal x Metal.134
+    4300270: SK-131037-04_Capa Metal x Metal.135
+    4300272: SK-131037-04_Capa Metal x Metal.136
+    4300274: SK-131037-04_Capa Metal x Metal.137
+    4300276: SK-131037-04_Capa Metal x Metal.138
+    4300278: SK-131037-04_Capa Metal x Metal.139
+    4300280: SK-131037-04_Capa Metal x Metal.140
+    4300282: SK-131037-04_Capa Metal x Metal.141
+    4300284: SK-131037-04_Capa Metal x Metal.142
+    4300286: SK-131037-04_Capa Metal x Metal.143
+    4300288: SK-131037-04_Capa Metal x Metal.144
+  externalObjects: {}
+  materials:
+    importMaterials: 1
+    materialName: 0
+    materialSearch: 1
+    materialLocation: 1
+  animations:
+    legacyGenerateAnimations: 4
+    bakeSimulation: 0
+    resampleCurves: 1
+    optimizeGameObjects: 0
+    motionNodeName: 
+    rigImportErrors: 
+    rigImportWarnings: 
+    animationImportErrors: 
+    animationImportWarnings: 
+    animationRetargetingWarnings: 
+    animationDoRetargetingWarnings: 0
+    importAnimatedCustomProperties: 0
+    animationCompression: 1
+    animationRotationError: 0.5
+    animationPositionError: 0.5
+    animationScaleError: 0.5
+    animationWrapMode: 0
+    extraExposedTransformPaths: []
+    extraUserProperties: []
+    clipAnimations: []
+    isReadable: 1
+  meshes:
+    lODScreenPercentages: []
+    globalScale: 1
+    meshCompression: 0
+    addColliders: 0
+    importVisibility: 1
+    importBlendShapes: 1
+    importCameras: 1
+    importLights: 1
+    swapUVChannels: 0
+    generateSecondaryUV: 0
+    useFileUnits: 1
+    optimizeMeshForGPU: 1
+    keepQuads: 0
+    weldVertices: 1
+    preserveHierarchy: 0
+    indexFormat: 0
+    secondaryUVAngleDistortion: 8
+    secondaryUVAreaDistortion: 15.000001
+    secondaryUVHardAngle: 88
+    secondaryUVPackMargin: 4
+    useFileScale: 1
+  tangentSpace:
+    normalSmoothAngle: 60
+    normalImportMode: 0
+    tangentImportMode: 3
+    normalCalculationMode: 4
+  importAnimation: 1
+  copyAvatar: 0
+  humanDescription:
+    serializedVersion: 2
+    human: []
+    skeleton: []
+    armTwist: 0.5
+    foreArmTwist: 0.5
+    upperLegTwist: 0.5
+    legTwist: 0.5
+    armStretch: 0.05
+    legStretch: 0.05
+    feetSpacing: 0
+    rootMotionBoneName: 
+    rootMotionBoneRotation: {x: 0, y: 0, z: 0, w: 1}
+    hasTranslationDoF: 0
+    hasExtraRoot: 0
+    skeletonHasParents: 1
+  lastHumanDescriptionAvatarSource: {instanceID: 0}
+  animationType: 0
+  humanoidOversampling: 1
+  additionalBone: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

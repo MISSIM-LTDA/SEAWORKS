@@ -25,6 +25,8 @@ TagManager:
   - SmartTrackConsole
   - Basket
   - Connectors Cap
+  - Gatilho
+  - FLOT
   layers:
   - Default
   - TransparentFX
