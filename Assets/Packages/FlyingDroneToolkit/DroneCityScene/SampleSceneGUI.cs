@@ -6,6 +6,12 @@ using System.Collections;
 public class SampleSceneGUI : MonoBehaviour {
 
     // Main toolbar.
+	private int toolbarInt = -1;
+	private int saveToolbarInt = -1;
+	private string[] toolbarStrings = { "Briefing Missão", "Manual", "ROV Control", "ROV Maintenance", "Restart"};
+	private Rect toolbarRect;
+	private bool changed=false;
+    private bool paused = false;
     public GameObject theDrone;
     public GameObject saucerDrone;
     public GameObject barco;

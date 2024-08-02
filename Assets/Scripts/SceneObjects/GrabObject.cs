@@ -32,8 +32,9 @@ public class GrabObject : MonoBehaviour
     void FixedUpdate()
     {
         if (Input.GetKeyDown(lockUnlockKey) && checkIn && !locked){
+            grabObjectJoint = GetComponent<Joint>();
             if (!grabObjectJoint) {
-                grabObjectJoint = gameObject.AddComponent<HingeJoint>();
+                grabObjectJoint = gameObject.AddComponent<FixedJoint>();
             }
 
             grabObjectRigidbody.isKinematic = false;
@@ -45,7 +46,7 @@ public class GrabObject : MonoBehaviour
 
         else if (Input.GetKeyDown(lockUnlockKey) && locked){
             if (onBasket) {
-                grabObjectJoint.connectedBody = basketRigidbody;
+                //grabObjectJoint.connectedBody = basketRigidbody;
             }
 
             else {
@@ -64,14 +65,7 @@ public class GrabObject : MonoBehaviour
 
         if(obj.tag == "Jaw7finger") {checkIn = true;}
 
-        else if(obj.tag == "ROVComponents") { 
-            onBasket = true;
-
-            if (config) { 
-                grabObjectJoint.connectedBody = basketRigidbody;
-                config = false;
-            }
-        }
+       
     }
     private void OnTriggerExit(Collider collision)
     {
@@ -79,6 +73,6 @@ public class GrabObject : MonoBehaviour
 
         if (obj.tag == "Jaw7finger") { checkIn = false; }
 
-        else if (obj.tag == "ROVComponents") { onBasket = false; }
+       
     }
 }

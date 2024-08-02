@@ -35,14 +35,20 @@ public class AnimControl : MonoBehaviour
     }
     private void OnTriggerEnter(Collider collider)
     {
-        mesh.AddComponent<MeshCollider>();
+       if (collider.gameObject.CompareTag("Gatilho")) 
+       {
+         mesh.AddComponent<MeshCollider>();
 
-        inIndicator = true;
+         inIndicator = true;
+       }
     }
     private void OnTriggerExit(Collider collider)
     {
-        Destroy(mesh.GetComponent<MeshCollider>());
+        if (collider.gameObject.CompareTag("Gatilho")) 
+        {
+          Destroy(mesh.GetComponent<MeshCollider>());
 
-        inIndicator = false;
+          inIndicator = false;
+        }
     }
 }
