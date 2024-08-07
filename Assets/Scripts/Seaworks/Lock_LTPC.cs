@@ -16,7 +16,7 @@ public class Lock_LTPC : MonoBehaviour {
     private bool locked;
     void Start () {
         rovRigidBody = GameObject.FindGameObjectWithTag
-            ("XLX").GetComponent<Rigidbody>();
+            ("FLOT").GetComponent<Rigidbody>();
 
         rigidBody = gameObject.GetComponent<Rigidbody>();
     }

@@ -24,6 +24,10 @@ TagManager:
   - Interectable
   - SmartTrackConsole
   - Connectors Cap
+  - FLOT
+  - Basket
+  - Trigger
+  - Gatilho
   layers:
   - Default
   - TransparentFX
