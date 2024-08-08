@@ -26,7 +26,7 @@ namespace SmartTrackSystem
         public bool saving { get; set; }
         public bool loading { get; set; }
         public string folderPath { get; set; }
-        public int index { get; set; }
+        [field:SerializeField] public int index { get; set; }
         public string decimalPlaces { get; set; }
 
         public RecordedInfo<ObjectTransformToRecord> record = 
@@ -50,7 +50,7 @@ namespace SmartTrackSystem
             }
         }
 
-        #region Select
+        #region Select Functions
         public virtual void SelectObject(GameObject selectedObject)
         {
             SmartTrack.smartTrack.SelectedObject = selectedObject;
@@ -194,7 +194,7 @@ namespace SmartTrackSystem
         }
         #endregion
 
-        #region Save
+        #region Save Functions
         public void SaveNewPosition(string path)
         {
             if (SmartTrack.smartTrack.IsReplaying) { 
@@ -318,7 +318,7 @@ namespace SmartTrackSystem
             IFormatProvider formatProvider = CultureInfo.InvariantCulture.NumberFormat;
 
             string[] axis = position.Split(",");
-        
+
             float x = float.Parse(axis[0].Replace("(", "").Trim(), formatProvider);
             float y = float.Parse(axis[1].Trim(), formatProvider);
             float z = float.Parse(axis[2].Replace(")", "").Trim(), formatProvider);

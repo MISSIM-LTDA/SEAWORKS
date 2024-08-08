@@ -55,7 +55,7 @@ namespace SmartTrackSystem
             public float breakThreshold = float.PositiveInfinity;
         }
 
-        List<Attachments> destroyedAttachments = new List<Attachments>();
+        private List<Attachments> destroyedAttachments = new List<Attachments>();
 
         #region Save Functions
         public void GetObjectPosition(ref RecordedInfo<RopeTransformToRecord> rec)

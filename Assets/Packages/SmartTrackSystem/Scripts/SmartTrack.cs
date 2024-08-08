@@ -70,7 +70,8 @@ namespace SmartTrackSystem
         [SerializeField, HideInInspector] private Transform smartTrackUIConsole;
         private Transform console;
         private Transform loadAlert;
-        private TMP_Dropdown dropdown;
+
+        //private TMP_Dropdown dropdown;
 
         private Text timeStamp;
 
@@ -245,7 +246,8 @@ namespace SmartTrackSystem
                                 if (attach.target.name == "Body") { startOfRope = attach.target.parent; }
                                 else { startOfRope = attach.target; }
 
-                                if (!startOfRope.GetComponent<RecordedObject>()) {
+                                startOfRopeRo = startOfRope.GetComponent<RecordedConnector>();
+                                if (!startOfRopeRo) {
                                     startOfRopeRo = startOfRope.gameObject.AddComponent<RecordedConnector>();
                                 }
                             }
@@ -253,30 +255,30 @@ namespace SmartTrackSystem
                                 if (attach.target.name == "Body") { endOfRope = attach.target.parent; }
                                 else { endOfRope = attach.target; }
 
-                                if (!endOfRope.GetComponent<RecordedObject>()) {
+                                endOfRopeRo = endOfRope.GetComponent<RecordedConnector>();
+                                if (!endOfRopeRo) {
                                     endOfRopeRo = endOfRope.gameObject.AddComponent<RecordedConnector>();
                                 }
                             }
                         }
                     }
 
-
                     bool savePosition = rope.sourceBlueprint.name != "Crane";
-
-                    rr = SetupRecordedObject(rr, rope);
-                    recordedObjects.Add(rr);
-                    if (savePosition) { savePositionObjects.Add(rr); }
 
                     if (startOfRopeRo) {
                         startOfRopeRo = SetupRecordedObject(startOfRopeRo, rope, endOfRopeRo, newRecordButton);
                         recordedObjects.Add(startOfRopeRo);
-                        if (savePosition) {savePositionObjects.Add(startOfRopeRo);}
+                        if (savePosition) { savePositionObjects.Add(startOfRopeRo); }
                     }
                     if (endOfRopeRo) {
                         endOfRopeRo = SetupRecordedObject(endOfRopeRo, rope, startOfRopeRo, newRecordButton);
                         recordedObjects.Add(endOfRopeRo);
                         if (savePosition) { savePositionObjects.Add(endOfRopeRo); }
                     }
+
+                    rr = SetupRecordedObject(rr, rope);
+                    recordedObjects.Add(rr);
+                    if (savePosition) { savePositionObjects.Add(rr); }
 
                     ropesInitialIndexes.Add(new Matrix(0));
                 }
@@ -385,13 +387,13 @@ namespace SmartTrackSystem
             loadButton.onClick.AddListener(Load);
 
             Button confirmLoad = loadAlert.Find("ConfirmButton").GetComponentInChildren<Button>();
-            confirmLoad.onClick.AddListener(delegate { StartCoroutine(LoadFromDirectory(true)); });
+            confirmLoad.onClick.AddListener(delegate { StartCoroutine(LoadRecordedFile(true)); });
 
             Button denyLoad = loadAlert.Find("DenyButton").GetComponentInChildren<Button>();
-            denyLoad.onClick.AddListener(delegate { StartCoroutine(LoadFromDirectory(false)); });
+            denyLoad.onClick.AddListener(delegate { StartCoroutine(LoadRecordedFile(false)); });
 
-            dropdown = console.GetComponentInChildren<TMP_Dropdown>();
-            dropdown.onValueChanged.AddListener(delegate { StartCoroutine(ChooseReplayFile()); });
+            //dropdown = console.GetComponentInChildren<TMP_Dropdown>();
+            //dropdown.onValueChanged.AddListener(delegate { StartCoroutine(ChooseReplayFile()); });
 
             savePositionButton.onClick.AddListener(SaveNewPosition);
             loadPositionButton.onClick.AddListener(LoadNewPosition);
@@ -421,9 +423,9 @@ namespace SmartTrackSystem
                             int count = recordedFrames - index;
                             int rope = 0;
 
-                            foreach (RecordedObject recordedObject in recordedObjects)
-                            {
+                            foreach (RecordedObject recordedObject in recordedObjects) {
                                 RecordedRope rr = recordedObject as RecordedRope;
+                                RecordedConnector rc = recordedObject as RecordedConnector;
                                 if (rr) {
                                     int ropeIndex = ropesInitialIndexes[rope].array[index];
                                     ropeIndex += rr.recordRope.RecordObjectStore[ropeIndex].pC;
@@ -431,6 +433,14 @@ namespace SmartTrackSystem
                                     int ropeCount = rr.recordRope.RecordObjectStore.Count - ropeIndex;
 
                                     rr.recordRope.RecordObjectStore.RemoveRange(ropeIndex, ropeCount);
+                                }
+                                else if (rc) {
+                                    if (rc.CompareTag("EFL_Parent")) {
+                                        int connectorIndex = 2 * index;
+                                        int connectorCount = rc.record.RecordObjectStore.Count - connectorIndex;
+                                        rc.record.RecordObjectStore.RemoveRange(connectorIndex, connectorCount);
+                                    }
+                                    else { rc.record.RecordObjectStore.RemoveRange(index, count); }
                                 }
                                 else {
                                     recordedObject.record.RecordObjectStore.RemoveRange(index, count);
@@ -703,7 +713,7 @@ namespace SmartTrackSystem
                     loadAlert.gameObject.SetActive(true);
                 }
                 else { 
-                    StartCoroutine(LoadFromDirectory(true));
+                    StartCoroutine(LoadRecordedFile(true));
                 }
             }
 
@@ -713,7 +723,7 @@ namespace SmartTrackSystem
 
             else if (isRecording) { Debug.Log("You can't load while recording!"); }
         }
-        private IEnumerator LoadFromDirectory(bool confirm) 
+        private IEnumerator LoadRecordedFile(bool confirm) 
         {
             loadAlert.gameObject.SetActive(false);
 
@@ -722,139 +732,244 @@ namespace SmartTrackSystem
 
                 isLoading = true;
 
-                yield return StartCoroutine(ChooseLoadDirectory());
+                yield return StartCoroutine(ChooseLoadFile());
 
-                if (!string.IsNullOrEmpty(folderPath)) {
-                    string[] files = Directory.GetFiles(folderPath);
-                    int numberOfFiles = files.Length;
+                if (!string.IsNullOrEmpty(folderPath)) 
+                {
+                    ClearRecordData(true);
 
-                    if (numberOfFiles > 0) {
-                        if (numberOfFiles <= 4) {
-                            dropdown.template.anchoredPosition = new Vector2(0, 30 + numberOfFiles * 22.5f);
-                            dropdown.template.sizeDelta = new Vector2(0, 30 + numberOfFiles * 30);
+                    string jsonString = File.ReadAllText(folderPath);
+
+                    int indexOf = jsonString.IndexOf("RecordingTime") + 16;
+                    int lastIndexOf = jsonString.IndexOf("\"", indexOf);
+
+                    string time = jsonString.Substring(indexOf, lastIndexOf - indexOf);
+
+                    recordingTime = float.Parse(time);
+
+                    indexOf = jsonString.IndexOf("RecordedObjects") - 1;
+                    lastIndexOf = jsonString.IndexOf("RecordedRopes") - 2;
+
+                    string recordedObject = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim() + "}";
+                    recordedObject = recordedObject.Replace("RecordedObjects", "Items");
+
+                    List<RecordedInfo<ObjectTransformToRecord>> records =
+                        JsonHelper.FromJson<RecordedInfo<ObjectTransformToRecord>>(recordedObject);
+
+                    indexOf = jsonString.IndexOf("RecordedRopes") - 1;
+                    lastIndexOf = jsonString.Length;
+
+                    string recordedRope = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim();
+                    recordedRope = recordedRope.Replace("RecordedRopes", "Items");
+
+                    List<RecordedInfo<RopeTransformToRecord>> recordsRopes =
+                        JsonHelper.FromJson<RecordedInfo<RopeTransformToRecord>>(recordedRope);
+
+                    int j = 0, k = 0;
+                    if (recordedObjects.Count == (records.Count + recordsRopes.Count))
+                    {
+                        for (int i = 0; i < recordedObjects.Count; i++)
+                        {
+                            RecordedRope rr = recordedObjects[i] as RecordedRope;
+                            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name)
+                            {
+                                j++;
+                            }
+                            else if (recordedObjects[i].name == records[k].Name)
+                            {
+                                k++;
+                            }
+                        }
+                    }
+
+                    if ((j + k) == recordedObjects.Count)
+                    {
+                        j = k = 0;
+                        for (int i = 0; i < recordedObjects.Count; i++)
+                        {
+                            RecordedRope rr = recordedObjects[i] as RecordedRope;
+                            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name)
+                            {
+                                rr.recordRope = recordsRopes[j];
+                                j++;
+                            }
+                            else if (recordedObjects[i].name == records[k].Name)
+                            {
+                                recordedObjects[i].record = records[k];
+                                k++;
+                            }
                         }
 
-                        else {
-                            dropdown.template.anchoredPosition = new Vector2(0, 120);
-                            dropdown.template.sizeDelta = new Vector2(0, 97.5f);
-                        }
+                        recordedFrames =
+                            recordedObjects[0].record.RecordObjectStore.Count;
 
-                        dropdown.options.Clear();
+                        slider.value = -1;
+                        slider.maxValue = recordedFrames - 1;
 
-                        string[] fileNames = new string[numberOfFiles];
-                        for (int i = 0; i < numberOfFiles; i++) {
-                            fileNames[i] = files[i].Replace(folderPath + "\\", "").Trim();
+                        slideT = 0;
 
-                            TMP_Dropdown.OptionData optionData =
-                                new TMP_Dropdown.OptionData(fileNames[i]);
-
-                            dropdown.options.Add(optionData);
-                        }
-
-                        dropdown.RefreshShownValue();
-                        dropdown.interactable = true;
+                        ArrangeRopeIndexes(recordedFrames);
 
                         isLoading = false;
 
-                        StartCoroutine(ChooseReplayFile());
+                        PlayOrPause();
+
+                        float sliderValue = (int)slider.value;
+
+                        yield return new WaitUntil(() => slider.value == (sliderValue + multiplier));
+
+                        PlayOrPause();
+
+                        loadead = true;
                     }
 
-                    else { Debug.Log("No files Found"); }
+                    else { Debug.Log("You trying to load a different recording setup!"); }
                 }
+
+                //if (!string.IsNullOrEmpty(folderPath)) {
+                    //StartCoroutine(ChooseReplayFile());
+                    //string[] files = Directory.GetFiles(folderPath);
+                    //int numberOfFiles = files.Length;
+
+                    //if (numberOfFiles > 0) {
+                        //if (numberOfFiles <= 4) {
+                        //    dropdown.template.anchoredPosition = new Vector2(0, 30 + numberOfFiles * 22.5f);
+                        //    dropdown.template.sizeDelta = new Vector2(0, 30 + numberOfFiles * 30);
+                        //}
+
+                        //else {
+                        //    dropdown.template.anchoredPosition = new Vector2(0, 120);
+                        //    dropdown.template.sizeDelta = new Vector2(0, 97.5f);
+                        //}
+
+                        //dropdown.options.Clear();
+
+                        //string[] fileNames = new string[numberOfFiles];
+                        //for (int i = 0; i < numberOfFiles; i++) {
+                        //    fileNames[i] = files[i].Replace(folderPath + "\\", "").Trim();
+
+                        //    TMP_Dropdown.OptionData optionData =
+                        //        new TMP_Dropdown.OptionData(fileNames[i]);
+
+                        //    dropdown.options.Add(optionData);
+                        //}
+
+                        //dropdown.RefreshShownValue();
+                        //dropdown.interactable = true;
+
+                        //isLoading = false;
+
+                        //StartCoroutine(ChooseReplayFile());
+                    //}
+
+                    //else { Debug.Log("No files Found"); }
+                //}
             }
 
             else {
                 yield return StartCoroutine(SaveCoroutine());
-                StartCoroutine(LoadFromDirectory(true));
+                StartCoroutine(LoadRecordedFile(true));
             }
         }
-        private IEnumerator ChooseReplayFile() 
+
+        //private IEnumerator ChooseReplayFile() 
+        //{
+        //    Stop();
+
+        //    //int dropdownIndex = dropdown.value;
+        //    //string selectedOption = dropdown.options[dropdownIndex].text;
+
+        //    //string path = folderPath + "\\" + selectedOption;
+
+        //    ClearRecordData(true);
+
+        //    string jsonString = File.ReadAllText(folderPath);
+
+        //    int indexOf = jsonString.IndexOf("RecordingTime") + 16;
+        //    int lastIndexOf = jsonString.IndexOf("\"", indexOf);
+
+        //    string time = jsonString.Substring(indexOf, lastIndexOf - indexOf);
+
+        //    recordingTime = float.Parse(time);
+
+        //    indexOf = jsonString.IndexOf("RecordedObjects")-1;
+        //    lastIndexOf = jsonString.IndexOf("RecordedRopes")-2;
+
+        //    string recordedObject = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim() + "}";
+        //    recordedObject = recordedObject.Replace("RecordedObjects", "Items");
+
+        //    List<RecordedInfo<ObjectTransformToRecord>> records = 
+        //        JsonHelper.FromJson<RecordedInfo<ObjectTransformToRecord>>(recordedObject);
+
+        //    indexOf = jsonString.IndexOf("RecordedRopes") - 1;
+        //    lastIndexOf = jsonString.Length;
+
+        //    string recordedRope = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim();
+        //    recordedRope = recordedRope.Replace("RecordedRopes", "Items");
+
+        //    List<RecordedInfo<RopeTransformToRecord>> recordsRopes =
+        //        JsonHelper.FromJson<RecordedInfo<RopeTransformToRecord>>(recordedRope);
+
+        //    int j=0,k=0; 
+        //    if (recordedObjects.Count == (records.Count+recordsRopes.Count)) {
+        //        for (int i = 0; i < recordedObjects.Count;i++) {
+        //            RecordedRope rr = recordedObjects[i] as RecordedRope;
+        //            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name) {
+        //                j++;
+        //            }
+        //            else if (recordedObjects[i].name == records[k].Name) {
+        //                k++;
+        //            }
+        //        }
+        //    }
+
+        //    if ((j+k) == recordedObjects.Count) {
+        //        j = k = 0;
+        //        for (int i = 0; i < recordedObjects.Count; i++) {
+        //            RecordedRope rr = recordedObjects[i] as RecordedRope;
+        //            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name){
+        //                rr.recordRope = recordsRopes[j];
+        //                j++;
+        //            }
+        //            else if (recordedObjects[i].name == records[k].Name){
+        //                recordedObjects[i].record = records[k];
+        //                k++;
+        //            }
+        //        }
+
+        //        recordedFrames = 
+        //            recordedObjects[0].record.RecordObjectStore.Count;
+
+        //        slider.value = -1;
+        //        slider.maxValue = recordedFrames - 1;
+
+        //        slideT = 0;
+
+        //        ArrangeRopeIndexes(recordedFrames);
+
+        //        PlayOrPause();
+
+        //        float sliderValue = (int)slider.value;
+
+        //        yield return new WaitUntil(() => slider.value == (sliderValue + multiplier));
+
+        //        PlayOrPause();
+
+        //        loadead = true;
+        //    }
+
+        //    else { Debug.Log("You trying to load a different recording setup!"); }
+        //}
+        IEnumerator ChooseLoadFile()
         {
-            Stop();
+            yield return FileBrowser.WaitForLoadDialog
+                (FileBrowser.PickMode.Files, false, null, null, "Load File", "Select");
 
-            int dropdownIndex = dropdown.value;
-            string selectedOption = dropdown.options[dropdownIndex].text;
-
-            string path = folderPath + "\\" + selectedOption;
-
-            ClearRecordData(true);
-
-            string jsonString = File.ReadAllText(path);
-
-            int indexOf = jsonString.IndexOf("RecordingTime") + 16;
-            int lastIndexOf = jsonString.IndexOf("\"", indexOf);
-
-            string time = jsonString.Substring(indexOf, lastIndexOf - indexOf);
-
-            recordingTime = float.Parse(time);
-
-            indexOf = jsonString.IndexOf("RecordedObjects")-1;
-            lastIndexOf = jsonString.IndexOf("RecordedRopes")-2;
-
-            string recordedObject = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim() + "}";
-            recordedObject = recordedObject.Replace("RecordedObjects", "Items");
-
-            List<RecordedInfo<ObjectTransformToRecord>> records = 
-                JsonHelper.FromJson<RecordedInfo<ObjectTransformToRecord>>(recordedObject);
-
-            indexOf = jsonString.IndexOf("RecordedRopes") - 1;
-            lastIndexOf = jsonString.Length;
-
-            string recordedRope = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim();
-            recordedRope = recordedRope.Replace("RecordedRopes", "Items");
-
-            List<RecordedInfo<RopeTransformToRecord>> recordsRopes =
-                JsonHelper.FromJson<RecordedInfo<RopeTransformToRecord>>(recordedRope);
-
-            int j=0,k=0; 
-            if (recordedObjects.Count == (records.Count+recordsRopes.Count)) {
-                for (int i = 0; i < recordedObjects.Count;i++) {
-                    RecordedRope rr = recordedObjects[i] as RecordedRope;
-                    if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name) {
-                        j++;
-                    }
-                    else if (recordedObjects[i].name == records[k].Name) {
-                        k++;
-                    }
-                }
+            if (FileBrowser.Success){
+                folderPath = FileBrowser.Result[0];
             }
 
-            if ((j+k) == recordedObjects.Count) {
-                j = k = 0;
-                for (int i = 0; i < recordedObjects.Count; i++) {
-                    RecordedRope rr = recordedObjects[i] as RecordedRope;
-                    if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name){
-                        rr.recordRope = recordsRopes[j];
-                        j++;
-                    }
-                    else if (recordedObjects[i].name == records[k].Name){
-                        recordedObjects[i].record = records[k];
-                        k++;
-                    }
-                }
-
-                recordedFrames = 
-                    recordedObjects[0].record.RecordObjectStore.Count;
-
-                slider.value = -1;
-                slider.maxValue = recordedFrames - 1;
-
-                slideT = 0;
-
-                ArrangeRopeIndexes(recordedFrames);
-
-                PlayOrPause();
-
-                float sliderValue = (int)slider.value;
-
-                yield return new WaitUntil(() => slider.value == (sliderValue + multiplier));
-
-                PlayOrPause();
-
-                loadead = true;
-            }
-
-            else { Debug.Log("You trying to load a different recording setup!"); }
+            else { isLoading = false; }
         }
         IEnumerator ChooseLoadDirectory()
         {
@@ -1015,7 +1130,7 @@ namespace SmartTrackSystem
         }
         private void FixTimer() 
         {
-            string currentTime = timeStamp.text.Split("/")[1];
+            string currentTime = timeStamp.text.Split("/")[0];
             currentTime = currentTime.Trim();
 
             string[] splitTime = currentTime.Split(":");
@@ -1219,13 +1334,19 @@ namespace SmartTrackSystem
                 }
 
                 int ropes = 0;
-                foreach (RecordedRope recordRope in recordedObjects) {
-                    if (recordRope.GetComponent<RecordedRope>() != null) {
+                foreach (RecordedObject recordedObject in recordedObjects) {
+                    RecordedRope recordedRope = recordedObject as RecordedRope;
+                    if (recordedRope) {
                         int index = ropesInitialIndexes[ropes].array[slideT];
                         ropes++;
 
-                        recordRope.index = index;
-                        recordRope.LoadPositions(ref recordRope.recordRope, true);
+                        recordedRope.index = index;
+                        recordedRope.LoadPositions(ref recordedRope.recordRope, true);
+                    }
+
+                    else{
+                        recordedObject.index = slideT;
+                        recordedObject.LoadPositions(ref recordedObject.record, true);
                     }
                 }
 

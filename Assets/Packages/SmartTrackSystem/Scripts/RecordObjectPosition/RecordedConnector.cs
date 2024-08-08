@@ -4,6 +4,7 @@ using System;
 using System.Collections;
 using System.Globalization;
 using UnityEngine;
+using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 
 public class RecordedConnector : RecordedObject
 {
@@ -53,7 +54,7 @@ public class RecordedConnector : RecordedObject
                 handle.localPosition.ToString(decimalPlaces, formatProvider),
                 handle.localRotation.ToString(decimalPlaces, formatProvider)));
             rec.RecordObjectStore.Add(new ObjectTransformToRecord
-                (body.gameObject,
+                (body.gameObject.activeSelf,
                 body.localPosition.ToString(decimalPlaces, formatProvider),
                 body.localRotation.ToString(decimalPlaces, formatProvider)));
         }
@@ -73,15 +74,17 @@ public class RecordedConnector : RecordedObject
         int i = 0;
         if (rec == record) {i = index;}
 
-        if (transform.tag == "EFL_Parent") {
-
-            if(i%2 != 0) { i++; }
+        if (transform.CompareTag("EFL_Parent")) {
+            i *= 2;
 
             Transform handle = transform.GetChild(0);
-            Transform body = transform.GetChild(1);
+            Rigidbody handleRigidbody = handle.GetComponent<Rigidbody>();
 
-            handle.GetComponent<Rigidbody>().isKinematic = true;
-            body.GetComponent<Rigidbody>().isKinematic = true;
+            Transform body = transform.GetChild(1);
+            Rigidbody bodyRigidbody = body.GetComponent<Rigidbody>();
+
+            handleRigidbody.isKinematic = true;
+            bodyRigidbody.isKinematic = true;
 
             handle.gameObject.SetActive(rec.RecordObjectStore[i].e);
 
@@ -98,8 +101,19 @@ public class RecordedConnector : RecordedObject
                 StringToQuaternion(rec.RecordObjectStore[i].r));
 
             if (makePhysics) {
-                handle.GetComponent<Rigidbody>().isKinematic = false;
-                body.GetComponent<Rigidbody>().isKinematic = false;
+                handle.GetComponent<GrabObject>().enabled = false;
+
+                DestroyImmediate(handle.GetComponent<FixedJoint>());
+                handleRigidbody.isKinematic = false;
+
+                handle.gameObject.AddComponent<FixedJoint>();
+
+                handle.GetComponent<GrabObject>().enabled = true;
+
+                DestroyImmediate(body.GetComponent<HingeJoint>());
+                bodyRigidbody.isKinematic = false;
+
+                AddHingeJoint(body, handleRigidbody);
             }
         }
 
@@ -110,6 +124,21 @@ public class RecordedConnector : RecordedObject
                 StringToVector3(rec.RecordObjectStore[i].p),
                 StringToQuaternion(rec.RecordObjectStore[i].r));
         }
+    }
+    #endregion
+
+    #region Support Functions
+    private void AddHingeJoint(Transform hingeBody,Rigidbody connectedBody) 
+    {
+        HingeJoint hinge = hingeBody.gameObject.AddComponent<HingeJoint>();
+        hinge.connectedBody = connectedBody;
+        hinge.anchor = new Vector3(0.39f, -0.04f, -0.18f);
+        hinge.axis = new Vector3(0, 0, 1);
+
+        JointSpring hingeSpring = hinge.spring;
+        hingeSpring.spring = 400;
+        hinge.spring = hingeSpring;
+        hinge.useSpring = true;
     }
     #endregion
 }
