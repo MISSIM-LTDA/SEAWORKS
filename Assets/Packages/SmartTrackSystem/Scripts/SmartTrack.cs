@@ -71,8 +71,6 @@ namespace SmartTrackSystem
         private Transform console;
         private Transform loadAlert;
 
-        //private TMP_Dropdown dropdown;
-
         private Text timeStamp;
 
         private TextMeshProUGUI multiplierText;
@@ -391,9 +389,6 @@ namespace SmartTrackSystem
 
             Button denyLoad = loadAlert.Find("DenyButton").GetComponentInChildren<Button>();
             denyLoad.onClick.AddListener(delegate { StartCoroutine(LoadRecordedFile(false)); });
-
-            //dropdown = console.GetComponentInChildren<TMP_Dropdown>();
-            //dropdown.onValueChanged.AddListener(delegate { StartCoroutine(ChooseReplayFile()); });
 
             savePositionButton.onClick.AddListener(SaveNewPosition);
             loadPositionButton.onClick.AddListener(LoadNewPosition);
@@ -825,45 +820,6 @@ namespace SmartTrackSystem
 
                     else { Debug.Log("You trying to load a different recording setup!"); }
                 }
-
-                //if (!string.IsNullOrEmpty(folderPath)) {
-                    //StartCoroutine(ChooseReplayFile());
-                    //string[] files = Directory.GetFiles(folderPath);
-                    //int numberOfFiles = files.Length;
-
-                    //if (numberOfFiles > 0) {
-                        //if (numberOfFiles <= 4) {
-                        //    dropdown.template.anchoredPosition = new Vector2(0, 30 + numberOfFiles * 22.5f);
-                        //    dropdown.template.sizeDelta = new Vector2(0, 30 + numberOfFiles * 30);
-                        //}
-
-                        //else {
-                        //    dropdown.template.anchoredPosition = new Vector2(0, 120);
-                        //    dropdown.template.sizeDelta = new Vector2(0, 97.5f);
-                        //}
-
-                        //dropdown.options.Clear();
-
-                        //string[] fileNames = new string[numberOfFiles];
-                        //for (int i = 0; i < numberOfFiles; i++) {
-                        //    fileNames[i] = files[i].Replace(folderPath + "\\", "").Trim();
-
-                        //    TMP_Dropdown.OptionData optionData =
-                        //        new TMP_Dropdown.OptionData(fileNames[i]);
-
-                        //    dropdown.options.Add(optionData);
-                        //}
-
-                        //dropdown.RefreshShownValue();
-                        //dropdown.interactable = true;
-
-                        //isLoading = false;
-
-                        //StartCoroutine(ChooseReplayFile());
-                    //}
-
-                    //else { Debug.Log("No files Found"); }
-                //}
             }
 
             else {
@@ -871,95 +827,6 @@ namespace SmartTrackSystem
                 StartCoroutine(LoadRecordedFile(true));
             }
         }
-
-        //private IEnumerator ChooseReplayFile() 
-        //{
-        //    Stop();
-
-        //    //int dropdownIndex = dropdown.value;
-        //    //string selectedOption = dropdown.options[dropdownIndex].text;
-
-        //    //string path = folderPath + "\\" + selectedOption;
-
-        //    ClearRecordData(true);
-
-        //    string jsonString = File.ReadAllText(folderPath);
-
-        //    int indexOf = jsonString.IndexOf("RecordingTime") + 16;
-        //    int lastIndexOf = jsonString.IndexOf("\"", indexOf);
-
-        //    string time = jsonString.Substring(indexOf, lastIndexOf - indexOf);
-
-        //    recordingTime = float.Parse(time);
-
-        //    indexOf = jsonString.IndexOf("RecordedObjects")-1;
-        //    lastIndexOf = jsonString.IndexOf("RecordedRopes")-2;
-
-        //    string recordedObject = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim() + "}";
-        //    recordedObject = recordedObject.Replace("RecordedObjects", "Items");
-
-        //    List<RecordedInfo<ObjectTransformToRecord>> records = 
-        //        JsonHelper.FromJson<RecordedInfo<ObjectTransformToRecord>>(recordedObject);
-
-        //    indexOf = jsonString.IndexOf("RecordedRopes") - 1;
-        //    lastIndexOf = jsonString.Length;
-
-        //    string recordedRope = "{" + jsonString.Substring(indexOf, lastIndexOf - indexOf).Trim();
-        //    recordedRope = recordedRope.Replace("RecordedRopes", "Items");
-
-        //    List<RecordedInfo<RopeTransformToRecord>> recordsRopes =
-        //        JsonHelper.FromJson<RecordedInfo<RopeTransformToRecord>>(recordedRope);
-
-        //    int j=0,k=0; 
-        //    if (recordedObjects.Count == (records.Count+recordsRopes.Count)) {
-        //        for (int i = 0; i < recordedObjects.Count;i++) {
-        //            RecordedRope rr = recordedObjects[i] as RecordedRope;
-        //            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name) {
-        //                j++;
-        //            }
-        //            else if (recordedObjects[i].name == records[k].Name) {
-        //                k++;
-        //            }
-        //        }
-        //    }
-
-        //    if ((j+k) == recordedObjects.Count) {
-        //        j = k = 0;
-        //        for (int i = 0; i < recordedObjects.Count; i++) {
-        //            RecordedRope rr = recordedObjects[i] as RecordedRope;
-        //            if (rr && rr.rope.sourceBlueprint.name == recordsRopes[j].Name){
-        //                rr.recordRope = recordsRopes[j];
-        //                j++;
-        //            }
-        //            else if (recordedObjects[i].name == records[k].Name){
-        //                recordedObjects[i].record = records[k];
-        //                k++;
-        //            }
-        //        }
-
-        //        recordedFrames = 
-        //            recordedObjects[0].record.RecordObjectStore.Count;
-
-        //        slider.value = -1;
-        //        slider.maxValue = recordedFrames - 1;
-
-        //        slideT = 0;
-
-        //        ArrangeRopeIndexes(recordedFrames);
-
-        //        PlayOrPause();
-
-        //        float sliderValue = (int)slider.value;
-
-        //        yield return new WaitUntil(() => slider.value == (sliderValue + multiplier));
-
-        //        PlayOrPause();
-
-        //        loadead = true;
-        //    }
-
-        //    else { Debug.Log("You trying to load a different recording setup!"); }
-        //}
         IEnumerator ChooseLoadFile()
         {
             yield return FileBrowser.WaitForLoadDialog
